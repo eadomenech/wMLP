@@ -43,12 +43,31 @@ In this paper, by using SHA-256 hash function, a fragile watermarking for handwr
 %
 %
 \section{Introduction}
-\subsection{A Subsection Sample}
-Please note that the first paragraph of a section or subsection is
-not indented. The first paragraph that follows a table, figure,
-equation etc. does not need an indent, either.
+Many types of watermarking techniques have been developed for a variety of applications.
 
-\section{Materials and methods}
+Watermarks may be visible or invisible, where a visible mark is easily detected by observation while an invisible mark is designed to be transparent to the observer and detected using signal processing techniques.
+
+A robust mark is designed to resist attacks that attempt to remove or destroy the mark. Such attacks include lossy compression, filtering, and geometric scaling. A fragile mark is designed to detect slight changes to the watermarked image with high probability.
+
+The main application of fragile watermarks is in content authentication. That is, it may be of interest for parties to verify that an image has not been edited, damaged, or altered since it was marked.
+
+While the purpose of fragile watermarking and digital signature systems are similar, watermarking systems offer several advantages. Since a watermark is embedded directly in the image data, no additional information is necessary for authenticity verification. This is unlike digital signatures
+since the signature itself must be bound to the transmitted data. Therefore the critical information needed in the authenticity testing process is discreetly hidden and more difficult to remove than a digital signature. Therefore a signature system may be able to detect that an image had been modified but cannot characterise the alterations. Many watermarking systems can determine which areas of a marked image have been altered and which areas have not.
+
+Exist several desirable features of fragile watermarking methods bat the most important are:
+
+\begin{enumerate}
+	\item \textbf{Perceptual transparency}: An embedded watermark should not be visible under normal observation or interfere	with the functionality of the image.
+	\item \textbf{Detect tampering}: A fragile marking system should detect with high probability any tampering in a marked image.
+	\item \textbf{Detection should not require the original image}:
+\end{enumerate}
+
+In \cite{gul2019novel} host image is divided into $32\times 32$ non-overlapped blocks, each $32\times 32$ block is then divided into four $16\times 16$ nonoverlapped sub-blocks. The entire hash value of the first three sub-blocks is generated as a watermark using SHA-256 hash function. The generated 256-bit binary watermark is embedded into the least significant bits (LSBs) of the fourth sub-block and watermarked image is obtained.
+
+In the watermarking techniques developed for medical applications, information generated from the region of interest (ROI) of medical image is generally embedded into the region of noninterest (RONI) of the image. However, in these
+techniques, tamper detection can be performed inside ROI area.
+
+\section{Proposed method}
 Materials and methods
 
 \section{Experiments and Results}

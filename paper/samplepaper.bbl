@@ -1,6 +1,10 @@
-\begin{thebibliography}{}
+\begin{thebibliography}{1}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
 \providecommand{\doi}[1]{https://doi.org/#1}
+
+\bibitem{gul2019novel}
+Gul, E., Ozturk, S.: A novel hash function based fragile watermarking method
+  for image integrity. Multimedia Tools and Applications pp. 1--18 (2019)
 
 \end{thebibliography}

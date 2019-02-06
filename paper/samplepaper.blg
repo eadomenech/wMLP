@@ -8,45 +8,45 @@ Warning--I didn't find a database entry for "ref_lncs1"
 Warning--I didn't find a database entry for "ref_book1"
 Warning--I didn't find a database entry for "ref_proc1"
 Warning--I didn't find a database entry for "ref_url1"
-You've used 0 entries,
+You've used 1 entry,
             2850 wiz_defined-function locations,
-            599 strings with 4545 characters,
-and the built_in function-call counts, 24 in all, are:
-= -- 0
-> -- 0
-< -- 0
-+ -- 0
-- -- 0
-* -- 2
-:= -- 7
-add.period$ -- 0
-call.type$ -- 0
-change.case$ -- 0
+            606 strings with 4714 characters,
+and the built_in function-call counts, 543 in all, are:
+= -- 45
+> -- 12
+< -- 1
++ -- 6
+- -- 4
+* -- 30
+:= -- 75
+add.period$ -- 1
+call.type$ -- 1
+change.case$ -- 5
 chr.to.int$ -- 0
-cite$ -- 0
-duplicate$ -- 0
-empty$ -- 1
-format.name$ -- 0
-if$ -- 1
+cite$ -- 1
+duplicate$ -- 49
+empty$ -- 49
+format.name$ -- 5
+if$ -- 115
 int.to.chr$ -- 0
-int.to.str$ -- 0
-missing$ -- 0
-newline$ -- 6
-num.names$ -- 0
-pop$ -- 0
+int.to.str$ -- 1
+missing$ -- 9
+newline$ -- 9
+num.names$ -- 2
+pop$ -- 19
 preamble$ -- 1
-purify$ -- 0
+purify$ -- 4
 quote$ -- 0
-skip$ -- 1
+skip$ -- 15
 stack$ -- 0
-substring$ -- 0
-swap$ -- 0
-text.length$ -- 0
+substring$ -- 33
+swap$ -- 23
+text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 0
+type$ -- 4
 warning$ -- 0
-while$ -- 0
-width$ -- 0
-write$ -- 5
+while$ -- 6
+width$ -- 2
+write$ -- 15
 (There were 5 warnings)
