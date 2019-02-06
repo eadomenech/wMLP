@@ -1,6 +1,12 @@
 # PDF
 *.pdf
 *.ps
+*.bbl
+*.blg
+*.dvi
+*.gz
+*.aux
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

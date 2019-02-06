@@ -35,7 +35,7 @@ Universidad Central de Las Villas, Villa Clara, Cuba\\
 \maketitle              % typeset the header of the contribution
 %
 \begin{abstract}
-In this paper, by using SHA-256 hash function, a fragile watermarking for handwritten document image integrity and tamper detection method is proposed.
+In this paper, by using SHA-256 hash function, a fragile watermarking for handwritten document image integrity and tamper detection method is proposed.The watermark is constructed from the image to be watermarked.
 
 \keywords{First keyword  \and Second keyword \and Another keyword.}
 \end{abstract}
@@ -44,6 +44,10 @@ In this paper, by using SHA-256 hash function, a fragile watermarking for handwr
 %
 \section{Introduction}
 Many types of watermarking techniques have been developed for a variety of applications.
+
+To solve this problem, methods are developed that can be classified into digital signature-based methods and watermarking-based methods.
+
+A digital signature is a set of features extracted from an image and these are stored in a separate file. Digital watermarking consists of inserting imperceptible information called watermark in a multimedia document to protect the copyright of the document while ensuring its effective transmission \cite{el2014image}.
 
 Watermarks may be visible or invisible, where a visible mark is easily detected by observation while an invisible mark is designed to be transparent to the observer and detected using signal processing techniques.
 
@@ -74,15 +78,41 @@ In \cite{gul2019novel} host image is divided into $32\times 32$ non-overlapped b
 In the watermarking techniques developed for medical applications, information generated from the region of interest (ROI) of medical image is generally embedded into the region of noninterest (RONI) of the image. However, in these
 techniques, tamper detection can be performed inside ROI area.
 
+The rest of the paper is organised as follow; Section 2 describes the proposed method including watermark insertion, watermark extraction, tamper localisation and reconstruction. Experimental results are given in Section 3 and Section 4 concludes the paper.
+
 \section{Proposed method}
 Materials and methods
+
+\subsection{Variants only for image integrity and tamper detection}
+\subsubsection{Variants 1}
+Generic variant.
+
+Host image is divided into $16\times 16$ non-overlapped blocks, each $16\times 16$ block is then divided into four $8\times 8$ nonoverlapped sub-blocks. The complete block is pariado making use of a given key. The entire hash value of the block pariado is generated as a watermark using MD5 hash function. The generated MD5 binary watermark is embedded into the least significant bits (LSBs) of the pixels pariados and watermarked image is obtained.
+
+\subsection{Variants for image integrity, tamper detection and self-recovering}
+\subsubsection{Variants 1}
+Variant for handwritten documents images.
+
+\begin{itemize}
+	\item Geometric layout analysis to classify in region of interest (ROI) or non-interest (RONI). 
+	\item ROI is divided into $16\times 16$ non-overlapped blocks, each $16\times 16$ block is then divided into four $8\times 8$ nonoverlapped sub-blocks. The complete block is pariado making use of a given key. The entire hash value of the block pariado is generated as a watermark using MD5 hash function. The generated MD5 binary watermark is embedded into the least significant bits (LSBs) of the pixels pariados and watermarked image is obtained.
+	\item The main characteristics of the blocks belonging to the ROI are embedded in the blocks corresponding to the RONI.
+	\item Like \cite{el2014image}, the neural network is utilised to recover a tampered $16\times 16$ block of an image.  
+\end{itemize}
+
+
 
 \section{Experiments and Results}
 Subsequent paragraphs, however, are indented.
 
-\subsubsection{Sample Heading (Third Level)} Only two levels of
-headings should be numbered. Lower level headings remain unnumbered;
-they are formatted as run-in headings.
+\subsection{Invisibility results}
+The imperceptibility of the watermark was evaluated using several databases. We calculated the PSNR which compares the similarity between the original image $ I $ and the watermarked image $ I_w $.
+
+\subsection{Tamper detection}
+Tamper area detection capability is evaluated, by modifying the contents of images, adding objects or deleting objects.
+
+\subsection{Tamper reconstruction}
+Fig. 13 shows reconstructed images by applying the proposed algorithm on tampered regions.
 
 \paragraph{Sample Heading (Fourth Level)}
 The contribution should contain no more than four levels of
