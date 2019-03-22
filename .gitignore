@@ -6,6 +6,8 @@
 *.dvi
 *.gz
 *.aux
+*.jpg
+*.png
 
 
 # Byte-compiled / optimized / DLL files

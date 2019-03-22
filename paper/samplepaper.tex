@@ -60,10 +60,19 @@ Watermarks may be visible or invisible, where a visible mark is easily detected 
 
 A robust mark is designed to resist attacks that attempt to remove or destroy the mark. Such attacks include lossy compression, filtering, and geometric scaling. A fragile mark is designed to detect slight changes to the watermarked image with high probability.
 
+Different with the robust image watermarking that is robust to a variety of attacks for ownership and copyright protection, fragile image watermarking is utilized for the integrity authentication, which is fragile to the illegal tampering.
+
 The main application of fragile watermarks is in content authentication. That is, it may be of interest for parties to verify that an image has not been edited, damaged, or altered since it was marked.
 
-While the purpose of fragile watermarking and digital signature systems are similar, watermarking systems offer several advantages. Since a watermark is embedded directly in the image data, no additional information is necessary for authenticity verification. This is unlike digital signatures
-since the signature itself must be bound to the transmitted data. Therefore the critical information needed in the authenticity testing process is discreetly hidden and more difficult to remove than a digital signature. Therefore a signature system may be able to detect that an image had been modified but cannot characterise the alterations. Many watermarking systems can determine which areas of a marked image have been altered and which areas have not.
+While the purpose of fragile watermarking and digital signature systems are similar, watermarking systems offer several advantages. Since a watermark is embedded directly in the image data, no additional information is necessary for authenticity verification. This is unlike digital signatures since the signature itself must be bound to the transmitted data. Therefore the critical information needed in the authenticity testing process is discreetly hidden and more difficult to remove than a digital signature. Therefore a signature system may be able to detect that an image had been modified but cannot characterise the alterations. Many watermarking systems can determine which areas of a marked image have been altered and which areas have not.
+
+Authentication and integrity systems of image can be grouped in several ways depending on the mode of storage
+of authentication data that is based techniques on electronic signature based or the fragile watermarking or
+even depending on the nature of the information they burrow into the document to protect. The main difference
+between these two categories of techniques is that in the digital signature techniques, the authentication data is
+transmitted in a separate of the raw data stored in the same folder. While in watermarking techniques, the
+authentication data are embedded in the raw data. In the remainder of this paper, we present a technique developed
+based on the fragile watermarking. \cite{boujemaa2016fragile}
 
 Exist several desirable features of fragile watermarking methods bat the most important are:
 
@@ -81,7 +90,7 @@ techniques, tamper detection can be performed inside ROI area.
 The rest of the paper is organised as follow; Section 2 describes the proposed method including watermark insertion, watermark extraction, tamper localisation and reconstruction. Experimental results are given in Section 3 and Section 4 concludes the paper.
 
 \section{Proposed method}
-Materials and methods
+As we know, hash function, such as MD5, can be utilized to authenticate the data integrity. If the hash value of original message is exactly equal to the re-calculated hash value of the received message, the received data can be regarded as integrated, otherwise as false.
 
 \subsection{Variants only for image integrity and tamper detection}
 \subsubsection{Variants 1}

@@ -3,6 +3,11 @@
 \providecommand{\urlprefix}{URL }
 \providecommand{\doi}[1]{https://doi.org/#1}
 
+\bibitem{boujemaa2016fragile}
+Boujemaa, N., Yousef, E., Rachid, L., Aziz, B.M., et~al.: Fragile watermarking
+  of medical image for content authentication and security. IJCSN-International
+  Journal of Computer Science and Network  \textbf{5}(5) (2016)
+
 \bibitem{el2014image}
 El'arbi, M., Amar, C.B.: Image authentication algorithm with recovery
   capabilities based on neural networks in the dct domain. IET Image Processing
