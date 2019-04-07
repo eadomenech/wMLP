@@ -13,7 +13,7 @@ from helpers.DqKT import DqKT
 from helpers.evaluations import Evaluations
 
 
-clases = []
+clases = {}
 
 def zigzag(n):
     indexorder = sorted(
@@ -133,9 +133,9 @@ def clasificar(block_path):
     
     result = {'c': 0, 'delta': 1}
     score = 0.0
-    for c in range(40):
-        coef = c + 10        
-        for d in range(70):
+    for c in range(5):
+        coef = c + 16        
+        for d in range(50):
             delta = d + 30
             # Marcando el bloque
             result0 = procesar(block_path, 0, coef, delta)
@@ -173,6 +173,13 @@ def clasificar(block_path):
     return result
 
 
+def is_in_clases(lista):
+    for item in clases:
+        if lista == clases[item]:
+            return item
+    return None
+
+
 def main():
     try:
         # Load cover image
@@ -201,8 +208,8 @@ def main():
     blocks = BlocksImage(cover_array)
 
     # for i in range(blocks.max_num_blocks()):
-    for i in range(20):
-        n = np.random.randint(1, 10000)
+    for i in range(500):
+        n = np.random.randint(1, blocks.max_num_blocks())
         print("Block #: ", n)
         block_array = blocks.get_block(n)
         # Save block image
@@ -212,8 +219,21 @@ def main():
         # Clasificacion del block
         clasificador = clasificar(block_path)
         print(clasificador)
-        if clasificador not in clases:
-            clases.append(clasificador)
+        class_path = b_path + str(clasificador['c']) + '_' + str(clasificador['delta']) + '/'
+        if len(clases) == 0:
+            # Add como clase 1            
+            os.mkdir(class_path)
+            clases['1'] = [clasificador['c'], clasificador['delta']]
+            block_image = Image.open(block_path).save(class_path + str(i) + '.png') 
+        elif is_in_clases([clasificador['c'], clasificador['delta']]):
+            # Add a la clase correspondiente
+            block_image = Image.open(block_path).save(class_path + str(i) + '.png')
+        else:
+            # Add clase
+            clases[len(clases)+1] = [clasificador['c'], clasificador['delta']]
+            os.mkdir(class_path)
+            block_image = Image.open(block_path).save(class_path + str(i) + '.png')
+        print("Clases: ", clases)
 
 
 if __name__ == '__main__':
