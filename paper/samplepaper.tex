@@ -14,7 +14,7 @@
 
 \begin{document}
 %
-\title{Fragile watermarking method for handwritten document image integrity and tamper detection}
+\title{Dual watermarking scheme for handwritten document image integrity, tamper detection and copyright protection}
 %
 %\titlerunning{Abbreviated paper title}
 % If the paper title is too long for the running head, you can set
@@ -35,7 +35,7 @@ Universidad Central de Las Villas, Villa Clara, Cuba\\
 \maketitle              % typeset the header of the contribution
 %
 \begin{abstract}
-In this paper, by using SHA-256 hash function, a fragile watermarking for handwritten document image integrity and tamper detection method is proposed.The watermark is constructed from the image to be watermarked.
+In this paper, by using SHA-256 hash function, a fragile watermarking for handwritten document image integrity and tamper detection method is proposed.
 
 \keywords{First keyword  \and Second keyword \and Another keyword.}
 \end{abstract}
@@ -55,10 +55,6 @@ A robust mark is designed to resist attacks that attempt to remove or destroy th
 lossy compression, filtering, and geometric scaling. A fragile mark is designed to detect slight changes to the watermarked image with high probability.
 
 The main application of fragile watermarks is in content authentication.
-
-Watermarks may be visible or invisible, where a visible mark is easily detected by observation while an invisible mark is designed to be transparent to the observer and detected using signal processing techniques.
-
-A robust mark is designed to resist attacks that attempt to remove or destroy the mark. Such attacks include lossy compression, filtering, and geometric scaling. A fragile mark is designed to detect slight changes to the watermarked image with high probability.
 
 Different with the robust image watermarking that is robust to a variety of attacks for ownership and copyright protection, fragile image watermarking is utilized for the integrity authentication, which is fragile to the illegal tampering.
 
@@ -87,29 +83,20 @@ In \cite{gul2019novel} host image is divided into $32\times 32$ non-overlapped b
 In the watermarking techniques developed for medical applications, information generated from the region of interest (ROI) of medical image is generally embedded into the region of noninterest (RONI) of the image. However, in these
 techniques, tamper detection can be performed inside ROI area.
 
-The rest of the paper is organised as follow; Section 2 describes the proposed method including watermark insertion, watermark extraction, tamper localisation and reconstruction. Experimental results are given in Section 3 and Section 4 concludes the paper.
+The rest of the paper is organised as follow; Section 2 describes the proposed method including watermark insertion, watermark extraction and tamper localisation. Experimental results are given in Section 3 and Section 4 concludes the paper.
 
 \section{Proposed method}
-As we know, hash function, such as MD5, can be utilized to authenticate the data integrity. If the hash value of original message is exactly equal to the re-calculated hash value of the received message, the received data can be regarded as integrated, otherwise as false.
+As we know, hash function, such as MD5 or SHA-256, can be utilized to authenticate the data integrity. If the hash value of original message is exactly equal to the re-calculated hash value of the received message, the received data can be regarded as integrated, otherwise as false.
 
-\subsection{Variants only for image integrity and tamper detection}
-\subsubsection{Variants 1}
-Generic variant.
+\subsection{Robust watermarking}
+Deep learning is a new area of machine learning which has gained popularity in recent past. Deep learning refers to the architectures which contain multiple hidden layers (deep networks) to learn different features with multiple levels of abstraction. Deep learning algorithms seek to exploit the unknown structure in the input distribution in order to discover good representations, often at multiple levels, with higher level learned features defined in terms of lower level features. \cite{wani2019advances}
 
-Host image is divided into $16\times 16$ non-overlapped blocks, each $16\times 16$ block is then divided into four $8\times 8$ nonoverlapped sub-blocks. The complete block is pariado making use of a given key. The entire hash value of the block pariado is generated as a watermark using MD5 hash function. The generated MD5 binary watermark is embedded into the least significant bits (LSBs) of the pixels pariados and watermarked image is obtained.
+The robust watermarking method proposed is similar to the one proposed in \cite{avila2018watermarking}. The difference consists in using a deep convolutional network to classify the 8x8 blocks according to the optimal marking parameters.
 
-\subsection{Variants for image integrity, tamper detection and self-recovering}
-\subsubsection{Variants 1}
-Variant for handwritten documents images.
+\subsection{Fragile watermarking}
+For the embedding process, the image is divided into $32\times 32$ non-overlapped blocks, each $32\times 32$ block is then divided into four $16\times 16$ nonoverlapped sub-blocks. The complete block is pariado making use of a given key. The entire hash value of the block pariado is generated as a watermark using SHA-256 hash function. The generated MD5 binary watermark is embedded into the least significant bits (LSBs) of the pixels pariados and watermarked image is obtained.
 
-\begin{itemize}
-	\item Geometric layout analysis to classify in region of interest (ROI) or non-interest (RONI). 
-	\item ROI is divided into $16\times 16$ non-overlapped blocks, each $16\times 16$ block is then divided into four $8\times 8$ nonoverlapped sub-blocks. The complete block is pariado making use of a given key. The entire hash value of the block pariado is generated as a watermark using MD5 hash function. The generated MD5 binary watermark is embedded into the least significant bits (LSBs) of the pixels pariados and watermarked image is obtained.
-	\item The main characteristics of the blocks belonging to the ROI are embedded in the blocks corresponding to the RONI.
-	\item Like \cite{el2014image}, the neural network is utilised to recover a tampered $16\times 16$ block of an image.  
-\end{itemize}
-
-
+For watermark extraction, the watermarked image is divided into $32\times 32$ non-overlapped blocks, each $32\times 32$ block is then divided into four $16\times 16$ nonoverlapped sub-blocks. The complete block is pariado making use of a given key. The entire hash value of the block pariado is calculate and ...
 
 \section{Experiments and Results}
 Subsequent paragraphs, however, are indented.

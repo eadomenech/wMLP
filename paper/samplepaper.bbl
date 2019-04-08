@@ -3,6 +3,11 @@
 \providecommand{\urlprefix}{URL }
 \providecommand{\doi}[1]{https://doi.org/#1}
 
+\bibitem{avila2018watermarking}
+Avila-Domenech, E., Soria-Lorente, A.: Watermarking based on krawtchouk moments
+  for handwritten document images. In: International Workshop on Artificial
+  Intelligence and Pattern Recognition. pp. 122--129. Springer (2018)
+
 \bibitem{boujemaa2016fragile}
 Boujemaa, N., Yousef, E., Rachid, L., Aziz, B.M., et~al.: Fragile watermarking
   of medical image for content authentication and security. IJCSN-International
@@ -16,5 +21,9 @@ El'arbi, M., Amar, C.B.: Image authentication algorithm with recovery
 \bibitem{gul2019novel}
 Gul, E., Ozturk, S.: A novel hash function based fragile watermarking method
   for image integrity. Multimedia Tools and Applications pp. 1--18 (2019)
+
+\bibitem{wani2019advances}
+Wani, M.A., Bhat, F.A., Afzal, S., Khan, A.I.: Advances in Deep Learning.
+  Springer (2019)
 
 \end{thebibliography}
