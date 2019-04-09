@@ -3,6 +3,11 @@
 \providecommand{\urlprefix}{URL }
 \providecommand{\doi}[1]{https://doi.org/#1}
 
+\bibitem{Arnol'd:1987366}
+Arnol'd, V.I., Avez, A.: {Ergodic problems of classical mechanics}. The
+  mathematical physics monograph series, W. A. Benjamin, New York, NY (1968),
+  \url{http://cds.cern.ch/record/1987366}
+
 \bibitem{avila2018watermarking}
 Avila-Domenech, E., Soria-Lorente, A.: Watermarking based on krawtchouk moments
   for handwritten document images. In: International Workshop on Artificial
@@ -13,6 +18,11 @@ Boujemaa, N., Yousef, E., Rachid, L., Aziz, B.M., et~al.: Fragile watermarking
   of medical image for content authentication and security. IJCSN-International
   Journal of Computer Science and Network  \textbf{5}(5) (2016)
 
+\bibitem{chen2001quantization}
+Chen, B., Wornell, G.W.: Quantization index modulation: A class of provably
+  good methods for digital watermarking and information embedding. IEEE
+  Transactions on Information Theory  \textbf{47}(4),  1423--1443 (2001)
+
 \bibitem{el2014image}
 El'arbi, M., Amar, C.B.: Image authentication algorithm with recovery
   capabilities based on neural networks in the dct domain. IET Image Processing
@@ -22,8 +32,16 @@ El'arbi, M., Amar, C.B.: Image authentication algorithm with recovery
 Gul, E., Ozturk, S.: A novel hash function based fragile watermarking method
   for image integrity. Multimedia Tools and Applications pp. 1--18 (2019)
 
+\bibitem{Subramanian2018}
+Subramanian, V.: {Deep Learning with PyTorch: A practical approach to building
+  neural network models using PyTorch}. Packt Publishing Ltd. (2018)
+
 \bibitem{wani2019advances}
 Wani, M.A., Bhat, F.A., Afzal, S., Khan, A.I.: Advances in Deep Learning.
   Springer (2019)
+
+\bibitem{Yap2003}
+Yap, P., Paramesran, R., Ong, S.H.: {Image Analysis by Krawtchouk Moments}.
+  IEEE Trans. Image Process.  \textbf{12}(11),  1367--1377 (2003)
 
 \end{thebibliography}
