@@ -12,6 +12,8 @@ from helpers.image_tools import ImageTools
 from helpers.DqKT import DqKT
 from helpers.evaluations import Evaluations
 
+import random
+
 
 clases = {}
 
@@ -133,9 +135,9 @@ def clasificar(block_path):
     
     result = {'c': 0, 'delta': 1}
     score = 0.0
-    for c in range(5):
+    for c in range(30):
         coef = c + 16        
-        for d in range(50):
+        for d in range(100):
             delta = d + 30
             # Marcando el bloque
             result0 = procesar(block_path, 0, coef, delta)
@@ -206,12 +208,11 @@ def main():
     # Instance a la clase Bloque
     cover_array = np.asarray(cover_image)
     blocks = BlocksImage(cover_array)
-
-    # for i in range(blocks.max_num_blocks()):
-    for i in range(500):
-        n = np.random.randint(1, blocks.max_num_blocks())
-        print("Block #: ", n)
-        block_array = blocks.get_block(n)
+    random_blocks = [i for i in range(blocks.max_num_blocks())]
+    random.shuffle(random_blocks)
+    for i in range(blocks.max_num_blocks()):
+        print("Block #: ", random_blocks[i]+1)
+        block_array = blocks.get_block(random_blocks[i]+1)
         # Save block image
         block_image = Image.fromarray(block_array, 'RGB')
         block_path = b_path + str(i) + '.png'
