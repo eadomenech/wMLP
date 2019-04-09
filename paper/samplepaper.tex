@@ -38,7 +38,7 @@ Universidad Central de Las Villas, Villa Clara, Cuba\\
 \maketitle              % typeset the header of the contribution
 %
 \begin{abstract}
-In this paper, by using SHA-256 hash function, a fragile watermarking for handwritten document image integrity and tamper detection method is proposed.
+In this paper, by using SHA-256 hash function, a fragile watermarking for handwritten document image integrity and tamper detection method is proposed. In this paper, we propose a watermarking scheme called “dual watermarking”. Dual watermark is a combination of a visible watermark and an invisible watermark.
 
 \keywords{First keyword  \and Second keyword \and Another keyword.}
 \end{abstract}
@@ -46,6 +46,10 @@ In this paper, by using SHA-256 hash function, a fragile watermarking for handwr
 %
 %
 \section{Introduction}
+The explosive growth of digital multimedia techniques, together with the rapid development of digital network communication has created a pressing demand for techniques that can be used for copy protection, copyright protection and content authentication. Owing to the need of copyright protection and authentication validation, Digital Rights Management (DRM) is gaining importance. DRM refers to a range of access control technologies used to limit or restrict usage of digital content. Digital watermarking is useful in DRM systems as it can hide information within the digital content like images, audio and video.
+
+In \cite{mohanty1999dual} is presented a dual watermarking technique which attempts to establish the owner’s right to the image and detect the intentional and unintentional tampering of the image. However, this early research is simply a combination of visible and invisible watermarking algorithms.
+
 Many types of watermarking techniques have been developed for a variety of applications.
 
 To solve this problem, methods are developed that can be classified into digital signature-based methods and watermarking-based methods.
@@ -101,7 +105,7 @@ FO = (PSNR/160 + acierto{\_}without{\_}noise + acierto{\_}with{\_}noise)/3,
 where $PSNR$ is the logarithmic value of ratio between signal and noise, 
 $ acierto{\_}without{\_}noise $ es el acierto en la extracción de la marca de agua de la imagen marcada sin aplicarle ruido alguno y $ acierto{\_}with{\_}noise $ es el acierto en la extracción de la marca de agua de la imagen marcada luego de aplicarle una compresión JPEG al 25{\%}.
 
-En esta ardua tarea utilizamos PyTorch. PyTorch extensively uses Python concepts, such as classes, structures, and conditional loops, allowing us to build DL algorithms in a pure object-oriented fashion. Most of the other popular frameworks bring their own programming style, sometimes making it
+En esta ardua tarea utilizamos PyTorch \cite{paszke2017pytorch}. PyTorch extensively uses Python concepts, such as classes, structures, and conditional loops, allowing us to build DL algorithms in a pure object-oriented fashion. Most of the other popular frameworks bring their own programming style, sometimes making it
 complex to write new algorithms and it does not support intuitive debugging. What makes PyTorch increasingly popular is its ease of use and simplicity. \cite{Subramanian2018}
 
 Una vez entrenado el modelo se realizan los siguientes paso para completar el proceso de insercion:
@@ -121,7 +125,7 @@ For the embedding process, the image is divided into $32\times 32$ non-overlappe
 For watermark extraction, the watermarked image is divided into $32\times 32$ non-overlapped blocks. The complete block is pariado making use of a given key. The entire hash value of the block pariado is calculate and ...
 
 \section{Experiments and Results}
-Subsequent paragraphs, however, are indented.
+The performance of the watermarking algorithm can be evaluated on the basis of its robustness and imperceptibility. A larger peak signal to noise ratio (PSNR) indicates that the watermarked image more closely resembles the original image meaning that the watermark is more imperceptible.
 
 \subsection{Invisibility results}
 The imperceptibility of the watermark was evaluated using several databases. We calculated the PSNR which compares the similarity between the original image $ I $ and the watermarked image $ I_w $.
@@ -141,6 +145,9 @@ Tamper area detection capability is evaluated, by modifying the contents of imag
 	\caption{Original image, watermarked image (PSNR 62.18), watermarked modified image and tamper area detection.}
 	\label{img_of_AHM}
 \end{figure}
+
+\subsection{Robustness}
+The bit error rate (BER) is defined as ratio between number of incorrectly decoded bits and total number of bits.
 
 \begin{table}
 \caption{Table captions should be placed above the
