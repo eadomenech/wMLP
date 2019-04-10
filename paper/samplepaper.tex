@@ -38,7 +38,7 @@ Universidad Central de Las Villas, Villa Clara, Cuba\\
 \maketitle              % typeset the header of the contribution
 %
 \begin{abstract}
-In this paper, by using SHA-256 hash function, a fragile watermarking for handwritten document image integrity and tamper detection method is proposed. In this paper, we propose a watermarking scheme called “dual watermarking”. Dual watermark is a combination of a visible watermark and an invisible watermark.
+For the integrity, tamper detection and copyright protection of handwritten document images, a dual watermarking algorithm that connects the robust watermarking algorithm based on Convolutional Neural Network (CNN) with a fragile watermarking algorithm based on SHA-256 hash function is presented. Hence, the robust watermarking algorithm is used to guarantee stability and robustness by modifying frequency coefficients in Krawtchouk moments. Thus, this study proposes a fragile watermarking algorithm, which can perceive in time when the protected image is tampered. Experimental results show that the proposed algorithm can be used for copyright protection and tampering detection of this images.
 
 \keywords{First keyword  \and Second keyword \and Another keyword.}
 \end{abstract}
@@ -48,35 +48,11 @@ In this paper, by using SHA-256 hash function, a fragile watermarking for handwr
 \section{Introduction}
 The explosive growth of digital multimedia techniques, together with the rapid development of digital network communication has created a pressing demand for techniques that can be used for copy protection, copyright protection and content authentication. Owing to the need of copyright protection and authentication validation, Digital Rights Management (DRM) is gaining importance. DRM refers to a range of access control technologies used to limit or restrict usage of digital content. Digital watermarking is useful in DRM systems as it can hide information within the digital content like images, audio and video.
 
+Watermarking technique is effectively applied to content authentication, integrity protection, and image copyright. The technique can be classified as fragile or robust. The first ones is designed to detect slight changes to the watermarked image with high probability and the second ones is designed to resist attacks that attempt to remove or destroy the mark, such as lossy compression, filtering, and geometric scaling.
+
+When users want to protect the copyright and at the same time detect illegal tampering, the single watermarking algorithm cannot meet the needs of users. Therefore, the double watermarking algorithm is developed, as it can effectively combine the advantages and functions of the two watermarks \cite{wang2017dual}.
+
 In \cite{mohanty1999dual} is presented a dual watermarking technique which attempts to establish the owner’s right to the image and detect the intentional and unintentional tampering of the image. However, this early research is simply a combination of visible and invisible watermarking algorithms.
-
-Many types of watermarking techniques have been developed for a variety of applications.
-
-To solve this problem, methods are developed that can be classified into digital signature-based methods and watermarking-based methods.
-
-A digital signature is a set of features extracted from an image and these are stored in a separate file. Digital watermarking consists of inserting imperceptible information called watermark in a multimedia document to protect the copyright of the document while ensuring its effective transmission \cite{el2014image}.
-
-Watermarks may be visible or invisible, where a visible mark is easily detected by observation while an invisible mark is designed to be transparent to the observer and detected using signal processing techniques.
-
-A robust mark is designed to resist attacks that attempt to remove or destroy the mark. Such attacks include lossy compression, filtering, and geometric scaling. A fragile mark is designed to detect slight changes to the watermarked image with high probability.
-
-The main application of fragile watermarks is in content authentication.
-
-Different with the robust image watermarking that is robust to a variety of attacks for ownership and copyright protection, fragile image watermarking is utilized for the integrity authentication, which is fragile to the illegal tampering.
-
-The main application of fragile watermarks is in content authentication. That is, it may be of interest for parties to verify that an image has not been edited, damaged, or altered since it was marked.
-
-While the purpose of fragile watermarking and digital signature systems are similar, watermarking systems offer several advantages. Since a watermark is embedded directly in the image data, no additional information is necessary for authenticity verification. This is unlike digital signatures since the signature itself must be bound to the transmitted data. Therefore the critical information needed in the authenticity testing process is discreetly hidden and more difficult to remove than a digital signature. Therefore a signature system may be able to detect that an image had been modified but cannot characterise the alterations. Many watermarking systems can determine which areas of a marked image have been altered and which areas have not.
-
-Authentication and integrity systems of image can be grouped in several ways depending on the mode of storage of authentication data that is based techniques on electronic signature based or the fragile watermarking or even depending on the nature of the information they burrow into the document to protect. The main difference between these two categories of techniques is that in the digital signature techniques, the authentication data is transmitted in a separate of the raw data stored in the same folder. While in watermarking techniques, the authentication data are embedded in the raw data. In the remainder of this paper, we present a technique developed based on the fragile watermarking. \cite{boujemaa2016fragile}
-
-Exist several desirable features of fragile watermarking methods bat the most important are:
-
-\begin{enumerate}
-	\item \textbf{Perceptual transparency}: An embedded watermark should not be visible under normal observation or interfere	with the functionality of the image.
-	\item \textbf{Detect tampering}: A fragile marking system should detect with high probability any tampering in a marked image.
-	\item \textbf{Detection should not require the original image}:
-\end{enumerate}
 
 In \cite{gul2019novel} host image is divided into $32\times 32$ non-overlapped blocks, each $32\times 32$ block is then divided into four $16\times 16$ nonoverlapped sub-blocks. The entire hash value of the first three sub-blocks is generated as a watermark using SHA-256 hash function. The generated 256-bit binary watermark is embedded into the least significant bits (LSBs) of the fourth sub-block and watermarked image is obtained.
 
@@ -87,9 +63,9 @@ On the other hand, a robust watermarking...
 
 Deep learning is a new area of machine learning which has gained popularity in recent past. Deep learning refers to the architectures which contain multiple hidden layers (deep networks) to learn different features with multiple levels of abstraction. Deep learning algorithms seek to exploit the unknown structure in the input distribution in order to discover good representations, often at multiple levels, with higher level learned features defined in terms of lower level features. \cite{wani2019advances}
 
-Different from previous works \cite{avila2018watermarking}, we propose an effective algorithm that effectively utilizes spatial context to classify the $8\times 8$ blocks according to the optimal marking parameters in this paper. For capturing spatial information of $8\times 8$ blocks, Convolutional Neural Network (CNN)) was used in our model, which has been proven to be effective in classification tasks.
+Different from previous works \cite{avila2018watermarking}, an effective algorithm that effectively utilizes spatial context to classify the $8\times 8$ blocks according to the optimal marking parameters is proposed in this paper. For capturing spatial information of $8\times 8$ blocks, Convolutional Neural Network (CNN) was used in our model, which has been proven to be effective in classification tasks.
 
-The rest of the paper is organised as follow; Section 2 describes the proposed method including watermark insertion, watermark extraction and tamper localisation. Experimental results are given in Section 3 and Section 4 concludes the paper.
+The rest of the paper is organised as follow; Section 2 describes the proposed method including fragil watermarking and robust watermarking. Experimental results are given in Section 3 and Section 4 concludes the paper.
 
 \section{Proposed method}
 As we know, hash function, such as MD5 or SHA-256, can be utilized to authenticate the data integrity. If the hash value of original message is exactly equal to the re-calculated hash value of the received message, the received data can be regarded as integrated, otherwise as false.
@@ -97,27 +73,27 @@ As we know, hash function, such as MD5 or SHA-256, can be utilized to authentica
 \subsection{Robust watermarking}
 The robust watermarking method proposed is similar to the one proposed in \cite{avila2018watermarking}. The difference consists in using a Convolutional Neural Network (CNN) to classify the $8\times 8$ blocks according to the optimal marking parameters.
 
-Para entrenar el modelo propuesto se dividieron en bloques de $8\times 8$ cada una de las imágenes de DIBCO 2017. Posteriormente fueron calculados los parámetros coef y delta que mayores valores resultaran siguiendo la función objetivo siguiente:
+The most important step in solving any real-world problem is to get the data. Kaggle provides a huge number of competitions on different data science problems \cite{Subramanian2018}.
+
+For that, a new dataset of $8\times 8$ color images of 70000 fashion products from 10 categories, with 7, 000 images per category was create. The training set has 60000 images and the test set has 10000 images. The dataset was obtained by dividing into $8\times 8$ blocks each of the images corresponding to the DIBCO 2017 dataset and calculating the coef and delta values so that the balance between PSNR and BER represented as $FO$ were the highest possible values for each of the blocks.
 \begin{equation}
-FO = (PSNR/160 + acierto{\_}without{\_}noise + acierto{\_}with{\_}noise)/3,
+FO = (PSNR/160 + \alpha + \beta)/3,
 \label{FA}
 \end{equation}
 where $PSNR$ is the logarithmic value of ratio between signal and noise, 
-$ acierto{\_}without{\_}noise $ es el acierto en la extracción de la marca de agua de la imagen marcada sin aplicarle ruido alguno y $ acierto{\_}with{\_}noise $ es el acierto en la extracción de la marca de agua de la imagen marcada luego de aplicarle una compresión JPEG al 25{\%}.
+$ \alpha $ is the success in extracting the watermark from the watermarked image without applying any noise and $ \beta $ is the success in extracting the watermark from the watermarked image after applying a JPEG compression with QF= 25{\%}.
 
-En esta ardua tarea utilizamos PyTorch \cite{paszke2017pytorch}. PyTorch extensively uses Python concepts, such as classes, structures, and conditional loops, allowing us to build DL algorithms in a pure object-oriented fashion. Most of the other popular frameworks bring their own programming style, sometimes making it
-complex to write new algorithms and it does not support intuitive debugging. What makes PyTorch increasingly popular is its ease of use and simplicity. \cite{Subramanian2018}
+In this process we use an open-source machine learning library for Python PyTorch \cite{paszke2017pytorch}. PyTorch extensively uses Python concepts, such as classes, structures, and conditional loops, allowing us to build DL algorithms in a pure object-oriented fashion. Most of the other popular frameworks bring their own programming style, sometimes making it complex to write new algorithms and it does not support intuitive debugging. What makes PyTorch increasingly popular is its ease of use and simplicity \cite{Subramanian2018}.
 
-Una vez entrenado el modelo se realizan los siguientes paso para completar el proceso de insercion:
-
-\begin{itemize}
-	\item[\checkmark] The binary watermark image (QR code) is scrambled using Arnold transform \cite{Arnol'd:1987366}.
-	\item[\checkmark] The cover image is transformed from RGB to YCbCr color space, and the Y component, corresponding to the luminance information, is divided into small image blocks of $8\times 8$ pixels.
-	\item[\checkmark] The Krawtchouk moments \cite{Yap2003} of selected blocks are determined.
-	\item[\checkmark] Cada bloque seleccionado es clasificado por el modelo entrenado con anterioridad en una de las clases definidas.
-	\item[\checkmark] Watermark bit is embedded in the selected block moments using Dither modulation \cite{chen2001quantization}. Tanto el coeficiente como el valor delta son obtenidos de acuerdo a la clase que ha sido clasificado cada bloque. Watermarked blocks can be obtained. 
-	\item[\checkmark] Transform the YCbCr to RGB color space to obtain RGB watermarked image.
-\end{itemize}
+Once the model is trained, the following steps are taken to complete the insertion process:
+\begin{enumerate}
+	\item The binary watermark image (QR code) is scrambled using Arnold transform \cite{Arnol'd:1987366}.
+	\item The cover image is transformed from RGB to YCbCr color space, and the Y component, corresponding to the luminance information, is divided into small image blocks of $8\times 8$ pixels.
+	\item The Krawtchouk moments \cite{Yap2003} of selected blocks are determined.
+	\item Each selected block is classified by the model previously trained in one of the defined classes.
+	\item Watermark bit is embedded in the selected block moments using Dither modulation \cite{chen2001quantization}. Both the coefficient and the delta value are obtained according to the class that has been classified each block. Watermarked blocks can be obtained. 
+	\item Transform the YCbCr to RGB color space to obtain RGB watermarked image.
+\end{enumerate}
 
 \subsection{Fragile watermarking}
 For the embedding process, the image is divided into $32\times 32$ non-overlapped blocks. The complete block is pariado making use of a given key. The entire hash value of the block pariado is generated as a watermark using MD5 hash function. The generated MD5 binary watermark is embedded into the least significant bits (LSBs) of the pixels pariados and watermarked image is obtained.
@@ -142,7 +118,7 @@ Tamper area detection capability is evaluated, by modifying the contents of imag
 			&\includegraphics[width=0.25\textwidth]{tampered_image.png}\\\hline
 		\end{tabular}
 	\end{center}
-	\caption{Original image, watermarked image (PSNR 62.18), watermarked modified image and tamper area detection.}
+	\caption{Original image, watermarked image (PSNR 62.06), watermarked modified image and tamper area detection.}
 	\label{img_of_AHM}
 \end{figure}
 
