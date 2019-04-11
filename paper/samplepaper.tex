@@ -48,18 +48,15 @@ For the integrity, tamper detection and copyright protection of handwritten docu
 \section{Introduction}
 The explosive growth of digital multimedia techniques, together with the rapid development of digital network communication has created a pressing demand for techniques that can be used for copy protection, copyright protection and content authentication. Owing to the need of copyright protection and authentication validation, Digital Rights Management (DRM) is gaining importance. DRM refers to a range of access control technologies used to limit or restrict usage of digital content. Digital watermarking is useful in DRM systems as it can hide information within the digital content like images, audio and video.
 
-Watermarking technique is effectively applied to content authentication, integrity protection, and image copyright. The technique can be classified as fragile or robust. The first ones is designed to detect slight changes to the watermarked image with high probability and the second ones is designed to resist attacks that attempt to remove or destroy the mark, such as lossy compression, filtering, and geometric scaling.
+Watermarking technique is effectively applied to content authentication, integrity protection, and image copyright. In accordance with the desired robustness of the embedded watermark, digital watermarking techniques are divided into robust watermarking and fragile watermarking. The first ones is designed to detect slight changes to the watermarked image with high probability and the second ones is typically used for copyright protection, thus it is designed to resist attacks that attempt to remove or destroy the watermark without significantly degrading the visual quality of the watermarked image.
 
 When users want to protect the copyright and at the same time detect illegal tampering, the single watermarking algorithm cannot meet the needs of users. Therefore, the double watermarking algorithm is developed, as it can effectively combine the advantages and functions of the two watermarks \cite{wang2017dual}.
 
-In \cite{mohanty1999dual} is presented a dual watermarking technique which attempts to establish the owner’s right to the image and detect the intentional and unintentional tampering of the image. However, this early research is simply a combination of visible and invisible watermarking algorithms.
+Numerous double watermarking algorithms have been proposed. In \cite{mohanty1999dual} is presented a dual watermarking technique which attempts to establish the owner’s right to the image and detect the intentional and unintentional tampering of the image. However, this early research is simply a combination of visible and invisible watermarking algorithms. In \cite{wang2017dual} is presents a dual watermarking algorithm that connects the robust watermarking algorithm based on singular value decomposition (SVD) with a fragile watermarking algorithm based on compressive sensing (CS). In \cite{singh2018hybrid} use cryptography and QR Code in combined approach of LSB and DCT Digital image watermarking technique, it combines the LSB and DCT approach because LSB contain spatial domain property and DCT contain frequency domain property.
+
+In \cite{liu2018blind} presents a blind dual watermarking mechanism for digital color images. The first watermark is embedded by using the discrete wavelet transform (DWT) in YCbCr color space, and it can be extracted blindly without access to the host image. However, fragile watermarking is based on an improved least significant bits (LSB) replacement approach in RGB components for image authentication. In \cite{singh2019robust} presents lifting wavelet transform (LWT) and discrete cosine transform (DCT) based robust watermarking approach for tele-health applications. They are based on LWT requires less memory, reduced aliasing effects and distortion, fast and it is a good choice for low computational complexity than conventional DWT.
 
 In \cite{gul2019novel} host image is divided into $32\times 32$ non-overlapped blocks, each $32\times 32$ block is then divided into four $16\times 16$ nonoverlapped sub-blocks. The entire hash value of the first three sub-blocks is generated as a watermark using SHA-256 hash function. The generated 256-bit binary watermark is embedded into the least significant bits (LSBs) of the fourth sub-block and watermarked image is obtained.
-
-In the watermarking techniques developed for medical applications, information generated from the region of interest (ROI) of medical image is generally embedded into the region of noninterest (RONI) of the image. However, in these
-techniques, tamper detection can be performed inside ROI area.
-
-On the other hand, a robust watermarking...
 
 Deep learning is a new area of machine learning which has gained popularity in recent past. Deep learning refers to the architectures which contain multiple hidden layers (deep networks) to learn different features with multiple levels of abstraction. Deep learning algorithms seek to exploit the unknown structure in the input distribution in order to discover good representations, often at multiple levels, with higher level learned features defined in terms of lower level features. \cite{wani2019advances}
 
@@ -80,10 +77,9 @@ For that, a new dataset of $8\times 8$ color images of 70000 fashion products fr
 FO = (PSNR/160 + \alpha + \beta)/3,
 \label{FA}
 \end{equation}
-where $PSNR$ is the logarithmic value of ratio between signal and noise, 
-$ \alpha $ is the success in extracting the watermark from the watermarked image without applying any noise and $ \beta $ is the success in extracting the watermark from the watermarked image after applying a JPEG compression with QF= 25{\%}.
+where $PSNR$ is the logarithmic value of ratio between signal and noise, $ \alpha $ is the success in extracting the watermark from the watermarked image without noise and $ \beta $ is the success in extracting the watermark from the watermarked image after applying a JPEG compression with QF= 25{\%}.
 
-In this process we use an open-source machine learning library for Python PyTorch \cite{paszke2017pytorch}. PyTorch extensively uses Python concepts, such as classes, structures, and conditional loops, allowing us to build DL algorithms in a pure object-oriented fashion. Most of the other popular frameworks bring their own programming style, sometimes making it complex to write new algorithms and it does not support intuitive debugging. What makes PyTorch increasingly popular is its ease of use and simplicity \cite{Subramanian2018}.
+In this process we use an open-source machine learning library for Python PyTorch \cite{paszke2017pytorch}. PyTorch extensively uses Python concepts, such as classes, structures, and conditional loops, allowing us to build Deep Learning algorithms in a pure object-oriented fashion. Most of the other popular frameworks bring their own programming style, sometimes making it complex to write new algorithms and it does not support intuitive debugging. What makes PyTorch increasingly popular is its ease of use and simplicity \cite{Subramanian2018}.
 
 Once the model is trained, the following steps are taken to complete the insertion process:
 \begin{enumerate}
@@ -95,16 +91,26 @@ Once the model is trained, the following steps are taken to complete the inserti
 	\item Transform the YCbCr to RGB color space to obtain RGB watermarked image.
 \end{enumerate}
 
+For watermark extraction:
+\begin{enumerate}
+	\item The watermarked image is transformed from the RGB to the YCbCr color space and the Y component is divided into $8\times 8$ pixels blocks.
+	\item The Krawtchouk moments of selected blocks are determined.
+	\item Each selected block is classified by the model previously trained in one of the defined classes. According to the class, the coefficient and delta to be used in the extraction are determined.
+	\item Scrambled watermark bits are obtained with the selected blocks moments using Dither modulations.
+	\item Finally, QR code watermark is constructed with the scrambled bits using Arnold transform.
+\end{enumerate}
+
 \subsection{Fragile watermarking}
 For the embedding process, the image is divided into $32\times 32$ non-overlapped blocks. The complete block is pariado making use of a given key. The entire hash value of the block pariado is generated as a watermark using MD5 hash function. The generated MD5 binary watermark is embedded into the least significant bits (LSBs) of the pixels pariados and watermarked image is obtained.
 
-For watermark extraction, the watermarked image is divided into $32\times 32$ non-overlapped blocks. The complete block is pariado making use of a given key. The entire hash value of the block pariado is calculate and ...
+The detection of a fragile watermark is the inverse process of watermark generation, which is used to detect whether the watermarked image has been tampered and what the precise position of the tampered parts is. For this, the watermarked image is divided into $32\times 32$ non-overlapped blocks. The complete block is pariado making use of a given key. The entire hash value of the block pariado is calculate and ...
 
 \section{Experiments and Results}
-The performance of the watermarking algorithm can be evaluated on the basis of its robustness and imperceptibility. A larger peak signal to noise ratio (PSNR) indicates that the watermarked image more closely resembles the original image meaning that the watermark is more imperceptible.
+The watermarking algorithm is evaluated through imperceptibility, tamper detection and robustness, and the following experiments are introduced.
+ 
 
-\subsection{Invisibility results}
-The imperceptibility of the watermark was evaluated using several databases. We calculated the PSNR which compares the similarity between the original image $ I $ and the watermarked image $ I_w $.
+\subsection{Imperceptibility}
+The imperceptibility of the watermark was evaluated using several databases. We calculated the larger peak signal to noise ratio (PSNR) which compares the similarity between the original image $ I $ and the watermarked image $ I_w $. A PSNR indicates that the watermarked image more closely resembles the original image meaning that the watermark is more imperceptible.
 
 \subsection{Tamper detection}
 Tamper area detection capability is evaluated, by modifying the contents of images, adding objects or deleting objects.
@@ -173,6 +179,9 @@ while the following text appears in normal font.
 \end{proof}
 \section{Conclusions}
 In this paper, a digital watermarking technique based on Krawtchouk moments was implemented, and it was optimized by a genetic algorithm for manuscript document images. The results show a BER less than $0.005 \%$, so the extracted QR codes were decoded in $100\%$ of the $60$ analyzed images. In addition, the values of PSNR in all cases exceeded $44dB$. Thus, there is no visual difference between the original and watermarked images.
+
+\section{Acknowledgment}
+The National Biotechnology Center is thanked, especially the researcher Yunior Cesar Fonseca Reyna belonging to the Department of Structure Macromolecules for his help in the training of the algorithm.
 %
 % ---- Bibliography ----
 %
