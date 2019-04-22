@@ -3,44 +3,46 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: samplepaper.aux
 The style file: splncs04.bst
 Database file #1: mybibliography.bib
-You've used 9 entries,
+Warning--empty journal in paszke2017pytorch
+You've used 14 entries,
             2850 wiz_defined-function locations,
-            656 strings with 6200 characters,
-and the built_in function-call counts, 4844 in all, are:
-= -- 400
-> -- 133
-< -- 9
-+ -- 56
-- -- 46
-* -- 298
-:= -- 615
-add.period$ -- 11
-call.type$ -- 9
-change.case$ -- 48
+            680 strings with 7099 characters,
+and the built_in function-call counts, 7646 in all, are:
+= -- 645
+> -- 203
+< -- 14
++ -- 87
+- -- 70
+* -- 463
+:= -- 967
+add.period$ -- 19
+call.type$ -- 14
+change.case$ -- 80
 chr.to.int$ -- 0
-cite$ -- 9
-duplicate$ -- 439
-empty$ -- 457
-format.name$ -- 54
-if$ -- 1067
+cite$ -- 15
+duplicate$ -- 692
+empty$ -- 719
+format.name$ -- 82
+if$ -- 1692
 int.to.chr$ -- 0
-int.to.str$ -- 9
-missing$ -- 87
-newline$ -- 33
-num.names$ -- 18
-pop$ -- 157
+int.to.str$ -- 14
+missing$ -- 134
+newline$ -- 48
+num.names$ -- 28
+pop$ -- 254
 preamble$ -- 1
-purify$ -- 40
+purify$ -- 63
 quote$ -- 0
-skip$ -- 141
+skip$ -- 222
 stack$ -- 0
-substring$ -- 281
-swap$ -- 240
-text.length$ -- 9
+substring$ -- 458
+swap$ -- 368
+text.length$ -- 14
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 30
-warning$ -- 0
-while$ -- 42
-width$ -- 10
-write$ -- 95
+type$ -- 50
+warning$ -- 1
+while$ -- 69
+width$ -- 16
+write$ -- 144
+(There was 1 warning)

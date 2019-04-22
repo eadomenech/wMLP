@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\urlprefix}{URL }
 \providecommand{\doi}[1]{https://doi.org/#1}
@@ -9,32 +9,57 @@ Arnol'd, V.I., Avez, A.: {Ergodic problems of classical mechanics}. The
   \url{http://cds.cern.ch/record/1987366}
 
 \bibitem{avila2018watermarking}
-Avila-Domenech, E., Soria-Lorente, A.: Watermarking based on krawtchouk moments
-  for handwritten document images. In: International Workshop on Artificial
-  Intelligence and Pattern Recognition. pp. 122--129. Springer (2018)
-
-\bibitem{boujemaa2016fragile}
-Boujemaa, N., Yousef, E., Rachid, L., Aziz, B.M., et~al.: Fragile watermarking
-  of medical image for content authentication and security. IJCSN-International
-  Journal of Computer Science and Network  \textbf{5}(5) (2016)
+Avila-Domenech, E., Soria-Lorente, A.: {Watermarking Based on Krawtchouk
+  Moments for Handwritten Document Images}. In: International Workshop on
+  Artificial Intelligence and Pattern Recognition. pp. 122--129. Springer
+  (2018)
 
 \bibitem{chen2001quantization}
 Chen, B., Wornell, G.W.: Quantization index modulation: A class of provably
   good methods for digital watermarking and information embedding. IEEE
   Transactions on Information Theory  \textbf{47}(4),  1423--1443 (2001)
 
-\bibitem{el2014image}
-El'arbi, M., Amar, C.B.: Image authentication algorithm with recovery
-  capabilities based on neural networks in the dct domain. IET Image Processing
-   \textbf{8}(11),  619--626 (2014)
-
 \bibitem{gul2019novel}
 Gul, E., Ozturk, S.: A novel hash function based fragile watermarking method
   for image integrity. Multimedia Tools and Applications pp. 1--18 (2019)
 
+\bibitem{kingma2014adam}
+Kingma, D.P., Ba, J.: Adam: A method for stochastic optimization. arXiv
+  preprint arXiv:1412.6980  (2014)
+
+\bibitem{liu2018blind}
+Liu, X.L., Lin, C.C., Yuan, S.M.: Blind dual watermarking for color images’
+  authentication and copyright protection. IEEE Transactions on Circuits and
+  Systems for Video Technology  \textbf{28}(5),  1047--1055 (2018)
+
+\bibitem{mohanty1999dual}
+Mohanty, S.P., Ramakrishnan, K., Kankanhalli, M.: A dual watermarking technique
+  for images. In: Proceedings of the seventh ACM international conference on
+  Multimedia (Part 2). pp. 49--51. Citeseer (1999)
+
+\bibitem{paszke2017pytorch}
+Paszke, A., Gross, S., Chintala, S., Chanan, G.: Pytorch: Tensors and dynamic
+  neural networks in python with strong gpu acceleration  \textbf{6} (2017)
+
+\bibitem{singh2019robust}
+Singh, A.: {Robust and distortion control dual watermarking in LWT domain using
+  DCT and error correction code for color medical image}. Multimedia Tools and
+  Applications pp. 1--11 (2019)
+
+\bibitem{singh2018hybrid}
+Singh, R.K., Shaw, D.K.: A hybrid concept of cryptography and dual watermarking
+  (lsb\_dct) for data security. International Journal of Information Security
+  and Privacy (IJISP)  \textbf{12}(1),  1--12 (2018)
+
 \bibitem{Subramanian2018}
 Subramanian, V.: {Deep Learning with PyTorch: A practical approach to building
   neural network models using PyTorch}. Packt Publishing Ltd. (2018)
+
+\bibitem{wang2017dual}
+Wang, N., Li, Z., Cheng, X., Chen, Y.: {Dual Watermarking Algorithm Based on
+  Singular Value Decomposition and Compressive Sensing}. In: 2017 IEEE 17th
+  International Conference on Communication Technology (ICCT). pp. 1763--1767.
+  IEEE (2017)
 
 \bibitem{wani2019advances}
 Wani, M.A., Bhat, F.A., Afzal, S., Khan, A.I.: Advances in Deep Learning.

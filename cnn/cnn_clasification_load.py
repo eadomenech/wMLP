@@ -6,8 +6,8 @@ import torch.nn as nn
 from torch.autograd import Variable
 import numpy as np
 
-# Convolutional neural network (ResNet18)
-model = models.densenet201(pretrained=True)
+# Convolutional neural network (vgg16)
+model = models.vgg16(pretrained=True)
 print(model)
 num_ftrs = model.classifier.in_features
 model.classifier = nn.Linear(num_ftrs, 11)

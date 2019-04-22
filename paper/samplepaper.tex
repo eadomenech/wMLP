@@ -38,7 +38,7 @@ Universidad Central de Las Villas, Villa Clara, Cuba\\
 \maketitle              % typeset the header of the contribution
 %
 \begin{abstract}
-For the integrity, tamper detection and copyright protection of handwritten document images, a dual watermarking algorithm that connects the robust watermarking algorithm based on Convolutional Neural Network (CNN) with a fragile watermarking algorithm based on SHA-256 hash function is presented. Hence, the robust watermarking algorithm is used to guarantee stability and robustness by modifying frequency coefficients in Krawtchouk moments. Thus, this study proposes a fragile watermarking algorithm, which can perceive in time when the protected image is tampered. Experimental results show that the proposed algorithm can be used for copyright protection and tampering detection of this images.
+For the integrity, tamper detection and copyright protection of handwritten document images, a dual watermarking algorithm that connects the robust watermarking algorithm based on Neural Network with a fragile watermarking algorithm based on SHA-256 hash function is presented. Hence, the robust watermarking algorithm is used to guarantee stability and robustness by modifying frequency coefficients in Krawtchouk moments. Thus, this study proposes a fragile watermarking algorithm, which can perceive in time when the protected image is tampered. Experimental results show that the proposed algorithm can be used for copyright protection and tampering detection of this images.
 
 \keywords{First keyword  \and Second keyword \and Another keyword.}
 \end{abstract}
@@ -60,7 +60,7 @@ In \cite{gul2019novel} host image is divided into $32\times 32$ non-overlapped b
 
 Deep learning is a new area of machine learning which has gained popularity in recent past. Deep learning refers to the architectures which contain multiple hidden layers (deep networks) to learn different features with multiple levels of abstraction. Deep learning algorithms seek to exploit the unknown structure in the input distribution in order to discover good representations, often at multiple levels, with higher level learned features defined in terms of lower level features. \cite{wani2019advances}
 
-Different from previous works \cite{avila2018watermarking}, an effective algorithm that effectively utilizes spatial context to classify the $8\times 8$ blocks according to the optimal marking parameters is proposed in this paper. For capturing spatial information of $8\times 8$ blocks, Convolutional Neural Network (CNN) was used in our model, which has been proven to be effective in classification tasks.
+Different from previous works \cite{avila2018watermarking}, an effective algorithm that effectively utilizes spatial context to classify the $8\times 8$ blocks according to the optimal marking parameters is proposed in this paper. For capturing spatial information of $8\times 8$ blocks, a neural network was used in our technique, which has been proven to be effective in classification tasks.
 
 The rest of the paper is organised as follow; Section 2 describes the proposed method including fragil watermarking and robust watermarking. Experimental results are given in Section 3 and Section 4 concludes the paper.
 
@@ -68,7 +68,9 @@ The rest of the paper is organised as follow; Section 2 describes the proposed m
 As we know, hash function, such as MD5 or SHA-256, can be utilized to authenticate the data integrity. If the hash value of original message is exactly equal to the re-calculated hash value of the received message, the received data can be regarded as integrated, otherwise as false.
 
 \subsection{Robust watermarking}
-The robust watermarking method proposed is similar to the one proposed in \cite{avila2018watermarking}. The difference consists in using a Convolutional Neural Network (CNN) to classify the $8\times 8$ blocks according to the optimal marking parameters.
+The robust watermarking method proposed is similar to the one proposed in \cite{avila2018watermarking}. The difference consists in using a neural network topology known as multilayer perceptron (MLP) to classify the $8\times 8$ blocks according to the optimal marking parameters. A MLP is a feed-forward net with one or more layers of nodes between the input and output nodes. These in-between layers are called hidden layers.
+
+Training is equivalent to finding proper weights for all the connections such that a desired output is generated for a corresponding input. Using MLP in the context of a classifier requires all output nodes to be set to 0 except for the node that is marked to correspond to the class the input is from. That desired output is 1. 
 
 The most important step in solving any real-world problem is to get the data. Kaggle provides a huge number of competitions on different data science problems \cite{Subramanian2018}.
 
@@ -78,6 +80,8 @@ FO = (PSNR/160 + \alpha + \beta)/3,
 \label{FA}
 \end{equation}
 where $PSNR$ is the logarithmic value of ratio between signal and noise, $ \alpha $ is the success in extracting the watermark from the watermarked image without noise and $ \beta $ is the success in extracting the watermark from the watermarked image after applying a JPEG compression with QF= 25{\%}.
+
+The network was trained using GPU NVIDIA GTX 780ti for a week. 
 
 In this process we use an open-source machine learning library for Python PyTorch \cite{paszke2017pytorch}. PyTorch extensively uses Python concepts, such as classes, structures, and conditional loops, allowing us to build Deep Learning algorithms in a pure object-oriented fashion. Most of the other popular frameworks bring their own programming style, sometimes making it complex to write new algorithms and it does not support intuitive debugging. What makes PyTorch increasingly popular is its ease of use and simplicity \cite{Subramanian2018}.
 
