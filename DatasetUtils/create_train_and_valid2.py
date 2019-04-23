@@ -41,8 +41,13 @@ def main():
                 os.mkdir(path)
             paths = glob.glob(path + '/**/*.png', recursive=True)
             for num, path in enumerate(paths):
-                Image.open(path).save(
-                    'static/train/' + clase + '/' + clase + '.' + str(num) + '.png')
+                p = np.random.rand()
+                if p > 0.1:
+                    Image.open(path).save(
+                        'static/train/' + clase + '/' + clase + '.' + str(num) + '.png')
+                else:
+                    Image.open(path).save(
+                        'static/valid/' + clase + '/' + clase + '.' + str(num) + '.png')
 
 
 if __name__ == '__main__':
