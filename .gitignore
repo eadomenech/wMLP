@@ -9,6 +9,7 @@
 *.jpg
 *.png
 *.bmp
+*.pt
 
 
 # Byte-compiled / optimized / DLL files
