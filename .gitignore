@@ -8,6 +8,7 @@
 *.aux
 *.jpg
 *.png
+*.bmp
 
 
 # Byte-compiled / optimized / DLL files
