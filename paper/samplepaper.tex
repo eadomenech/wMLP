@@ -127,12 +127,19 @@ The watermarking algorithm is evaluated through imperceptibility, tamper detecti
  
 
 \subsection{Imperceptibility}
-The imperceptibility of the watermark was evaluated using several databases. We calculated the larger peak signal to noise ratio (PSNR) which compares the similarity between the original image $ I $ and the watermarked image $ I_w $. A PSNR indicates that the watermarked image more closely resembles the original image meaning that the watermark is more imperceptible.
+The imperceptibility of the watermark was evaluated using several databases. We calculated the larger peak signal to noise ratio (PSNR) which compares the similarity between the original image $ I $ and the watermarked image $ I_w $. A PSNR indicates that the watermarked image more closely resembles the original image meaning that the watermark is more imperceptible. (see Fig.~\ref{psnr})
+\begin{figure}[H]	% h-here, t-top, b-bottom
+	\begin{center}
+		\includegraphics[width=\textwidth]{psnr.eps}
+	\end{center}
+	\caption{PSNR values for Saint Gall database watermarked images.}
+	\label{psnr}
+\end{figure}
 
 \subsection{Tamper detection}
 Tamper area detection capability is evaluated, by modifying the contents of images, adding objects or deleting objects.
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\begin{center}
 		\begin{tabular}{|c|c|c|c|}\hline
 			\includegraphics[width=0.25\textwidth]{1.jpg}
@@ -141,54 +148,36 @@ Tamper area detection capability is evaluated, by modifying the contents of imag
 			&\includegraphics[width=0.25\textwidth]{tampered_image.png}\\\hline
 		\end{tabular}
 	\end{center}
-	\caption{Original image, watermarked image (PSNR 62.06), watermarked modified image and tamper area detection.}
+	\caption{Original image, watermarked image, watermarked modified image and tamper area detection.}
 	\label{img_of_AHM}
 \end{figure}
 
 \subsection{Robustness}
 The bit error rate (BER) is defined as ratio between number of incorrectly decoded bits and total number of bits.
+\begin{figure}[H]	% h-here, t-top, b-bottom
+	\begin{center}
+		\includegraphics[width=\textwidth]{ber75.eps}
+	\end{center}
+	\caption{BER values for Saint Gall database watermarked images with JPEG compression (QF=75\%).}
+	\label{ber75}
+\end{figure}
+\begin{figure}[H]	% h-here, t-top, b-bottom
+	\begin{center}
+		\includegraphics[width=\textwidth]{ber50.eps}
+	\end{center}
+	\caption{BER values for Saint Gall database watermarked images with JPEG compression (QF=50\%).}
+	\label{ber50}
+\end{figure}
+\begin{figure}[H]	% h-here, t-top, b-bottom
+	\begin{center}
+		\includegraphics[width=\textwidth]{ber20.eps}
+	\end{center}
+	\caption{BER values for Saint Gall database watermarked images with JPEG compression (QF=20\%).}
+	\label{ber20}
+\end{figure}
 
-\begin{table}
-\caption{Table captions should be placed above the
-tables.}\label{tab1}
-\begin{tabular}{|l|l|l|}
-\hline
-Heading level &  Example & Font size and style\\
-\hline
-Title (centered) &  {\Large\bfseries Lecture Notes} & 14 point, bold\\
-1st-level heading &  {\large\bfseries 1 Introduction} & 12 point, bold\\
-2nd-level heading & {\bfseries 2.1 Printing Area} & 10 point, bold\\
-3rd-level heading & {\bfseries Run-in Heading in Bold.} Text follows & 10 point, bold\\
-4th-level heading & {\itshape Lowest Level Heading.} Text follows & 10 point, italic\\
-\hline
-\end{tabular}
-\end{table}
-
-
-\noindent Displayed equations are centered and set on a separate
-line.
-\begin{equation}
-x + y = z
-\end{equation}
-Please try to avoid rasterized images for line-art diagrams and
-schemas. Whenever possible, use vector graphics instead (see
-Fig.~\ref{fig1}).
-
-\begin{theorem}
-This is a sample theorem. The run-in heading is set in bold, while
-the following text appears in italics. Definitions, lemmas,
-propositions, and corollaries are styled the same way.
-\end{theorem}
-%
-% the environments 'definition', 'lemma', 'proposition', 'corollary',
-% 'remark', and 'example' are defined in the LLNCS documentclass as well.
-%
-\begin{proof}
-Proofs, examples, and remarks have the initial word in italics,
-while the following text appears in normal font.
-\end{proof}
 \section{Conclusions}
-In this paper, a digital watermarking technique based on Krawtchouk moments was implemented, and it was optimized by a genetic algorithm for manuscript document images. The results show a BER less than $0.005 \%$, so the extracted QR codes were decoded in $100\%$ of the $60$ analyzed images. In addition, the values of PSNR in all cases exceeded $44dB$. Thus, there is no visual difference between the original and watermarked images.
+In this paper, a dual digital watermarking technique based on Neural Network and SHA-256 hash function was implemented. The results show a BER less than $0.005 \%$, so the extracted QR codes were decoded in $100\%$ of the $60$ analyzed images. In addition, the values corresponding to the PSNR were improved compared to previously presented papers.
 
 \section{Acknowledgment}
 The National Biotechnology Center is thanked, especially the researcher Yunior Cesar Fonseca Reyna belonging to the Department of Structure Macromolecules for his help in the training of the algorithm.
