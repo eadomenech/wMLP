@@ -6,52 +6,68 @@ import torch.nn.functional as F
 import torch.nn as nn
 from torch.autograd import Variable
 import numpy as np
+import glob
 
 
-# Model
+'''
+16_120 -> 2
+17_90 -> 1
+19_53 -> 4
+19_60 -> 4
+19_130 -> 2
+20_130 -> 5
+28_94 -> 7
+28_120 -> 2
+34_130 -> 8
+'''
+
+
+# Load images
+list_path = glob.glob('data/valid/34_130/*.png')
+
+
 class Net(nn.Module):
 
     def __init__(self):
         super(Net, self).__init__()
-        self.fc1 = nn.Linear(3 * 8 * 8, 5000) 
+        self.fc1 = nn.Linear(3 * 8 * 8, 5000)
         self.fc2 = nn.Linear(5000, 9)
     
     def forward(self, x):
+        x = x.view(x.size(0), -1)
         x = F.relu(self.fc1(x))
         x = F.dropout(x)
         x = self.fc2(x)
         return F.log_softmax(x, dim=1)
 
 
-def load_checkpoint(filepath):
+model = Net()
+checkpoint = torch.load(Path('fnn600.pt'), map_location='cpu')
+model.load_state_dict(checkpoint)
+model.eval()
 
-    model = Net()
-    checkpoint = torch.load(Path(filepath), map_location='cpu')
-    model.load_state_dict(checkpoint)
-    model.eval()
-    print(model)
-
-    return model
-
-
-def image_loader(image_name):
-
-    data_transforms = transforms.Compose(
-        [
-            transforms.ToTensor(),
-            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-        ]
-    )
-    image = Image.open(image_name)
-    image = data_transforms(image).float()
-    # image = torch.tensor(image, requires_grad=True)
-    image = image.clone().detach().requires_grad_(True)
-    image = image.unsqueeze(0)
-    return image
+data_transforms = transforms.Compose(
+    [
+        transforms.ToTensor(),
+        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    ]
+)
 
 
-# Predict
-file_pt_path = 'fnn600.pt'
-path = '/home/ernesto/19_60.477.png'
-model = load_checkpoint(file_pt_path)
-print(np.argmax(model(image_loader(path)).detach().numpy()))
+def predict(image_path):
+    image = Image.open(image_path)
+    image_tensor = data_transforms(image)
+
+    # PyTorch pretrained models expect the Tensor dims to be
+    # (num input imgs, num color channels, height, width).
+    # Currently however, we have (num color channels, height, width);
+    # let's fix this by inserting a new axis.
+    image_tensor = image_tensor.unsqueeze(0)
+
+    output = model(Variable(image_tensor))
+
+    return np.argmax(output.detach().numpy())
+
+
+for image_path in list_path:
+    print(predict(image_path))

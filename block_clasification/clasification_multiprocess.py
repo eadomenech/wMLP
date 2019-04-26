@@ -114,7 +114,7 @@ def procesar(block_path, watermark_bit, coef, delta):
     # Aplicando ruido
     watermarked_with_noise_path = block_path[:-4] + 'wnoised.jpg'
     watermarked_image_without_noise.save(
-        watermarked_with_noise_path, quality=25, optimice=True)
+        watermarked_with_noise_path, quality=20, optimice=True)
     
     # Extrayendo watermark bit
     watermarked_image_with_noise = Image.open(

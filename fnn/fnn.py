@@ -31,7 +31,10 @@ class Net(nn.Module):
 
 
 def train(args, model, device, train_loader, optimizer, epoch):
+    
+    # Before training the model, it is imperative to call model.train()
     model.train()
+
     global_loss = 0.0
     for batch_idx, (data, target) in enumerate(train_loader):
         data, target = data.to(device), target.to(device)
@@ -52,7 +55,10 @@ def train(args, model, device, train_loader, optimizer, epoch):
 
 
 def test(args, model, device, test_loader, epoch):
+    
+    # You must call model.eval() before testing the model
     model.eval()
+
     test_loss = 0
     correct = 0
     with torch.no_grad():

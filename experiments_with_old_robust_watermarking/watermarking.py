@@ -16,63 +16,8 @@ from qr_tools.MyQR62 import MyQR62
 
 import pwlcm
 
+
 import math
-
-#PyTorch
-import torch
-import torch.nn.functional as F
-import torch.nn as nn
-from torchvision import transforms
-from torch.autograd import Variable
-
-from pathlib import Path
-
-
-class Net(nn.Module):
-
-        def __init__(self):
-            super(Net, self).__init__()
-            self.fc1 = nn.Linear(3 * 8 * 8, 5000)
-            self.fc2 = nn.Linear(5000, 9)
-        
-        def forward(self, x):
-            x = x.view(x.size(0), -1)
-            x = F.relu(self.fc1(x))
-            x = F.dropout(x)
-            x = self.fc2(x)
-            return F.log_softmax(x, dim=1)
-
-
-class Clasification():
-    
-    def __init__(self):
-        self.model = Net()
-        checkpoint = torch.load(Path('data/fnn600.pt'), map_location='cpu')
-        self.model.load_state_dict(checkpoint)
-        self.model.eval()
-
-        self.data_transforms = transforms.Compose(
-            [
-                transforms.ToTensor(),
-                transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-            ]
-        )
-    
-    def predict(self, image_array):
-        image = Image.fromarray(image_array)
-        image_tensor = self.data_transforms(image)
-
-        # PyTorch pretrained models expect the Tensor dims to be
-        # (num input imgs, num color channels, height, width).
-        # Currently however, we have (num color channels, height, width);
-        # let's fix this by inserting a new axis.
-        image_tensor = image_tensor.unsqueeze(0)
-
-        output = self.model(Variable(image_tensor))
-
-        return np.argmax(output.detach().numpy())
-
-
 
 
 def binary2int(binary):
@@ -116,8 +61,6 @@ def run_main():
     myqr = MyQR62()
     dat = DAT()
     itools = ImageTools()
-
-    clasification = Clasification()
 
     delta = 128
 
@@ -182,8 +125,6 @@ def run_main():
             # Instance a la clase Bloque
             bt_of_cover = BlocksImage(cover_array)
 
-            bt_of_rgb_cover = BlocksImage(misc.fromimage(cover_image))
-
             # Calculando e imprimeindo datos iniciales
             len_of_watermark = watermark_array.size
             print('Cantidad de bit a insertar: ', len_of_watermark)
@@ -225,29 +166,7 @@ def run_main():
             print("Insertando...")
             # Marcar los self.len_of_watermark bloques
             for i in range(len_of_watermark):
-                block = bt_of_cover.get_block(v[i])
-                # Predict
-                p = clasification.predict(bt_of_rgb_cover.get_block(v[i]))
-                if p == 1:
-                    c[1] = 17
-                    delta = 90
-                elif p == 4:
-                    c[1] = 19
-                    delta = 60
-                elif p == 5:
-                    c[1] = 20
-                    delta = 130
-                elif p == 7:
-                    c[1] = 28
-                    delta = 94
-                elif p == 8:
-                    c[1] = 34
-                    delta = 130
-                else:
-                    c[1] = 19
-                    delta = 130
-
-                dqkt_block = dqkt.dqkt2(block)
+                dqkt_block = dqkt.dqkt2(bt_of_cover.get_block(v[i]))
 
                 negative = False
                 if dqkt_block[get_indice(c[1])[0], get_indice(c[1])[1]] < 0:
@@ -313,7 +232,6 @@ def run_main():
             print("Extrayendo de JPEG20")
             watermarked_image_with_noise = Image.open(
                 "static/experimento/watermarked_" + db_img[:10] + "_with_jpeg20.jpg")
-            bt_of = BlocksImage(misc.fromimage(watermarked_image_with_noise))
 
             # Convirtiendo a modelo de color YCbCr
             watermarked_ycbcr_image_with_noise = itools.rgb2ycbcr(
@@ -327,28 +245,11 @@ def run_main():
 
             # for i in range(bt.max_blocks()):  # Recorrer todos los bloques de la imagen
             for i in range(len(list_bit_of_watermark)):  # Recorrer los primeros len(list_bit_of_watermark) bloques
-                block = bt_of_watermarked_image_with_noise.get_block(v[i])
-                # Predict
-                p = clasification.predict(bt_of.get_block(v[i]))
-                if p == 1:
-                    c[1] = 17
-                    delta = 90
-                elif p == 4:
-                    c[1] = 19
-                    delta = 60
-                elif p == 5:
-                    c[1] = 20
-                    delta = 130
-                elif p == 7:
-                    c[1] = 28
-                    delta = 94
-                elif p == 8:
-                    c[1] = 34
-                    delta = 130
-                else:
-                    c[1] = 19
-                    delta = 130
-                dqkt_block = dqkt.dqkt2(np.array(block, dtype=np.float32))
+
+                dqkt_block = dqkt.dqkt2(
+                    np.array(
+                        bt_of_watermarked_image_with_noise.get_block(v[i]),
+                        dtype=np.float32))
                 negative = False
                 if dqkt_block[get_indice(c[1])[0], get_indice(c[1])[1]] < 0:
                     negative = True
@@ -408,7 +309,6 @@ def run_main():
             print("Extrayendo de JPEG50")
             watermarked_image_with_noise = Image.open(
                 "static/experimento/watermarked_" + db_img[:10] + "_with_jpeg50.jpg")
-            bt_of = BlocksImage(misc.fromimage(watermarked_image_with_noise))    
 
             # Convirtiendo a modelo de color YCbCr
             watermarked_ycbcr_image_with_noise = itools.rgb2ycbcr(
@@ -423,28 +323,10 @@ def run_main():
             # for i in range(bt.max_blocks()):  # Recorrer todos los bloques de la imagen
             for i in range(len(list_bit_of_watermark)):  # Recorrer los primeros len(list_bit_of_watermark) bloques
 
-                block = bt_of_watermarked_image_with_noise.get_block(v[i])
-                # Predict
-                p = clasification.predict(bt_of.get_block(v[i]))
-                if p == 1:
-                    c[1] = 17
-                    delta = 90
-                elif p == 4:
-                    c[1] = 19
-                    delta = 60
-                elif p == 5:
-                    c[1] = 20
-                    delta = 130
-                elif p == 7:
-                    c[1] = 28
-                    delta = 94
-                elif p == 8:
-                    c[1] = 34
-                    delta = 130
-                else:
-                    c[1] = 19
-                    delta = 130
-                dqkt_block = dqkt.dqkt2(np.array(block, dtype=np.float32))
+                dqkt_block = dqkt.dqkt2(
+                    np.array(
+                        bt_of_watermarked_image_with_noise.get_block(v[i]),
+                        dtype=np.float32))
                 negative = False
                 if dqkt_block[get_indice(c[1])[0], get_indice(c[1])[1]] < 0:
                     negative = True
@@ -502,7 +384,6 @@ def run_main():
             print("Extrayendo de JPEG75")
             watermarked_image_with_noise = Image.open(
                 "static/experimento/watermarked_" + db_img[:10] + "_with_jpeg75.jpg")
-            bt_of = BlocksImage(misc.fromimage(watermarked_image_with_noise))
 
             # Convirtiendo a modelo de color YCbCr
             watermarked_ycbcr_image_with_noise = itools.rgb2ycbcr(
@@ -516,28 +397,10 @@ def run_main():
 
             for i in range(len(list_bit_of_watermark)):  # Recorrer los primeros len(list_bit_of_watermark) bloques
 
-                block = bt_of_watermarked_image_with_noise.get_block(v[i])
-                # Predict
-                p = clasification.predict(bt_of.get_block(v[i]))
-                if p == 1:
-                    c[1] = 17
-                    delta = 90
-                elif p == 4:
-                    c[1] = 19
-                    delta = 60
-                elif p == 5:
-                    c[1] = 20
-                    delta = 130
-                elif p == 7:
-                    c[1] = 28
-                    delta = 94
-                elif p == 8:
-                    c[1] = 34
-                    delta = 130
-                else:
-                    c[1] = 19
-                    delta = 130
-                dqkt_block = dqkt.dqkt2(np.array(block, dtype=np.float32))
+                dqkt_block = dqkt.dqkt2(
+                    np.array(
+                        bt_of_watermarked_image_with_noise.get_block(v[i]),
+                        dtype=np.float32))
                 negative = False
                 if dqkt_block[get_indice(c[1])[0], get_indice(c[1])[1]] < 0:
                     negative = True
