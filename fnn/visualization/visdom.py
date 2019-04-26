@@ -8,7 +8,6 @@ class Visualizations:
             env_name = str(datetime.now().strftime("%d-%m %Hh%M"))
         self.env_name = env_name
         self.vis = visdom.Visdom(env=self.env_name)
-
         self.loss_win = None
         self.acc_win = None
     
@@ -33,12 +32,11 @@ class Visualizations:
             [loss], [step],
             win=self.loss_win,
             update='append' if self.loss_win else None,
-            name='Train',
+            name='Training',
             opts=dict(
                 xlabel='Epoch',
                 ylabel='Loss',
-                title='Train Loss',
-                legend=['Train', 'Valid']
+                legend=['Training', 'Validation']
             )
         )
 
@@ -49,12 +47,11 @@ class Visualizations:
             [spoch],
             win=self.loss_win,
             update='append' if self.loss_win else None,
-            name='Valid',
+            name='Validation',
             opts=dict(
                 xlabel='Epoch',
                 ylabel='Loss',
-                title='Valid Loss ',
-                legend=['Train', 'Valid']
+                legend=['Training', 'Validation']
             )
         )
     
@@ -63,11 +60,10 @@ class Visualizations:
             [acc], [spoch],
             win=self.acc_win,
             update='append' if self.acc_win else None,
-            name='Valid',
+            name='Validation',
             opts=dict(
                 xlabel='Epoch',
                 ylabel='Accuracy %',
-                title='Valid Accuracy',
-                legend=['Valid']
+                legend=['Validation']
             )
         )
