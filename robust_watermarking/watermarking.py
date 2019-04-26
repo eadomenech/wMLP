@@ -157,8 +157,8 @@ def run_main():
             aba_max = (y//8 - y//64)
             while len(v) < len_of_watermark:
                 val = random.randrange(cantidad)
-                fila = val//(x//8)
-                columna = val - fila*(x//8)
+                columna = val//(x//8)
+                fila = val - columna*(x//8)
                 if val not in v:
                     if columna > izq_min and columna < der_max and fila > arr_min and fila < aba_max:
                         v.append(val)
@@ -248,7 +248,7 @@ def run_main():
 
                 dqkt_block = dqkt.dqkt2(
                     np.array(
-                        bt_of_watermarked_image_with_noise.get_block(v[i]+1),
+                        bt_of_watermarked_image_with_noise.get_block(v[i]),
                         dtype=np.float32))
                 negative = False
                 if dqkt_block[get_indice(c[1])[0], get_indice(c[1])[1]] < 0:
@@ -289,7 +289,7 @@ def run_main():
             # watermark_extracted = Image.open("static/experimento/watermark_" + db_img[:10] + "_with_jpeg20.png")
 
             b = BlocksImage(misc.fromimage(watermark_extracted), 2, 2)
-            for m in range(1, b.max_num_blocks()+1):
+            for m in range(b.max_num_blocks()):
                 b.set_color(m)
             misc.toimage(b.get()).save(
                 "static/experimento/watermark_" + db_img[:10] + "_with_jpeg20_resconstructed.png")
@@ -325,7 +325,7 @@ def run_main():
 
                 dqkt_block = dqkt.dqkt2(
                     np.array(
-                        bt_of_watermarked_image_with_noise.get_block(v[i]+1),
+                        bt_of_watermarked_image_with_noise.get_block(v[i]),
                         dtype=np.float32))
                 negative = False
                 if dqkt_block[get_indice(c[1])[0], get_indice(c[1])[1]] < 0:
@@ -364,7 +364,7 @@ def run_main():
                 "static/experimento/watermark_" + db_img[:10] + "_with_jpeg50.png")
 
             b = BlocksImage(misc.fromimage(watermark_extracted), 2, 2)
-            for m in range(1, b.max_num_blocks()+1):
+            for m in range(b.max_num_blocks()):
                 b.set_color(m)
             misc.toimage(b.get()).save(
                 "static/experimento/watermark_" + db_img[:10] + "_with_jpeg50_resconstructed.png")
@@ -399,7 +399,7 @@ def run_main():
 
                 dqkt_block = dqkt.dqkt2(
                     np.array(
-                        bt_of_watermarked_image_with_noise.get_block(v[i]+1),
+                        bt_of_watermarked_image_with_noise.get_block(v[i]),
                         dtype=np.float32))
                 negative = False
                 if dqkt_block[get_indice(c[1])[0], get_indice(c[1])[1]] < 0:
@@ -438,7 +438,7 @@ def run_main():
                 "static/experimento/watermark_" + db_img[:10] + "_with_jpeg75.png")
 
             b = BlocksImage(misc.fromimage(watermark_extracted), 2, 2)
-            for m in range(1, b.max_num_blocks()+1):
+            for m in range(b.max_num_blocks()):
                 b.set_color(m)
             misc.toimage(b.get()).save(
                 "static/experimento/watermark_" + db_img[:10] + "_with_jpeg75_resconstructed.png")

@@ -29,6 +29,7 @@ def load_checkpoint(filepath):
     checkpoint = torch.load(Path(filepath), map_location='cpu')
     model.load_state_dict(checkpoint)
     model.eval()
+    print(model)
 
     return model
 
