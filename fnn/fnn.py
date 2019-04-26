@@ -17,25 +17,10 @@ train_loss_list = []
 valid_loss_list = []
 
 class Net(nn.Module):
-    # def __init__(self):
-    #     super(Net, self).__init__()
-    #     self.fc1 = nn.Linear(3 * 8 * 8, 1000)
-    #     self.fc2 = nn.Linear(1000, 2000)
-    #     self.fc3 = nn.Linear(2000, 1000)
-    #     self.fc4 = nn.Linear(1000, 200)
-    #     self.fc5 = nn.Linear(200, 9)
-
-    # def forward(self, x):
-    #     x = F.relu(self.fc1(x))
-    #     x = F.relu(self.fc2(x))
-    #     x = F.relu(self.fc3(x))
-    #     x = F.relu(self.fc4(x))
-    #     x = self.fc5(x)
-    #     return F.log_softmax(x, dim=1)
 
     def __init__(self):
         super(Net, self).__init__()
-        self.fc1 = nn.Linear(3 * 8 * 8, 5000) 
+        self.fc1 = nn.Linear(3 * 8 * 8, 5000)
         self.fc2 = nn.Linear(5000, 9)
     
     def forward(self, x):

@@ -166,7 +166,7 @@ def run_main():
             print("Insertando...")
             # Marcar los self.len_of_watermark bloques
             for i in range(len_of_watermark):
-                dqkt_block = dqkt.dqkt2(bt_of_cover.get_block(v[i]+1))
+                dqkt_block = dqkt.dqkt2(bt_of_cover.get_block(v[i]))
 
                 negative = False
                 if dqkt_block[get_indice(c[1])[0], get_indice(c[1])[1]] < 0:
@@ -193,7 +193,7 @@ def run_main():
                             inv[x, y] = 255
                         if inv[x, y] < 0:
                             inv[x, y] = 0
-                bt_of_cover.set_block(idqkt_block, v[i]+1)
+                bt_of_cover.set_block(idqkt_block, v[i])
 
             cover_marked_ycbcr_array = cover_ycbcr_array
 
