@@ -8,6 +8,9 @@ from torchvision import datasets, transforms
 from visualization.visdom import Visualizations
 
 import numpy as np
+from PIL import Image
+import random
+from io import BytesIO
 
 # Initialize the visualization environment
 vis = Visualizations()
@@ -84,6 +87,14 @@ def test(args, model, device, test_loader, epoch):
     return {'test_loss': test_loss, 'acc':acc}
 
 
+def randomJpegCompression(image):
+    qf = random.randrange(10, 100)
+    outputIoStream = BytesIO()
+    image.save(outputIoStream, "JPEG", quality=qf, optimice=True)
+    outputIoStream.seek(0)
+    return Image.open(outputIoStream)
+
+
 def main():
     # Training settings
     parser = argparse.ArgumentParser(description='FNN')
@@ -120,6 +131,7 @@ def main():
     # Transforms
     simple_transform = transforms.Compose(
         [
+            transforms.Lambda(randomJpegCompression),
             transforms.ToTensor(),
             transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
         ]
