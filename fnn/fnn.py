@@ -5,28 +5,49 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from torchvision import datasets, transforms
+from visualization.visdom import Visualizations
 
+import numpy as np
+
+# Initialize the visualization environment
+vis = Visualizations()
+
+#Var
+train_loss_list = []
+valid_loss_list = []
 
 class Net(nn.Module):
+    # def __init__(self):
+    #     super(Net, self).__init__()
+    #     self.fc1 = nn.Linear(3 * 8 * 8, 1000)
+    #     self.fc2 = nn.Linear(1000, 2000)
+    #     self.fc3 = nn.Linear(2000, 1000)
+    #     self.fc4 = nn.Linear(1000, 200)
+    #     self.fc5 = nn.Linear(200, 9)
+
+    # def forward(self, x):
+    #     x = F.relu(self.fc1(x))
+    #     x = F.relu(self.fc2(x))
+    #     x = F.relu(self.fc3(x))
+    #     x = F.relu(self.fc4(x))
+    #     x = self.fc5(x)
+    #     return F.log_softmax(x, dim=1)
+
     def __init__(self):
         super(Net, self).__init__()
-        self.fc1 = nn.Linear(3 * 8 * 8, 1000)
-        self.fc2 = nn.Linear(1000, 2000)
-        self.fc3 = nn.Linear(2000, 1000)
-        self.fc4 = nn.Linear(1000, 200)
-        self.fc5 = nn.Linear(200, 9)
-
+        self.fc1 = nn.Linear(3 * 8 * 8, 5000) 
+        self.fc2 = nn.Linear(5000, 9)
+    
     def forward(self, x):
         x = F.relu(self.fc1(x))
-        x = F.relu(self.fc2(x))
-        x = F.relu(self.fc3(x))
-        x = F.relu(self.fc4(x))
-        x = self.fc5(x)
+        x = F.dropout(x)
+        x = self.fc2(x)
         return F.log_softmax(x, dim=1)
 
 
 def train(args, model, device, train_loader, optimizer, epoch):
     model.train()
+    global_loss = 0.0
     for batch_idx, (data, target) in enumerate(train_loader):
         data, target = data.to(device), target.to(device)
         optimizer.zero_grad()
@@ -35,14 +56,17 @@ def train(args, model, device, train_loader, optimizer, epoch):
         output = model(data)
         loss = F.nll_loss(output, target)
         loss.backward()
+        global_loss = (global_loss*(batch_idx) + loss.item())/(batch_idx+1)
         optimizer.step()
         if batch_idx % args.log_interval == 0:
             print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
                 epoch, batch_idx * args.batch_size, len(train_loader.dataset),
                 100. * batch_idx / len(train_loader), loss.item()))
+    
+    return global_loss
 
 
-def test(args, model, device, test_loader):
+def test(args, model, device, test_loader, epoch):
     model.eval()
     test_loss = 0
     correct = 0
@@ -60,10 +84,13 @@ def test(args, model, device, test_loader):
 
     test_loss /= len(test_loader.dataset)
 
+    acc = 100. * correct / len(test_loader.dataset)
+
     print(
         '\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
-            test_loss, correct, len(test_loader.dataset),
-            100. * correct / len(test_loader.dataset)))
+            test_loss, correct, len(test_loader.dataset), acc))
+    
+    return {'test_loss': test_loss, 'acc':acc}
 
 
 def main():
@@ -74,7 +101,7 @@ def main():
     parser.add_argument(
         '--test-batch-size', type=int, default=64, metavar='N',
         help='input batch size for testing (default: 1000)')
-    parser.add_argument('--epochs', type=int, default=100, metavar='N',
+    parser.add_argument('--epochs', type=int, default=600, metavar='N',
                         help='number of epochs to train (default: 10)')
     parser.add_argument('--lr', type=float, default=0.01, metavar='LR',
                         help='learning rate (default: 0.01)')
@@ -126,11 +153,17 @@ def main():
         model.parameters(), lr=args.lr, momentum=args.momentum)
 
     for epoch in range(1, args.epochs + 1):
-        train(args, model, device, train_loader, optimizer, epoch)
-        test(args, model, device, test_loader)
+        global_loss_train = train(
+            args, model, device, train_loader, optimizer, epoch)
+        dic = test(args, model, device, test_loader, epoch)
+
+        # Visualization data
+        vis.plot_loss_train(global_loss_train, epoch)
+        vis.plot_loss_valid(dic['test_loss'], epoch)
+        vis.plot_acc(dic['acc'], epoch)
 
     if (args.save_model):
-        torch.save(model.state_dict(), "fnn.pt")
+        torch.save(model.state_dict(), "fnn600.pt")
 
 if __name__ == '__main__':
     main()
