@@ -135,44 +135,47 @@ def procesar(block_path, watermark_bit, coef, delta):
 
 
 def clasificar(block_path):
+
+    lista = [
+        [16, 90], [16, 108], [16, 120], [17, 90], [19, 53], [19, 60],
+        [19, 130], [20, 130], [28, 94], [28, 120], [34, 130] ]
     
-    result = {'c': 0, 'delta': 1}
+    result = {'c': 0, 'delta': 9999999}
     score = 0.0
-    for c in range(34):
-        coef = c + 16        
-        for d in range(100):
-            delta = d + 30
-            # Marcando el bloque
-            result0 = procesar(block_path, 0, coef, delta)
-            result1 = procesar(block_path, 1, coef, delta)
+    for clase in lista:
+        # Marcando el bloque
+        result0 = procesar(block_path, 0, clase[0], clase[1])
+        result1 = procesar(block_path, 1, clase[0], clase[1])
 
-            # Promedio de datos
-            psnr_img_watermarked_without_noise = (
-                result0['psnr_img_watermarked_without_noise'] + result0['psnr_img_watermarked_without_noise'])/2
-            ber_without_noise = (
-                result0['ber_without_noise']+result1['ber_without_noise'])/2.0
-            ber_with_noise = (
-                result0['ber_with_noise']+result1['ber_with_noise'])/2.0
+        # Promedio de datos
+        psnr_img_watermarked_without_noise = (
+            result0['psnr_img_watermarked_without_noise'] + result0['psnr_img_watermarked_without_noise'])/2
+        ber_without_noise = (
+            result0['ber_without_noise']+result1['ber_without_noise'])/2.0
+        ber_with_noise = (
+            result0['ber_with_noise']+result1['ber_with_noise'])/2.0
 
-            # Score
-            score_aux = (
-                psnr_img_watermarked_without_noise/160 + ber_without_noise + ber_with_noise)/3
-            if score_aux > score:
-                score = score_aux
-                result['c'] = coef
-                result['delta'] = delta
-                result['psnr'] = psnr_img_watermarked_without_noise
-                if ber_without_noise == 1.0:
-                    result['extract_without_noise_true'] = True
-                else:
-                    result['extract_without_noise_true'] = False
-                if ber_with_noise == 1.0:
-                    result['extract_with_noise_true'] = True
-                else:
-                    result['extract_with_noise_true'] = False
-                result['score'] = score
-                if result['extract_without_noise_true'] and  result['extract_with_noise_true']:
-                    break
+        # Score
+        score_aux = (
+            psnr_img_watermarked_without_noise/160 + ber_without_noise + ber_with_noise)/3
+        if score_aux > score:
+            score = score_aux
+            result['c'] = clase[0]
+            result['delta'] = clase[1]
+            result['psnr'] = psnr_img_watermarked_without_noise
+            if ber_without_noise == 1.0:
+                result['extract_without_noise_true'] = True
+            else:
+                result['extract_without_noise_true'] = False
+            if ber_with_noise == 1.0:
+                result['extract_with_noise_true'] = True
+            else:
+                result['extract_with_noise_true'] = False
+            result['score'] = score
+            # watermarked_path = block_path[:-4] + 'w.png'
+            # watermarked_image_without_noise.save(watermarked_path)
+            if result['extract_without_noise_true'] and  result['extract_with_noise_true']:
+                break
     return result
 
 

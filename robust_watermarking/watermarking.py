@@ -28,6 +28,24 @@ from torch.autograd import Variable
 from pathlib import Path
 
 
+# Code temporal de pruebas
+def diff(list1, list2):
+    result = {'T': 0, 'F': 0, 'P': 0}
+    for i in range(len(list1)):
+        if list1[i] == list2[i]:
+            result['T'] += 1
+        else:
+            result['F'] += 1
+    result['P'] = result['T']*100/len(list1)
+    return result
+
+
+lista_clasificacion_insert = []
+lista_clasificacion_jpeg20 = []
+lista_clasificacion_jpeg50 = []
+lista_clasificacion_jpeg75 = []
+
+
 class Net(nn.Module):
 
         def __init__(self):
@@ -47,7 +65,7 @@ class Clasification():
     
     def __init__(self):
         self.model = Net()
-        checkpoint = torch.load(Path('data/fnn600.pt'), map_location='cpu')
+        checkpoint = torch.load(Path('data/fnn600_with_jpeg_20.pt'), map_location='cpu')
         self.model.load_state_dict(checkpoint)
         self.model.eval()
 
@@ -228,6 +246,7 @@ def run_main():
                 block = bt_of_cover.get_block(v[i])
                 # Predict
                 p = clasification.predict(bt_of_rgb_cover.get_block(v[i]))
+                lista_clasificacion_insert.append(p)
                 if p == 1:
                     c[1] = 17
                     delta = 90
@@ -275,7 +294,7 @@ def run_main():
                         if inv[x, y] < 0:
                             inv[x, y] = 0
                 bt_of_cover.set_block(idqkt_block, v[i])
-
+            
             cover_marked_ycbcr_array = cover_ycbcr_array
 
             image_rgb_array = itools.ycbcr2rgb(cover_marked_ycbcr_array)
@@ -330,6 +349,7 @@ def run_main():
                 block = bt_of_watermarked_image_with_noise.get_block(v[i])
                 # Predict
                 p = clasification.predict(bt_of.get_block(v[i]))
+                lista_clasificacion_jpeg20.append(p)
                 if p == 1:
                     c[1] = 17
                     delta = 90
@@ -426,6 +446,7 @@ def run_main():
                 block = bt_of_watermarked_image_with_noise.get_block(v[i])
                 # Predict
                 p = clasification.predict(bt_of.get_block(v[i]))
+                lista_clasificacion_jpeg50.append(p)
                 if p == 1:
                     c[1] = 17
                     delta = 90
@@ -519,6 +540,7 @@ def run_main():
                 block = bt_of_watermarked_image_with_noise.get_block(v[i])
                 # Predict
                 p = clasification.predict(bt_of.get_block(v[i]))
+                lista_clasificacion_jpeg75.append(p)
                 if p == 1:
                     c[1] = 17
                     delta = 90
@@ -597,6 +619,11 @@ def run_main():
         f_ber50.close()
         f_ber75.close()
         f_berGuetzli.close()
+
+        print("Resultadossssssssssssssssss")
+        print(diff(lista_clasificacion_insert, lista_clasificacion_jpeg20))
+        print(diff(lista_clasificacion_insert, lista_clasificacion_jpeg50))
+        print(diff(lista_clasificacion_insert, lista_clasificacion_jpeg75))
 
 
 if __name__ == "__main__":
