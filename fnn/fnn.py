@@ -87,13 +87,6 @@ def test(args, model, device, test_loader, epoch):
     return {'test_loss': test_loss, 'acc':acc}
 
 
-# def randomJpegCompression(image):
-#     qf = random.randrange(10, 100)
-#     outputIoStream = BytesIO()
-#     image.save(outputIoStream, "JPEG", quality=qf, optimice=True)
-#     outputIoStream.seek(0)
-#     return Image.open(outputIoStream)
-
 def randomJpegCompression(image):
     p = random.random()
     outputIoStream = BytesIO()
