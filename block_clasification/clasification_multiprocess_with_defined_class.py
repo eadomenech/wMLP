@@ -201,8 +201,8 @@ def sprint(path):
     random_blocks = [i for i in range(blocks.max_num_blocks())]
     random.shuffle(random_blocks)
     for i in range(blocks.max_num_blocks()):
-        # print("Block #: ", random_blocks[i]+1)
-        block_array = blocks.get_block(random_blocks[i]+1)
+        # print("Block #: ", random_blocks[i])
+        block_array = blocks.get_block(random_blocks[i])
         # Save block image
         block_image = Image.fromarray(block_array, 'RGB')
         block_path = b_path + str(i) + '.png'
