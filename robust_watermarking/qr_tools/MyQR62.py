@@ -13,12 +13,14 @@ class MyQR62:
             for y in range(62):
                 self.myqr[x, y] = 100
 
-    def get_data(self):    # Devuelve una lista con los datos
-
+    def get_data(self):
+        '''Devuelve una lista con los datos'''
         return None
 
-    def set_data(self, lista):    # Asigna los datos correspondientes a los valores de lista
-
+    def set_data(self, lista):
+        '''Asigna los datos correspondientes a los valores de lista'''
+        assert len(lista) == 120
+        
         return None
 
     def get_resconstructed(self, qr_array):
