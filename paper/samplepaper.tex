@@ -88,6 +88,13 @@ FO = (PSNR/160 + \alpha + \beta)/3,
 \end{equation}
 where $PSNR$ is the logarithmic value of ratio between signal and noise, $ \alpha $ is the success in extracting the watermark from the watermarked image without noise and $ \beta $ is the success in extracting the watermark from the watermarked image after applying a JPEG compression with QF= 25{\%}.
 
+\begin{figure}
+	\begin{center}
+		\includegraphics[width=\textwidth]{colormap.png}
+		\caption{Coef and delta.} \label{colormap}
+	\end{center}
+\end{figure}
+
 The network was trained using GPU NVIDIA GTX 780ti for some hours.
 \begin{figure}
 \begin{center}
