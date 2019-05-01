@@ -7,6 +7,8 @@ import torch.nn as nn
 from torch.autograd import Variable
 import numpy as np
 import glob
+import random
+from io import BytesIO
 
 
 '''
@@ -42,12 +44,20 @@ class Net(nn.Module):
 
 
 model = Net()
-checkpoint = torch.load(Path('fnn600.pt'), map_location='cpu')
+checkpoint = torch.load(Path('fnn600_with_jpeg_compression_transform.pt'), map_location='cpu')
 model.load_state_dict(checkpoint)
 model.eval()
 
+def randomJpegCompression(image):
+    qf = random.randrange(10, 30)
+    outputIoStream = BytesIO()
+    image.save(outputIoStream, "JPEG", quality=qf, optimice=True)
+    outputIoStream.seek(0)
+    return Image.open(outputIoStream)
+
 data_transforms = transforms.Compose(
     [
+        transforms.Lambda(randomJpegCompression),
         transforms.ToTensor(),
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ]

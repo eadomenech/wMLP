@@ -33,6 +33,7 @@ def main():
         '11', '12', '13', '14', '15', '16', '17', '18', '19', '20']
     
     for folder in original_folders:
+        print("Procesando caperta " + folder)
         for clase in lista:
             path = 'static/original/' + folder + '/' + clase
             try:
