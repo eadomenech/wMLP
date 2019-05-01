@@ -6,23 +6,16 @@ from PIL import Image
 import os
 import random
 import glob
+import util
 
-def crear_lista():
-    lista = []
-
-    for c in range(34):
-        coef = c + 16
-        for d in range(100):
-            delta = d + 30
-            lista.append(str(coef)+'_'+str(delta))
-    
-    return lista
-
-
-
+'''
+Encargada de graficar el mapa de color teniendo en cuenta la frecuencia
+el valor delta y la cantidad de imagenes donde el optimo se obtiene con estos
+valores
+'''
 def main():
     # Creando lista de direcciones posibles
-    lista = crear_lista()
+    lista = util.crear_lista()
     # Totalizando    
     dic_cantidades = {}
     for clase in lista:

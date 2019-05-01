@@ -6,23 +6,12 @@ from PIL import Image
 import os
 import random
 import glob
-
-def crear_lista():
-    lista = []
-
-    for c in range(34):
-        coef = c + 16
-        for d in range(100):
-            delta = d + 30
-            lista.append(str(coef)+'_'+str(delta))
-    
-    return lista
-
+import util
 
 
 def main():
     # Creando lista de direcciones posibles
-    lista = crear_lista()
+    lista = util.crear_lista()
     # Creando carpeta result si no existe
     try:
         os.stat('result/')
