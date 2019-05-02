@@ -137,8 +137,9 @@ def procesar(block_path, watermark_bit, coef, delta):
 def clasificar(block_path):
 
     lista = [
-        [16, 90], [16, 108], [16, 120], [17, 90], [19, 53], [19, 60],
-        [19, 130], [20, 130], [28, 94], [28, 120], [34, 130] ]
+        [16, 100], [19, 52], [19, 54], [19, 56], [19, 61], [19, 69],
+        [19, 76], [19, 84], [19, 93], [19, 123], [28, 90], [28, 94],
+        [28, 97], [28, 120], [34, 130] ]
     
     result = {'c': 0, 'delta': 9999999}
     score = 0.0
@@ -232,7 +233,7 @@ def main():
     # Load cover images
     paths = glob.glob('static/Dataset/*.bmp')   
 
-    pool = Pool(processes=8)
+    pool = Pool(processes=20)
 
     pool.map(sprint, paths)
 

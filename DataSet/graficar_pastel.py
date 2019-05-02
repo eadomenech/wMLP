@@ -27,8 +27,17 @@ def main():
     
     import matplotlib.pyplot as plt
     import numpy as np
-    x = dic_cantidades.values()
-    labels = dic_cantidades.keys()
+    x = [
+        dic_cantidades['16'], dic_cantidades['19'], dic_cantidades['28'],
+        dic_cantidades['34']]
+    suma = 0
+    for d in dic_cantidades.keys():
+        if not ((d == '16') or (d == '19') or (d == '28') or (d == '34')):
+            suma += dic_cantidades[d]  
+
+    x.append(suma)
+    dic_cantidades.values()
+    labels = ['16', '19', '28', '34', 'Others']
     plt.pie(x, labels=labels, autopct='%1.1f%%')
     plt.show()    
 
