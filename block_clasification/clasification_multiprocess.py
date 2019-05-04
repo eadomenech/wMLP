@@ -198,30 +198,32 @@ def sprint(path):
     random_blocks = [i for i in range(blocks.max_num_blocks())]
     random.shuffle(random_blocks)
     for i in range(blocks.max_num_blocks()):
-        # print("Block #: ", random_blocks[i]+1)
-        block_array = blocks.get_block(random_blocks[i]+1)
+        block_array = blocks.get_block(random_blocks[i])
         # Save block image
         block_image = Image.fromarray(block_array, 'RGB')
         block_path = b_path + str(i) + '.png'
-        block_image.save(block_path)
-        # Clasificacion del block
-        clasificador = clasificar(block_path)
-        # print(clasificador)
-        class_path = b_path + str(clasificador['c']) + '_' + str(clasificador['delta']) + '/'
-        if len(clases) == 0:
-            # Add como clase 1            
-            os.mkdir(class_path)
-            clases['1'] = [clasificador['c'], clasificador['delta']]
-            block_image = Image.open(block_path).save(class_path + str(i) + '.png') 
-        elif is_in_clases([clasificador['c'], clasificador['delta']]):
-            # Add a la clase correspondiente
-            block_image = Image.open(block_path).save(class_path + str(i) + '.png')
-        else:
-            # Add clase
-            clases[len(clases)+1] = [clasificador['c'], clasificador['delta']]
-            os.mkdir(class_path)
-            block_image = Image.open(block_path).save(class_path + str(i) + '.png')
-        # print("Clases: ", clases)
+        try:
+            os.stat(block_path)
+            print("Ya existe: ", block_path)
+        except Exception:
+            block_image.save(block_path)
+            # Clasificacion del block
+            clasificador = clasificar(block_path)
+            # print(clasificador)
+            class_path = b_path + str(clasificador['c']) + '_' + str(clasificador['delta']) + '/'
+            if len(clases) == 0:
+                # Add como clase 1            
+                os.mkdir(class_path)
+                clases['1'] = [clasificador['c'], clasificador['delta']]
+                block_image = Image.open(block_path).save(class_path + str(i) + '.png') 
+            elif is_in_clases([clasificador['c'], clasificador['delta']]):
+                # Add a la clase correspondiente
+                block_image = Image.open(block_path).save(class_path + str(i) + '.png')
+            else:
+                # Add clase
+                clases[len(clases)+1] = [clasificador['c'], clasificador['delta']]
+                os.mkdir(class_path)
+                block_image = Image.open(block_path).save(class_path + str(i) + '.png')
 
 
 def main():
