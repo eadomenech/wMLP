@@ -201,7 +201,7 @@ def sprint(path):
         block_array = blocks.get_block(random_blocks[i])
         # Save block image
         block_image = Image.fromarray(block_array, 'RGB')
-        block_path = b_path + str(i) + '.png'
+        block_path = b_path + str(random_blocks[i]) + '.png'
         try:
             os.stat(block_path)
             print("Ya existe: ", block_path)
@@ -215,15 +215,15 @@ def sprint(path):
                 # Add como clase 1            
                 os.mkdir(class_path)
                 clases['1'] = [clasificador['c'], clasificador['delta']]
-                block_image = Image.open(block_path).save(class_path + str(i) + '.png') 
+                block_image = Image.open(block_path).save(class_path + str(random_blocks[i]) + '.png') 
             elif is_in_clases([clasificador['c'], clasificador['delta']]):
                 # Add a la clase correspondiente
-                block_image = Image.open(block_path).save(class_path + str(i) + '.png')
+                block_image = Image.open(block_path).save(class_path + str(random_blocks[i]) + '.png')
             else:
                 # Add clase
                 clases[len(clases)+1] = [clasificador['c'], clasificador['delta']]
                 os.mkdir(class_path)
-                block_image = Image.open(block_path).save(class_path + str(i) + '.png')
+                block_image = Image.open(block_path).save(class_path + str(random_blocks[i]) + '.png')
 
 
 def main():

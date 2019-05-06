@@ -12,16 +12,112 @@ class MyQR62:
         for x in range(62):
             for y in range(62):
                 self.myqr[x, y] = 100
+    
+    def get_coord(self, pos):
+        # Se cuentan las posiciones a partir de 0
+        if pos < 62*62:
+            L = []
+            x1 = pos // 62
+            y1 = pos % 62
+            L.append(x1)
+            L.append(y1)
+            return L
+        raise Exception("There is no such block")
+    
+    def get_pos(self):
+        '''Devuelve las posiciones donde se encuentran los datos'''
+        pos = []
+        pos += [396 + i for i in range(16)]
+        pos += [458 + i for i in range(16)]
+        pos += [520 + i for i in range(16)]
+        pos += [582 + i for i in range(16)]
+        pos += [644 + i for i in range(16)]
+        pos += [706 + i for i in range(16)]
+        pos += [768 + i for i in range(16)]
+        pos += [830 + i for i in range(16)]
+        pos += [892 + i for i in range(16)]
+        pos += [954 + i for i in range(16)]
+        pos += [1016 + i for i in range(16)]
+        pos += [1078 + i for i in range(16)]
+
+        pos += [1264 + i for i in range(16)]
+        pos += [1326 + i for i in range(16)]
+        pos += [1388 + i for i in range(16)]
+        pos += [1450 + i for i in range(16)]
+
+        pos += [1494 + i for i in range(12)]
+        pos += [1508 + i for i in range(36)]
+        pos += [1556 + i for i in range(12)]
+        pos += [1570 + i for i in range(36)]
+        pos += [1618 + i for i in range(12)]
+        pos += [1632 + i for i in range(36)]
+        pos += [1680 + i for i in range(12)]
+        pos += [1694 + i for i in range(36)]
+        pos += [1742 + i for i in range(12)]
+        pos += [1756 + i for i in range(36)]
+        pos += [1804 + i for i in range(12)]
+        pos += [1818 + i for i in range(36)]
+        pos += [1866 + i for i in range(12)]
+        pos += [1880 + i for i in range(36)]
+        pos += [1928 + i for i in range(12)]
+        pos += [1942 + i for i in range(36)]
+        pos += [1990 + i for i in range(12)]
+        pos += [2004 + i for i in range(36)]
+        pos += [2052 + i for i in range(12)]
+        pos += [2066 + i for i in range(36)]
+        pos += [2114 + i for i in range(12)]
+        pos += [2128 + i for i in range(36)]
+        pos += [2176 + i for i in range(12)]
+        pos += [2190 + i for i in range(36)]
+        pos += [2238 + i for i in range(12)]
+        pos += [2252 + i for i in range(36)]
+        pos += [2300 + i for i in range(12)]
+        pos += [2314 + i for i in range(36)]
+
+        pos += [2362 + i for i in range(12)]
+        pos += [2376 + i for i in range(18)]
+        pos += [2404 + i for i in range(8)]
+        pos += [2424 + i for i in range(12)]
+        pos += [2438 + i for i in range(18)]
+        pos += [2466 + i for i in range(8)]
+
+        pos += [2504 + i for i in range(14)]
+        pos += [2528 + i for i in range(8)]
+        pos += [2566 + i for i in range(14)]
+        pos += [2590 + i for i in range(8)]
+        pos += [2628 + i for i in range(14)]
+        pos += [2652 + i for i in range(8)]
+        pos += [2690 + i for i in range(14)]
+        pos += [2714 + i for i in range(8)]
+        pos += [2752 + i for i in range(14)]
+        pos += [2776 + i for i in range(8)]
+        pos += [2814 + i for i in range(14)]
+        pos += [2838 + i for i in range(8)]
+        pos += [2876 + i for i in range(14)]
+        pos += [2900 + i for i in range(8)]
+        pos += [2938 + i for i in range(14)]
+        pos += [2962 + i for i in range(8)]
+
+        pos += [3000 + i for i in range(32)]
+        pos += [3062 + i for i in range(32)]
+        pos += [3124 + i for i in range(32)]
+        pos += [3186 + i for i in range(32)]
+        pos += [3248 + i for i in range(32)]
+        pos += [3310 + i for i in range(32)]
+        pos += [3372 + i for i in range(32)]
+        pos += [3434 + i for i in range(32)]
+
+        return pos
 
     def get_data(self):
         '''Devuelve una lista con los datos'''
-        return None
+        return lista
 
     def set_data(self, lista):
         '''Asigna los datos correspondientes a los valores de lista'''
         assert len(lista) == 120
         
-        return None
+        return lista
 
     def get_resconstructed(self, qr_array):
         qr_estandar = self.get_qr()
