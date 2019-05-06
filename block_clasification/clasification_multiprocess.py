@@ -211,19 +211,13 @@ def sprint(path):
             clasificador = clasificar(block_path)
             # print(clasificador)
             class_path = b_path + str(clasificador['c']) + '_' + str(clasificador['delta']) + '/'
-            if len(clases) == 0:
-                # Add como clase 1            
+            
+            try:
+                os.stat(class_path)
+            except Exception:
                 os.mkdir(class_path)
-                clases['1'] = [clasificador['c'], clasificador['delta']]
-                block_image = Image.open(block_path).save(class_path + str(random_blocks[i]) + '.png') 
-            elif is_in_clases([clasificador['c'], clasificador['delta']]):
-                # Add a la clase correspondiente
-                block_image = Image.open(block_path).save(class_path + str(random_blocks[i]) + '.png')
-            else:
-                # Add clase
-                clases[len(clases)+1] = [clasificador['c'], clasificador['delta']]
-                os.mkdir(class_path)
-                block_image = Image.open(block_path).save(class_path + str(random_blocks[i]) + '.png')
+            
+            Image.open(block_path).save(class_path + str(random_blocks[i]) + '.png')
 
 
 def main():
