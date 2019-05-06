@@ -12,8 +12,9 @@ import glob
 
 def main():
     lista = [
-        '16_120', '17_90', '19_53', '19_60', '19_130', '20_130', '28_94',
-        '28_120', '34_130']
+        '16_100', '19_52', '19_54', '19_56', '19_61', '19_69', '19_76',
+        '19_84', '19_93', '19_123', '28_90', '28_94', '28_97', '28_120',
+        '34_130']
     
     # Create folders
     list_dir = ['static/train/', 'static/valid/']
@@ -29,7 +30,7 @@ def main():
                     os.mkdir(i+y)
     
     original_folders = [
-        '01', '02', '03', '04', '05', '06', '07', '08', '09', '10',
+        '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
         '11', '12', '13', '14', '15', '16', '17', '18', '19', '20']
     
     for folder in original_folders:
@@ -45,10 +46,10 @@ def main():
                 p = np.random.rand()
                 if p > 0.1:
                     Image.open(path).save(
-                        'static/train/' + clase + '/' + clase + '.' + str(num) + '.png')
+                        'static/train/' + clase + '/' + clase + '.' + str(num) + '_' + folder + '.png')
                 else:
                     Image.open(path).save(
-                        'static/valid/' + clase + '/' + clase + '.' + str(num) + '.png')
+                        'static/valid/' + clase + '/' + clase + '.' + str(num) + '_' + folder + '.png')
 
 
 if __name__ == '__main__':
