@@ -127,15 +127,6 @@ def get_indice(m):
     return indice
 
 
-def checkEqual(L1, L2):
-    assert len(L1) == len(L2)
-    for i in range(len(L1)):
-        if L1[i] != L2[i]:
-            print("Falseeeeee", i)
-            return False
-    return True
-
-
 def run_main():
     from image_tools.ImageTools import ImageTools
     dqkt = DqKT()
@@ -519,6 +510,7 @@ def run_main():
                 else:
                     extract.append(1)
 
+            # Creando una imagen cuadrada con valores 255
             wh = int(math.sqrt(len_of_watermark))
             extract_image1 = Image.new("1", (wh, wh), 255)
             array_extract_image1 = misc.fromimage(extract_image1)
@@ -527,15 +519,20 @@ def run_main():
                 for y in range(wh):
                     if extract[wh*i+y] == 0:
                         array_extract_image1[i, y] = 0
-
-            myqr1 = MyQR62()
-
+            
             watermark_array_image = misc.toimage(array_extract_image1)
+
             for i in range(10):
                 watermark_array_image = dat.dat2(watermark_array_image)
             array = misc.fromimage(watermark_array_image)
-            watermark_extracted = misc.toimage(
-                myqr1.get_resconstructed(array))
+
+            array_as_list = array.reshape((1, len_of_watermark))[0]
+
+            myqr1 = MyQR62()
+            # Insertando datos al QR code
+            myqr1.set_data(array_as_list)
+            
+            watermark_extracted = misc.toimage(myqr1.get_qr())
 
             watermark_extracted.save(
                 "static/experimento/watermark_" + db_img[:10] + "_with_jpeg50.png")
@@ -613,6 +610,7 @@ def run_main():
                 else:
                     extract.append(1)
 
+            # Creando una imagen cuadrada con valores 255
             wh = int(math.sqrt(len_of_watermark))
             extract_image1 = Image.new("1", (wh, wh), 255)
             array_extract_image1 = misc.fromimage(extract_image1)
@@ -621,15 +619,20 @@ def run_main():
                 for y in range(wh):
                     if extract[wh*i+y] == 0:
                         array_extract_image1[i, y] = 0
-
-            myqr1 = MyQR62()
-
+            
             watermark_array_image = misc.toimage(array_extract_image1)
+
             for i in range(10):
                 watermark_array_image = dat.dat2(watermark_array_image)
             array = misc.fromimage(watermark_array_image)
-            watermark_extracted = misc.toimage(
-                myqr1.get_resconstructed(array))
+
+            array_as_list = array.reshape((1, len_of_watermark))[0]
+
+            myqr1 = MyQR62()
+            # Insertando datos al QR code
+            myqr1.set_data(array_as_list)
+            
+            watermark_extracted = misc.toimage(myqr1.get_qr())
 
             watermark_extracted.save(
                 "static/experimento/watermark_" + db_img[:10] + "_with_jpeg75.png")
