@@ -16,12 +16,9 @@ class MyQR62:
     def get_coord(self, pos):
         # Se cuentan las posiciones a partir de 0
         if pos < 62*62:
-            L = []
-            x1 = pos // 62
-            y1 = pos % 62
-            L.append(x1)
-            L.append(y1)
-            return L
+            x = pos // 62
+            y = pos % 62
+            return (x, y)
         raise Exception("There is no such block")
     
     def get_pos(self):
@@ -111,11 +108,22 @@ class MyQR62:
 
     def get_data(self):
         '''Devuelve una lista con los datos'''
+        lista = []
+        for i in self.get_pos():
+            coord = self.get_coord(i)
+            lista.append(self.myqr[coord[0], coord[1]])
         return lista
 
     def set_data(self, lista):
         '''Asigna los datos correspondientes a los valores de lista'''
-        assert len(lista) == 120
+        assert len(lista) == 1444
+
+        for item, value in enumerate(self.get_pos()):
+            coord = self.get_coord(value)
+            if lista[item]:
+                self.myqr[coord[0], coord[1]] = 0
+            else:
+                self.myqr[coord[0], coord[1]] = 255
         
         return lista
 
@@ -183,5 +191,9 @@ class MyQR62:
         self.myqr[18:20, 34:36] = 0
         self.myqr[18:20, 36:38] = 255
         self.myqr[18:20, 38:40] = 0
+
+        # Formato
+        self.myqr[8:18, 22:24] = 0
+        self.myqr[22:24, 6:18] = 0
 
         return self.myqr
