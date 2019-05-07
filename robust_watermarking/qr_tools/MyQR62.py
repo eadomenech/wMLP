@@ -193,7 +193,22 @@ class MyQR62:
         self.myqr[18:20, 38:40] = 0
 
         # Formato
+        self.myqr[6:8, 22:24] = 255
         self.myqr[8:18, 22:24] = 0
-        self.myqr[22:24, 6:18] = 0
+        self.myqr[20:22, 22:24] = 255
+        self.myqr[22:24, 6:10] = 255
+        self.myqr[22:24, 10:12] = 0
+        self.myqr[22:24, 12:16] = 255
+        self.myqr[22:24, 16:24] = 0
 
+        self.myqr[22:24, 40:42] = 0
+        self.myqr[22:24, 42:44] = 255
+        self.myqr[22:24, 44:54] = 0
+        self.myqr[22:24, 54:56] = 255
+
+        self.myqr[40:46, 22:24] = 0
+        self.myqr[46:50, 22:24] = 255
+        self.myqr[50:52, 22:24] = 0
+        self.myqr[52:56, 22:24] = 255
+        
         return self.myqr
