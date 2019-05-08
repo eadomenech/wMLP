@@ -33,14 +33,14 @@ Anier Soria-Lorente\inst{1}\orcidID{0000-0003-3488-3094}}
 %
 \institute{Universidad de Granma, Carretera Central v{\'i}a Holgu{\'i}n Km $\frac{1}{2}$, Granma, Cuba \email{\{eadomenech, asorial1983\}@gmail.com}\\ \and
 Universidad Central de Las Villas, Villa Clara, Cuba\\
-\email{\{abc,lncs\}@uni-heidelberg.de}}
+\email{\{ataboada\}@uclv.edu.cu}}
 %
 \maketitle              % typeset the header of the contribution
 %
 \begin{abstract}
 For the integrity, tamper detection and copyright protection of handwritten document images, a dual watermarking algorithm that connects the robust watermarking algorithm based on Neural Network with a fragile watermarking algorithm based on SHA-256 hash function is presented. Hence, the robust watermarking algorithm is used to guarantee stability and robustness by modifying frequency coefficients in Krawtchouk moments. Thus, this study proposes a fragile watermarking algorithm, which can perceive in time when the protected image is tampered. Experimental results show that the proposed algorithm can be used for copyright protection and tampering detection of this images.
 
-\keywords{First keyword  \and Second keyword \and Another keyword.}
+\keywords{Handwritten  \and Image \and Neural network \and Watermarking.}
 \end{abstract}
 %
 %
@@ -48,7 +48,7 @@ For the integrity, tamper detection and copyright protection of handwritten docu
 \section{Introduction}
 The explosive growth of digital multimedia techniques, together with the rapid development of digital network communication has created a pressing demand for techniques that can be used for copy protection, copyright protection and content authentication. Owing to the need of copyright protection and authentication validation, Digital Rights Management (DRM) is gaining importance. DRM refers to a range of access control technologies used to limit or restrict usage of digital content. Digital watermarking is useful in DRM systems as it can hide information within the digital content like images, audio and video.
 
-Watermarking technique is effectively applied to content authentication, integrity protection, and image copyright. In accordance with the desired robustness of the embedded watermark, digital watermarking techniques are divided into robust watermarking and fragile watermarking. The first ones is designed to detect slight changes to the watermarked image with high probability and the second ones is typically used for copyright protection, thus it is designed to resist attacks that attempt to remove or destroy the watermark without significantly degrading the visual quality of the watermarked image.
+Watermarking technique is effectively applied to content authentication, integrity protection, and image copyright. In accordance with the desired robustness of the embedded watermark, digital watermarking techniques are divided into fragile watermarking and robust watermarking. The first ones is designed to detect slight changes to the watermarked image with high probability and the second ones is typically used for copyright protection, thus it is designed to resist attacks that attempt to remove or destroy the watermark without significantly degrading the visual quality of the watermarked image.
 
 When users want to protect the copyright and at the same time detect illegal tampering, the single watermarking algorithm cannot meet the needs of users. Therefore, the double watermarking algorithm is developed, as it can effectively combine the advantages and functions of the two watermarks \cite{wang2017dual}.
 
@@ -58,19 +58,26 @@ In \cite{liu2018blind} presents a blind dual watermarking mechanism for digital 
 
 In \cite{gul2019novel} host image is divided into $32\times 32$ non-overlapped blocks, each $32\times 32$ block is then divided into four $16\times 16$ nonoverlapped sub-blocks. The entire hash value of the first three sub-blocks is generated as a watermark using SHA-256 hash function. The generated 256-bit binary watermark is embedded into the least significant bits (LSBs) of the fourth sub-block and watermarked image is obtained.
 
-Deep learning is a new area of machine learning which has gained popularity in recent past. Deep learning refers to the architectures which contain multiple hidden layers (deep networks) to learn different features with multiple levels of abstraction. Deep learning algorithms seek to exploit the unknown structure in the input distribution in order to discover good representations, often at multiple levels, with higher level learned features defined in terms of lower level features. \cite{wani2019advances}
+On the other hand, deep learning is a new area of machine learning which has gained popularity in recent past. Deep learning refers to the architectures which contain multiple hidden layers (deep networks) to learn different features with multiple levels of abstraction. Deep learning algorithms seek to exploit the unknown structure in the input distribution in order to discover good representations, often at multiple levels, with higher level learned features defined in terms of lower level features. \cite{wani2019advances}
 
-Different from previous works \cite{avila2018watermarking}, an effective algorithm that effectively utilizes spatial context to classify the $8\times 8$ blocks according to the optimal marking parameters is proposed in this paper. For capturing spatial information of $8\times 8$ blocks, a neural network was used in our technique, which has been proven to be effective in classification tasks.
+Different from previous works \cite{avila2018watermarking}, an effective algorithm that effectively utilizes spatial context to classify the $8\times 8$ blocks according to the optimal marking parameters is proposed in this paper. For capturing information of $8\times 8$ blocks, a neural network was used in our technique, which has been proven to be effective in classification tasks.
 
-The rest of the paper is organised as follow; Section 2 describes the proposed method including fragil watermarking and robust watermarking. Experimental results are given in Section 3 and Section 4 concludes the paper.
+The rest of the paper is organised as follow; Section 2 describes the proposed method including robust watermarking and fragil watermarking. Experimental results are given in Section 3 and Section 4 concludes the paper.
 
 \section{Proposed method}
-As we know, hash function, such as MD5 or SHA-256, can be utilized to authenticate the data integrity. If the hash value of original message is exactly equal to the re-calculated hash value of the received message, the received data can be regarded as integrated, otherwise as false.
+Dual watermarking implies embedding of robust as well as fragile watermarks into the same cover image. It facilitates integration of copyright protection and integrity verification into the same scheme. First robust watermarking and then the fragile watermarking should be done because the fragile watermarking is sensitive to small changes. Unlike the fragile watermarking, robust resists changes caused by performing the marked fragile.
 
 \subsection{Robust watermarking}
 The robust watermarking method proposed is similar to the one proposed in \cite{avila2018watermarking}. The difference consists in using a neural network topology known as multilayer perceptron (MLP) to classify the $8\times 8$ blocks according to the optimal marking parameters. A MLP is a feed-forward net with one or more layers of nodes between the input and output nodes. These in-between layers are called hidden layers.
 
 Training is equivalent to finding proper weights for all the connections such that a desired output is generated for a corresponding input. Using MLP in the context of a classifier requires all output nodes to be set to 0 except for the node that is marked to correspond to the class the input is from. That desired output is 1.
+
+\begin{figure}
+	\begin{center}
+		\includegraphics[width=0.7\textwidth]{models.eps}
+		\caption{Multilayer perceptron used.} \label{loss}
+	\end{center}
+\end{figure}
 
 \begin{figure}
 	\begin{center}
@@ -81,19 +88,19 @@ Training is equivalent to finding proper weights for all the connections such th
 
 The most important step in solving any real-world problem is to get the data. Kaggle provides a huge number of competitions on different data science problems \cite{Subramanian2018}.
 
+\begin{figure} [H]
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{colormap.png}
+		\caption{Coef and delta.} \label{colormap}
+	\end{center}
+\end{figure}
+
 For that, a new dataset of $8\times 8$ color images of 100000 from 10 categories, with 10000 images per category was create. The training set has 90000 images and the valid set has 10000 images. The dataset was obtained by dividing into $8\times 8$ blocks each of the images corresponding to the DIBCO 2017 dataset and calculating the coef and delta values so that the balance between PSNR and BER represented as $FO$ were the highest possible values for each of the blocks.
 \begin{equation}
 FO = (PSNR/160 + \alpha + \beta)/3,
 \label{FA}
 \end{equation}
 where $PSNR$ is the logarithmic value of ratio between signal and noise, $ \alpha $ is the success in extracting the watermark from the watermarked image without noise and $ \beta $ is the success in extracting the watermark from the watermarked image after applying a JPEG compression with QF= 25{\%}.
-
-\begin{figure}
-	\begin{center}
-		\includegraphics[width=\textwidth]{colormap.png}
-		\caption{Coef and delta.} \label{colormap}
-	\end{center}
-\end{figure}
 
 The network was trained using GPU NVIDIA GTX 780ti for some hours.
 \begin{figure}
@@ -125,6 +132,8 @@ For watermark extraction:
 \end{enumerate}
 
 \subsection{Fragile watermarking}
+As we know, hash function, such as MD5 or SHA-256, can be utilized to authenticate the data integrity. If the hash value of original message is exactly equal to the re-calculated hash value of the received message, the received data can be regarded as integrated, otherwise as false.
+
 For the embedding process, the image is divided into $32\times 32$ non-overlapped blocks. The complete block is pariado making use of a given key. The entire hash value of the block pariado is generated as a watermark using MD5 hash function. The generated MD5 binary watermark is embedded into the least significant bits (LSBs) of the pixels pariados and watermarked image is obtained.
 
 The detection of a fragile watermark is the inverse process of watermark generation, which is used to detect whether the watermarked image has been tampered and what the precise position of the tampered parts is. For this, the watermarked image is divided into $32\times 32$ non-overlapped blocks. The complete block is pariado making use of a given key. The entire hash value of the block pariado is calculate and ...
@@ -177,9 +186,9 @@ The bit error rate (BER) is defined as ratio between number of incorrectly decod
 \end{figure}
 \begin{figure}[H]	% h-here, t-top, b-bottom
 	\begin{center}
-		\includegraphics[width=\textwidth]{ber20.eps}
+		\includegraphics[width=\textwidth]{ber25.eps}
 	\end{center}
-	\caption{BER values for Saint Gall database watermarked images with JPEG compression (QF=20\%).}
+	\caption{BER values for Saint Gall database watermarked images with JPEG compression (QF=25\%).}
 	\label{ber20}
 \end{figure}
 
