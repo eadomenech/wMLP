@@ -218,7 +218,7 @@ def run_main():
             print("Aplicando ruido JPEG20, JPEG50 JPEG75 y Guetzli")
             watermarked_image_without_noise.save(
                 "static/experimento/watermarked_" + db_img[:10] + "_with_jpeg20.jpg",
-                quality=20, optimice=True)
+                quality=25, optimice=True)
             watermarked_image_without_noise.save(
                 "static/experimento/watermarked_" + db_img[:10] + "_with_jpeg50.jpg",
                 quality=50, optimice=True)

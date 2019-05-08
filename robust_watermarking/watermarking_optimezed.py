@@ -336,12 +336,12 @@ def run_main():
                 cover_image, watermarked_image_without_noise)
             f_psnr.write("%f," % (psnr_img_watermarked_without_noise))
 
-            # Aplicando ruido JPEG 20, 50, 75 % y Guetzli
-            print("Aplicando ruido JPEG20, JPEG50 JPEG75 y Guetzli")
+            # Aplicando ruido JPEG 25, 50, 75 % y Guetzli
+            print("Aplicando ruido JPEG25, JPEG50 JPEG75 y Guetzli")
 
             watermarked_image_without_noise.save(
-                "static/experimento/watermarked_" + db_img[:10] + "_with_jpeg20.jpg",
-                quality=20, optimice=True)
+                "static/experimento/watermarked_" + db_img[:10] + "_with_jpeg25.jpg",
+                quality=25, optimice=True)
             watermarked_image_without_noise.save(
                 "static/experimento/watermarked_" + db_img[:10] + "_with_jpeg50.jpg",
                 quality=50, optimice=True)
@@ -351,10 +351,10 @@ def run_main():
 
             # Falta guetzli
 
-            # Extrayendo de jpeg20
-            print("Extrayendo de JPEG20")
+            # Extrayendo de jpeg25
+            print("Extrayendo de JPEG25")
             watermarked_image_with_noise = Image.open(
-                "static/experimento/watermarked_" + db_img[:10] + "_with_jpeg20.jpg")
+                "static/experimento/watermarked_" + db_img[:10] + "_with_jpeg25.jpg")
             bt_of = BlocksImage(misc.fromimage(watermarked_image_with_noise))
 
             # Convirtiendo a modelo de color YCbCr
@@ -432,7 +432,7 @@ def run_main():
             watermark_extracted = misc.toimage(myqr1.get_qr())
 
             watermark_extracted.save(
-                "static/experimento/watermark_" + db_img[:10] + "_with_jpeg20.png")
+                "static/experimento/watermark_" + db_img[:10] + "_with_jpeg25.png")
 
             # watermark_extracted = Image.open("static/experimento/watermark_" + db_img[:10] + "_with_jpeg20.png")
 
@@ -440,12 +440,12 @@ def run_main():
             for m in range(b.max_num_blocks()):
                 b.set_color(m)
             misc.toimage(b.get()).save(
-                "static/experimento/watermark_" + db_img[:10] + "_with_jpeg20_resconstructed.png")
+                "static/experimento/watermark_" + db_img[:10] + "_with_jpeg25_resconstructed.png")
 
             watermark_extracted_reconstructed = Image.open(
-                "static/experimento/watermark_" + db_img[:10] + "_with_jpeg20_resconstructed.png")
+                "static/experimento/watermark_" + db_img[:10] + "_with_jpeg25_resconstructed.png")
 
-            print("Calculando BER with noise JPEG20")
+            print("Calculando BER with noise JPEG25")
             # Cargando watermark
             watermark = Image.open("static/Watermarking.png").convert("1")
             ber_with_noise_jpeg20 = eva.BER_A(
