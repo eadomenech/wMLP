@@ -38,9 +38,9 @@ Universidad Central de Las Villas, Villa Clara, Cuba\\
 \maketitle              % typeset the header of the contribution
 %
 \begin{abstract}
-For the integrity, tamper detection and copyright protection of handwritten document images, a dual watermarking algorithm that connects the robust watermarking algorithm based on Neural Network with a fragile watermarking algorithm based on SHA-256 hash function is presented. Hence, the robust watermarking algorithm is used to guarantee stability and robustness by modifying frequency coefficients in Krawtchouk moments. Thus, this study proposes a fragile watermarking algorithm, which can perceive in time when the protected image is tampered. Experimental results show that the proposed algorithm can be used for copyright protection and tampering detection of this images.
+For the integrity, tamper detection and copyright protection of handwritten document images, a dual watermarking algorithm that connects the robust watermarking algorithm based on Artificial Neural Network (ANN) with a fragile watermarking algorithm based on MD5 hash function is presented. Hence, the robust watermarking algorithm is used to guarantee robustness by modifying frequency coefficients in Krawtchouk moments. Thus, this study proposes a fragile watermarking algorithm, which can perceive in time when the protected image is tampered. Experimental results show that the proposed algorithm can be used for copyright protection and tampering detection of this images.
 
-\keywords{Handwritten  \and Image \and Neural network \and Watermarking.}
+\keywords{Artificial Neural Network \and Handwritten  \and Image \and Watermarking.}
 \end{abstract}
 %
 %
@@ -60,7 +60,7 @@ In \cite{gul2019novel} host image is divided into $32\times 32$ non-overlapped b
 
 On the other hand, deep learning is a new area of machine learning which has gained popularity in recent past. Deep learning refers to the architectures which contain multiple hidden layers (deep networks) to learn different features with multiple levels of abstraction. Deep learning algorithms seek to exploit the unknown structure in the input distribution in order to discover good representations, often at multiple levels, with higher level learned features defined in terms of lower level features. \cite{wani2019advances}
 
-Different from previous works \cite{avila2018watermarking}, an effective algorithm that effectively utilizes spatial context to classify the $8\times 8$ blocks according to the optimal marking parameters is proposed in this paper. For capturing information of $8\times 8$ blocks, a neural network was used in our technique, which has been proven to be effective in classification tasks.
+An effective algorithm that effectively utilizes context to classify the $8\times 8$ blocks according to the optimal marking parameters is proposed in this paper. For capturing information of $8\times 8$ blocks, a artificial neural network was used in our technique, which has been proven to be effective in classification tasks.
 
 The rest of the paper is organised as follow; Section 2 describes the proposed method including robust watermarking and fragil watermarking. Experimental results are given in Section 3 and Section 4 concludes the paper.
 
@@ -68,44 +68,47 @@ The rest of the paper is organised as follow; Section 2 describes the proposed m
 Dual watermarking implies embedding of robust as well as fragile watermarks into the same cover image. It facilitates integration of copyright protection and integrity verification into the same scheme. First robust watermarking and then the fragile watermarking should be done because the fragile watermarking is sensitive to small changes. Unlike the fragile watermarking, robust resists changes caused by performing the marked fragile.
 
 \subsection{Robust watermarking}
-The robust watermarking method proposed is similar to the one proposed in \cite{avila2018watermarking}. The difference consists in using a neural network topology known as multilayer perceptron (MLP) to classify the $8\times 8$ blocks according to the optimal marking parameters. A MLP is a feed-forward net with one or more layers of nodes between the input and output nodes. These in-between layers are called hidden layers.
+The robust watermarking method proposed is similar to the one proposed in \cite{avila2018watermarking}. The difference consists in using a artificial neural network topology known as multilayer perceptron (MLP) to classify the $8\times 8$ blocks according to the optimal marking parameters. A MLP is a feed-forward net with one or more layers of nodes between the input and output nodes. These in-between layers are called hidden layers.
 
-Training is equivalent to finding proper weights for all the connections such that a desired output is generated for a corresponding input. Using MLP in the context of a classifier requires all output nodes to be set to 0 except for the node that is marked to correspond to the class the input is from. That desired output is 1.
-
+Many researchers develop approach to estimate the number of neurons and hidden layers requirement for a neural network but the approximation also get dependable on the type of the
+database samples for which the network is designed \cite{Karsoliya2012}.
 \begin{figure}
 	\begin{center}
-		\includegraphics[width=0.7\textwidth]{models.eps}
-		\caption{Multilayer perceptron used.} \label{loss}
+		\includegraphics[width=0.7\textwidth]{models2.eps}
+		\caption{Model used.} \label{ann}
 	\end{center}
 \end{figure}
 
-\begin{figure}
-	\begin{center}
-		\includegraphics[width=\textwidth]{loss.eps}
-		\caption{Train and Valid loss.} \label{loss}
-	\end{center}
-\end{figure} 
+In Fig.~\ref{ann} the proposed model is shown. It was designed taking into account the following:
+\begin{itemize}
+	\item The number of hidden layer neurons are 2/3 (or 70\% to 90\%) of the size of the input layer. If this is insufficient then number of output layer neurons can be added later on \cite{Boger1997}.
+	\item One or two hidden layer are sufficient to solve any non linear complex problem. Also, if accuracy is the major and most needed criteria for designing the network then one can adopt the solution of third hidden layer, but this will increase overall complexity of the neural network and the total training time will be increased. There is no need to use four hidden layer in neural network architecture \cite{Karsoliya2012}.
+\end{itemize}
+The most important step in solving any real-world problem is to get the data. Kaggle provides a huge number of competitions on different data science problems \cite{Subramanian2018}; but because this is a very specific problem, we did not find a dataset that would be useful for training.
 
-The most important step in solving any real-world problem is to get the data. Kaggle provides a huge number of competitions on different data science problems \cite{Subramanian2018}.
-
-\begin{figure} [H]
-	\begin{center}
-		\includegraphics[width=0.8\textwidth]{colormap.png}
-		\caption{Coef and delta.} \label{colormap}
-	\end{center}
-\end{figure}
-
-For that, a new dataset of $8\times 8$ color images of 100000 from 10 categories, with 10000 images per category was create. The training set has 90000 images and the valid set has 10000 images. The dataset was obtained by dividing into $8\times 8$ blocks each of the images corresponding to the DIBCO 2017 dataset and calculating the coef and delta values so that the balance between PSNR and BER represented as $FO$ were the highest possible values for each of the blocks.
+For that, a new dataset of 75000 $8\times 8$ color images from 15 class, with 5000 images per class was create. The training set has 67500 images and the valid set has 7500 images. The dataset was obtained by dividing into $8\times 8$ blocks each of the images corresponding to the DIBCO 2017 dataset and calculating the coefficient and embedding strength values so that the balance between PSNR and BER represented as $FO$ were the highest possible values for each of the blocks.
 \begin{equation}
 FO = (PSNR/160 + \alpha + \beta)/3,
 \label{FA}
 \end{equation}
 where $PSNR$ is the logarithmic value of ratio between signal and noise, $ \alpha $ is the success in extracting the watermark from the watermarked image without noise and $ \beta $ is the success in extracting the watermark from the watermarked image after applying a JPEG compression with QF= 25{\%}.
+\begin{figure} [H]
+	\begin{center}
+		\includegraphics[width=0.8\textwidth]{colorbar.eps}
+		\caption{Coefficient and embedding strength values.} \label{colormap}
+	\end{center}
+\end{figure}
 
 The network was trained using GPU NVIDIA GTX 780ti for some hours.
 \begin{figure}
+	\begin{center}
+		\includegraphics[width=\textwidth]{loss_600epoch_2x150hidded.png}
+		\caption{Train and Valid loss.} \label{loss}
+	\end{center}
+\end{figure} 
+\begin{figure}
 \begin{center}
-	\includegraphics[width=\textwidth]{acc.eps}
+	\includegraphics[width=\textwidth]{accuracy_600epoch_2x150hidded.png}
 	\caption{Accuracy.} \label{acc}
 \end{center}
 \end{figure}
@@ -116,17 +119,19 @@ Once the model is trained, the following steps are taken to complete the inserti
 \begin{enumerate}
 	\item The binary watermark image (QR code) is scrambled using Arnold transform \cite{Arnol'd:1987366}.
 	\item The cover image is transformed from RGB to YCbCr color space, and the Y component, corresponding to the luminance information, is divided into small image blocks of $8\times 8$ pixels.
-	\item The Krawtchouk moments \cite{Yap2003} of selected blocks are determined.
+	\item A number of blocks equal to the number of bits to be inserted is selected from a given key.
 	\item Each selected block is classified by the model previously trained in one of the defined classes.
-	\item Watermark bit is embedded in the selected block moments using Dither modulation \cite{chen2001quantization}. Both the coefficient and the delta value are obtained according to the class that has been classified each block. Watermarked blocks can be obtained. 
+	\item The Krawtchouk moments \cite{Yap2003} of selected blocks are determined.
+	\item Watermark bit is embedded in the selected block moments using Dither modulation \cite{chen2001quantization}. Both the coefficient and embedding strength values are obtained according to the class that has been classified each block. Watermarked blocks can be obtained. 
 	\item Transform the YCbCr to RGB color space to obtain RGB watermarked image.
 \end{enumerate}
 
 For watermark extraction:
 \begin{enumerate}
 	\item The watermarked image is transformed from the RGB to the YCbCr color space and the Y component is divided into $8\times 8$ pixels blocks.
+	\item Some blocks are selected from which they will be extracted from the key used in the embedding process.
+	\item Each selected block is classified by the model previously trained in one of the defined classes. According to the class, the coefficient and embedding strength values to be used in the extraction are determined.
 	\item The Krawtchouk moments of selected blocks are determined.
-	\item Each selected block is classified by the model previously trained in one of the defined classes. According to the class, the coefficient and delta to be used in the extraction are determined.
 	\item Scrambled watermark bits are obtained with the selected blocks moments using Dither modulations.
 	\item Finally, QR code watermark is constructed with the scrambled bits using Arnold transform.
 \end{enumerate}
@@ -134,9 +139,23 @@ For watermark extraction:
 \subsection{Fragile watermarking}
 As we know, hash function, such as MD5 or SHA-256, can be utilized to authenticate the data integrity. If the hash value of original message is exactly equal to the re-calculated hash value of the received message, the received data can be regarded as integrated, otherwise as false.
 
-For the embedding process, the image is divided into $32\times 32$ non-overlapped blocks. The complete block is pariado making use of a given key. The entire hash value of the block pariado is generated as a watermark using MD5 hash function. The generated MD5 binary watermark is embedded into the least significant bits (LSBs) of the pixels pariados and watermarked image is obtained.
+For the process of embedding the following steps are performed:
+\begin{enumerate}
+	\item The RGB image is divided into $32\times 32$ non-overlapped blocks.
+	\item 128 pixels of each block are selected by a given key.
+	\item The least significant bits (LSBs) of each selected pixel are assigned the value 0.
+	\item The MD5 hash value of the modified block is generated as a watermark.
+	\item The watermark is embedded into the LSBs of the selected pixels and watermarked block image is obtained.  
+\end{enumerate}    
 
-The detection of a fragile watermark is the inverse process of watermark generation, which is used to detect whether the watermarked image has been tampered and what the precise position of the tampered parts is. For this, the watermarked image is divided into $32\times 32$ non-overlapped blocks. The complete block is pariado making use of a given key. The entire hash value of the block pariado is calculate and ...
+The detection of a fragile watermark is the inverse process of watermark generation, which is used to detect whether the watermarked image has been tampered and what the precise position of the tampered parts is. For this:
+\begin{enumerate}
+	\item The RGB image is divided into $32\times 32$ non-overlapped blocks.
+	\item 128 pixels of each block are selected by a given key.
+	\item Three binary series are formed from the LSBs of the selected pixels.
+	\item The LSBs of each selected pixel are assigned the value 0.
+	\item The MD5 hash value of the modified block is generated and compareted with obtained series.
+\end{enumerate}
 
 \section{Experiments and Results}
 The watermarking algorithm is evaluated through imperceptibility, tamper detection and robustness, and the following experiments are introduced.
@@ -164,7 +183,7 @@ Tamper area detection capability is evaluated, by modifying the contents of imag
 			&\includegraphics[width=0.25\textwidth]{tampered_image.png}\\\hline
 		\end{tabular}
 	\end{center}
-	\caption{Original image, watermarked image, watermarked modified image and tamper area detection.}
+	\caption{Original image, watermarked image, modified watermarked image and tamper area detection.}
 	\label{img_of_AHM}
 \end{figure}
 
@@ -193,7 +212,7 @@ The bit error rate (BER) is defined as ratio between number of incorrectly decod
 \end{figure}
 
 \section{Conclusions}
-In this paper, a dual digital watermarking technique based on Neural Network and SHA-256 hash function was implemented. The results show a BER less than $0.005 \%$, so the extracted QR codes were decoded in $100\%$ of the $60$ analyzed images. In addition, the values corresponding to the PSNR were improved compared to previously presented papers.
+In this paper, a dual digital watermarking technique based on Neural Network and MD5 hash function was implemented. The results show a BER less than $0.006 \%$, so the extracted QR codes were decoded in $100\%$ of the $60$ analyzed images. In addition, the values corresponding to the PSNR were improved compared to previously presented papers.
 
 \section{Acknowledgment}
 The National Biotechnology Center is thanked, especially the researcher Yunior Cesar Fonseca Reyna belonging to the Department of Structure Macromolecules for his help in the training of the algorithm.

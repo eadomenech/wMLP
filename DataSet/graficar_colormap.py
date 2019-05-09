@@ -37,7 +37,9 @@ def main():
                 lista_temp.append(0)
         ellipses.append(lista_temp)
     plt.imshow(ellipses)
-    plt.colorbar()
+    plt.colorbar(orientation='horizontal')
+    plt.xlabel('Embedding strength', size=18)
+    plt.ylabel('Coefficient', size=18)
     plt.show()
 
 

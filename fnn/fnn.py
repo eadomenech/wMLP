@@ -19,17 +19,47 @@ vis = Visualizations()
 train_loss_list = []
 valid_loss_list = []
 
+# class Net(nn.Module):
+
+#     def __init__(self):
+#         super(Net, self).__init__()
+#         self.fc1 = nn.Linear(3 * 8 * 8, 5000)
+#         self.fc2 = nn.Linear(5000, 9)
+    
+#     def forward(self, x):
+#         x = F.relu(self.fc1(x))
+#         x = F.dropout(x)
+#         x = self.fc2(x)
+#         return F.log_softmax(x, dim=1)
+
+
+# class Net(nn.Module):
+
+#     def __init__(self):
+#         super(Net, self).__init__()
+#         self.fc1 = nn.Linear(3 * 8 * 8, 500)
+#         self.fc2 = nn.Linear(500, 9)
+    
+#     def forward(self, x):
+#         x = F.relu(self.fc1(x))
+#         x = F.dropout(x)
+#         x = self.fc2(x)
+#         return F.log_softmax(x, dim=1)
+
 class Net(nn.Module):
 
     def __init__(self):
         super(Net, self).__init__()
-        self.fc1 = nn.Linear(3 * 8 * 8, 5000)
-        self.fc2 = nn.Linear(5000, 9)
+        self.fc1 = nn.Linear(3 * 8 * 8, 150)
+        self.fc2 = nn.Linear(150, 150)
+        self.fc3 = nn.Linear(150, 9)
     
     def forward(self, x):
         x = F.relu(self.fc1(x))
         x = F.dropout(x)
-        x = self.fc2(x)
+        x = F.relu(self.fc2(x))
+        x = F.dropout(x)
+        x = self.fc3(x)
         return F.log_softmax(x, dim=1)
 
 
@@ -182,7 +212,7 @@ def main():
         vis.plot_acc(dic['acc'], epoch)
 
     if (args.save_model):
-        torch.save(model.state_dict(), "fnn600.pt")
+        torch.save(model.state_dict(), "fnn500hidded.pt")
 
 if __name__ == '__main__':
     main()
