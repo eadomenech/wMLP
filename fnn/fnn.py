@@ -19,47 +19,17 @@ vis = Visualizations()
 train_loss_list = []
 valid_loss_list = []
 
-# class Net(nn.Module):
-
-#     def __init__(self):
-#         super(Net, self).__init__()
-#         self.fc1 = nn.Linear(3 * 8 * 8, 5000)
-#         self.fc2 = nn.Linear(5000, 9)
-    
-#     def forward(self, x):
-#         x = F.relu(self.fc1(x))
-#         x = F.dropout(x)
-#         x = self.fc2(x)
-#         return F.log_softmax(x, dim=1)
-
-
-# class Net(nn.Module):
-
-#     def __init__(self):
-#         super(Net, self).__init__()
-#         self.fc1 = nn.Linear(3 * 8 * 8, 500)
-#         self.fc2 = nn.Linear(500, 9)
-    
-#     def forward(self, x):
-#         x = F.relu(self.fc1(x))
-#         x = F.dropout(x)
-#         x = self.fc2(x)
-#         return F.log_softmax(x, dim=1)
-
 class Net(nn.Module):
 
     def __init__(self):
         super(Net, self).__init__()
-        self.fc1 = nn.Linear(3 * 8 * 8, 150)
-        self.fc2 = nn.Linear(150, 150)
-        self.fc3 = nn.Linear(150, 9)
+        self.fc1 = nn.Linear(3 * 8 * 8, 385)
+        self.fc2 = nn.Linear(385, 9)
     
     def forward(self, x):
         x = F.relu(self.fc1(x))
         x = F.dropout(x)
-        x = F.relu(self.fc2(x))
-        x = F.dropout(x)
-        x = self.fc3(x)
+        x = self.fc2(x)
         return F.log_softmax(x, dim=1)
 
 
@@ -117,22 +87,15 @@ def test(args, model, device, test_loader, epoch):
     return {'test_loss': test_loss, 'acc':acc}
 
 
-# def randomJpegCompression(image):
-#     qf = random.randrange(10, 100)
-#     outputIoStream = BytesIO()
-#     image.save(outputIoStream, "JPEG", quality=qf, optimice=True)
-#     outputIoStream.seek(0)
-#     return Image.open(outputIoStream)
-
 def randomJpegCompression(image):
     p = random.random()
     outputIoStream = BytesIO()
-    if p > 0.8:
+    if p > 0.9:
         return image
-    elif p > 0.6:
-        image.save(outputIoStream, "JPEG", quality=100, optimice=True)
+    elif p > 0.8:
+        image.save(outputIoStream, "JPEG", quality=75, optimice=True)
         outputIoStream.seek(0)
-    elif p > 0.5:
+    elif p > 0.45:
         image.save(outputIoStream, "JPEG", quality=50, optimice=True)
         outputIoStream.seek(0)
     else:
