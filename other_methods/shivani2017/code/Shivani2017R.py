@@ -10,10 +10,10 @@ import cv2
 import math
 
 
-class Shivani2017():
+class Shivani2017R():
     """
     The aim of the proposed scheme in this paper is to
-    embed robust and fragile watermark into the host image at the same time
+    embed robust watermark into the host image.
     """
 
     def __init__(self):

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from Shivani2017 import Shivani2017
+from Shivani2017R import Shivani2017R
 from tkinter import filedialog
 from tkinter import *
 import numpy as np
@@ -15,7 +15,7 @@ def main():
     # Directory
     dir = "D:/DataSets"
     # Instance
-    wm = Shivani2017()
+    wm = Shivani2017R()
 
     # try:
     #     # Load cover image
