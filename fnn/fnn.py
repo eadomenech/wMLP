@@ -91,12 +91,12 @@ def test(args, model, device, test_loader, epoch):
 def randomJpegCompression(image):
     p = random.random()
     outputIoStream = BytesIO()
-    if p > 0.8:
+    if p > 0.9:
         return image
-    elif p > 0.6:
-        image.save(outputIoStream, "JPEG", quality=100, optimice=True)
+    elif p > 0.8:
+        image.save(outputIoStream, "JPEG", quality=75, optimice=True)
         outputIoStream.seek(0)
-    elif p > 0.5:
+    elif p > 0.45:
         image.save(outputIoStream, "JPEG", quality=50, optimice=True)
         outputIoStream.seek(0)
     else:

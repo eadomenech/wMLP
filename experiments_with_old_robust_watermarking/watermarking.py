@@ -162,7 +162,7 @@ def run_main():
                 if val not in v:
                     if columna > izq_min and columna < der_max and fila > arr_min and fila < aba_max:
                         v.append(val)
-
+            
             print("Insertando...")
             # Marcar los self.len_of_watermark bloques
             for i in range(len_of_watermark):

@@ -11,6 +11,7 @@ from transforms.DqKT import DqKT
 from transforms.DAT import DAT
 
 from block_tools.blocks_class import BlocksImage
+from fragil.method_Avila2019 import Avila2019
 
 from qr_tools.MyQR62 import MyQR62
 
@@ -134,6 +135,8 @@ def run_main():
     myqr = MyQR62()
     dat = DAT()
     itools = ImageTools()
+    # Avila2019 Instances
+    wm = Avila2019('password')
 
     clasification = Clasification()
 
@@ -262,6 +265,7 @@ def run_main():
                     if columna > izq_min and columna < der_max and fila > arr_min and fila < aba_max:
                         v.append(val)
             
+            # Asignando a v para tener una misma v en todos los experimentos
             v = [
                     131840, 84237, 46815, 54681, 97958, 131552, 38851, 147140, 89791,
                     23580, 23180, 142232, 26755, 127416, 124163, 61299, 80119, 134993,
@@ -398,6 +402,9 @@ def run_main():
 
             image_rgb_array = itools.ycbcr2rgb(cover_marked_ycbcr_array)
             watermarked_image_without_noise = Image.fromarray(image_rgb_array)
+
+            # Aplicando marca de agua fragil
+            watermarked_image_without_noise = wm.insert(watermarked_image_without_noise)
 
             # Almacenando imagen marcada
             watermarked_image_without_noise.save(
