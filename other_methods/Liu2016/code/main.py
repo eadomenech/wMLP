@@ -32,6 +32,11 @@ def main():
         stego_image = Image.open("static/watermarked_image.png").convert('RGB')
         print(Evaluations().PSNR_RGB(cover_image, stego_image))
 
+        # Watermark extracting
+        watermark_extracted = wm.extract(watermarked_image)
+        # Save watermark image
+        dir_water_im = "watermark_" + root.filename.split("/")[-1][:-4]  + ".bmp"
+        watermark_extracted.save("static/" + dir_water_im)
     except Exception as e:
         root.destroy()
         print("Error: ", e)
