@@ -19,6 +19,7 @@ vis = Visualizations()
 train_loss_list = []
 valid_loss_list = []
 
+
 class Net(nn.Module):
 
     def __init__(self):
@@ -175,7 +176,7 @@ def main():
         vis.plot_acc(dic['acc'], epoch)
 
     if (args.save_model):
-        torch.save(model.state_dict(), "fnn500hidded.pt")
+        torch.save(model.state_dict(), "fnn_600epoch_1xlayers385.pt")
 
 if __name__ == '__main__':
     main()
