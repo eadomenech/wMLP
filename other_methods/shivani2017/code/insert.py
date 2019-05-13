@@ -23,7 +23,6 @@ def main():
         root.filename = filedialog.askopenfilename(
             initialdir=dir + "/", title="Select file",
             filetypes=(
-                ("bmp files", "*.bmp"),
                 ("jpg files", "*.jpg"), ("png files", "*.png"),
                 ("all files", "*.*")))
     except Exception as e:
@@ -36,7 +35,7 @@ def main():
     
     cover_image = Image.open(path)
     
-    # Instances
+    # Insert
     watermarked_image = wm.insert(cover_image)
     # Save watermarked image
     dir_water_im = "watermarked_" + path.split("/")[-1][:-4]  + ".bmp"
