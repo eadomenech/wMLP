@@ -17,25 +17,22 @@ def main():
     # Instance
     wm = Shivani2017R()
 
-    # try:
-    #     # Load cover image
-    #     root = Tk()
-    #     root.filename = filedialog.askopenfilename(
-    #         initialdir=dir + "/", title="Select file",
-    #         filetypes=(
-    #             ("bmp files", "*.bmp"),
-    #             ("jpg files", "*.jpg"), ("png files", "*.png"),
-    #             ("all files", "*.*")))
-    # except Exception as e:
-    #     print("Error: ", e)
-    #     print("The image file was not loaded")
+    try:
+        # Load cover image
+        root = Tk()
+        root.filename = filedialog.askopenfilename(
+            initialdir=dir + "/", title="Select file",
+            filetypes=(
+                ("bmp files", "*.bmp"),
+                ("jpg files", "*.jpg"), ("png files", "*.png"),
+                ("all files", "*.*")))
+    except Exception as e:
+        print("Error: ", e)
+        print("The image file was not loaded")
 
-    # root.destroy()
+    root.destroy()
 
-    # # Open image
-    # cover_image = Image.open(root.filename)
-
-    path = 'static/1.jpg'
+    path = root.filename
     
     cover_image = Image.open(path)
     
