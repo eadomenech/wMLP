@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-
-
-from helpers.blocks_class import BlocksImage
-from helpers.ImageTools import ImageTools
+from block_tools.blocks_class import BlocksImage
+from image_tools.ImageTools import ImageTools
 from helpers import utils
 
 from PIL import Image
@@ -37,10 +35,10 @@ class Liu2016R():
         ])
 
         # Cargando watermark
-        watermark = Image.open("static/Watermarking.png").convert("1")
+        self.watermark = Image.open("static/Watermarking.png").convert("1")
 
         # Obteniendo array de la watermark
-        watermark_array = np.asarray(watermark)
+        watermark_array = np.asarray(self.watermark)
 
         # Datos de la watermark como lista
         watermark_as_list = watermark_array.reshape(
@@ -54,19 +52,21 @@ class Liu2016R():
             else:
                 self.watermark_list.append(0)
         
-        # Calculando e imprimeindo datos iniciales
+        # Calculando datos iniciales
         self.len_watermark_list = len(self.watermark_list)
 
     def insert(self, cover_image):        
         # Instancia
         itools = ImageTools()
 
+        print("Convirtiendo a YCbCr")
         # Convirtiendo a modelo de color YCbCr
         cover_ycbcr_array = itools.rgb2ycbcr(cover_image)
 
         # Obteniendo componente Y
         cover_array = cover_ycbcr_array[:, :, 0]
 
+        print("DWT")
         # DWT
         LL, [LH, HL, HH] = pywt.dwt2(cover_array, 'haar')
         
@@ -74,12 +74,14 @@ class Liu2016R():
         bt_of_LL = BlocksImage(LL)
         bt_of_HH = BlocksImage(HH)
 
+        print("Re-asignando subbanda HH")
         for i in range(bt_of_LL.max_num_blocks()):
             # Cuantificado
             QLL = utils.quantification(bt_of_LL.get_block(i), self.Q)
             # replaced directly by the resulting Q-LL
             bt_of_HH.set_block(QLL, i)
         
+        print("Modificando LL")
         for i in range(self.len_watermark_list + 1):
             colums = len(LL[0])
             # Marcado
@@ -89,8 +91,10 @@ class Liu2016R():
                 LL[px, py] += self.watermark_list[i-1]/255 * self.k
         
         # Inverse transform
+        print("IDWT")
         cover_ycbcr_array[:, :, 0] = pywt.idwt2((LL, (LH, HL, HH)), 'haar')
 
+        print("Convirtiendo a RGB")
         image_rgb_array = itools.ycbcr2rgb(cover_ycbcr_array)               
         
         return Image.fromarray(image_rgb_array)
