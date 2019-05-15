@@ -41,7 +41,7 @@ def run_main():
     
     # Hide these grid behind plot objects
     ax1.set_axisbelow(True)
-    ax1.set_title('Saint Gall database (60 images)')
+    ax1.set_title('Saint Gall database (47 images)')
     ax1.set_xlabel('Schemes')
     ax1.set_ylabel('PSNR')
 
@@ -66,7 +66,7 @@ def run_main():
 
     ax1.set_xticklabels(
         [
-            '[10]', '[7]', '[2]', 'Proposed'
+            '[11]', '[8]', '[2]', 'Proposed'
         ],
         rotation=0, fontsize=14)
     plt.show()

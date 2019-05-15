@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from Liu2016R import Liu2016R
+from Liu2018R import Liu2018R
 
 from tkinter import filedialog
 from tkinter import *
@@ -7,12 +7,12 @@ from tkinter import *
 from PIL import Image
 import numpy as np
 
-from helpers.evaluations import Evaluations
+from evaluations.evaluations import Evaluations
 
 
 def main():
-    # Avila2019 Instances
-    wm = Liu2016R('password')
+    # Liu2018R Instances
+    wm = Liu2018R('password')
 
     try:
         # Load cover image

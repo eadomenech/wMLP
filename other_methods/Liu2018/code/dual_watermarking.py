@@ -7,7 +7,7 @@ from scipy import misc
 
 from evaluations.evaluations import Evaluations
 from block_tools.blocks_class import BlocksImage
-from Liu2016R import Liu2016R
+from Liu2018R import Liu2018R
 import pwlcm
 import math
 from pathlib import Path
@@ -15,7 +15,7 @@ from pathlib import Path
 
 def run_main():
     eva = Evaluations()
-    wm = Liu2016R('password')
+    wm = Liu2018R('password')
 
     db_images = [
         'csg562-003.jpg', 'csg562-004.jpg', 'csg562-005.jpg', 'csg562-006.jpg',

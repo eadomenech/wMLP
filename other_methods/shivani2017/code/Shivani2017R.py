@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from image_tools.ImageTools import ImageTools
+from block_tools.blocks_class import BlocksImage
 from PIL import Image
 from scipy import misc
 import numpy as np
@@ -17,8 +18,24 @@ class Shivani2017R():
     def __init__(self):
 
         # Cargando watermark
-        self.watermark = Image.open("static/Watermarking3.png").convert("1")
+        self.watermark = Image.open("static/Watermarking.png").convert("1")
+        self.watermark_list = []
+        self.len_watermark_list = 0
+        self.cant_posibilidades = None
+        self.v = []
+    
+    def watermark_proccesing(self, tupla):
+        '''Pre-procesa la marca de agua'''
 
+        self.watermark_list = []
+        
+        x = tupla[0]
+        y = tupla[1]
+
+        m = min(x, y)
+
+        self.watermark = self.watermark.resize((m, m))
+        
         # Obteniendo array de la watermark
         watermark_array = np.asarray(self.watermark)
 
@@ -27,7 +44,6 @@ class Shivani2017R():
             (1, watermark_array.size))[0]
         
         # Tomando solo los valores correspondientes a los datos
-        self.watermark_list = []
         for p in watermark_as_list:
             if p:
                 self.watermark_list.append(255)
@@ -37,8 +53,8 @@ class Shivani2017R():
         # Calculando e imprimeindo datos iniciales
         self.len_watermark_list = len(self.watermark_list)
 
-        self.cant_posibilidades = None
-        self.v = []
+        # Actualizando cant_posibilidades
+        self.cant_posibilidades = x*y
 
     def insert(self, cover_image):
         # Instancias necesarias
@@ -54,11 +70,8 @@ class Shivani2017R():
         # Wavelet Transform
         LL, [LH, HL, HH] = pywt.dwt2(cover_array, 'haar')
 
-        # # Resize
-        # self.watermark = self.watermark.resize((1664, 1664))
-
-        # Simulando pwlcm para obtener las posiciones a utilizar
-        self.cant_posibilidades = LL.size
+        # Watermark resize
+        self.watermark_proccesing(LL.shape)
 
         colums = len(LL[0])
 
@@ -129,6 +142,6 @@ class Shivani2017R():
                 if extract[wh*i+y] == 0:
                     array_extract_image[i, y] = 0
 
-        watermark_extracted = misc.toimage(array_extract_image)        
+        watermark_extracted = misc.toimage(array_extract_image)  
         
         return watermark_extracted

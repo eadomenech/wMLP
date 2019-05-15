@@ -8,9 +8,10 @@ from scipy import misc
 import numpy as np
 import pywt
 import math
+import random
 
 
-class Liu2016R():
+class Liu2018R():
     """
     Método de marca de agua digital robusta
     """
@@ -55,6 +56,16 @@ class Liu2016R():
         # Calculando datos iniciales
         self.len_watermark_list = len(self.watermark_list)
 
+        # Posiciones seleccionadas
+        self.pos = []
+    
+    def generar(self, maximo):
+        '''Genera posiciones a utilizar en el marcado'''
+        assert self.len_watermark_list <= maximo
+        p = [i+1 for i in range(maximo-1)]
+        random.shuffle(p)        
+        self.pos = p[:self.len_watermark_list]
+
     def insert(self, cover_image):        
         # Instancia
         itools = ImageTools()
@@ -69,6 +80,9 @@ class Liu2016R():
         print("DWT")
         # DWT
         LL, [LH, HL, HH] = pywt.dwt2(cover_array, 'haar')
+
+        # Generando posiciones a utilizar
+        self.generar(LL.size)
         
         # Dividiendo LL en bloques de 8x8
         bt_of_LL = BlocksImage(LL)
@@ -82,13 +96,21 @@ class Liu2016R():
             bt_of_HH.set_block(QLL, i)
         
         print("Modificando LL")
-        for i in range(self.len_watermark_list + 1):
+        for i in range(self.len_watermark_list):
             colums = len(LL[0])
             # Marcado
-            if i > 0:
-                px = i // colums
-                py = i - (px * colums)
-                LL[px, py] += self.watermark_list[i-1]/255 * self.k
+            px = self.pos[i] // colums
+            py = self.pos[i] - (px * colums)
+            LL[px, py] += self.watermark_list[i]/255 * self.k
+
+        # print("Modificando LL")
+        # for i in range(self.len_watermark_list + 1):
+        #     colums = len(LL[0])
+        #     # Marcado
+        #     if i > 0:
+        #         px = i // colums
+        #         py = i - (px * colums)
+        #         LL[px, py] += self.watermark_list[i-1]/255 * self.k
         
         # Inverse transform
         print("IDWT")
@@ -126,12 +148,18 @@ class Liu2016R():
             # replaced directly by the resulting Q-LL
             bt_of_LL.set_block(QLL, i)
         
-        for i in range(self.len_watermark_list + 1):
-            # Marcado
-            if i > 0:
-                px = i // colums
-                py = i - (px * colums)
-                extract.append(abs(round((HH[px, py] - LL[px, py])/self.k)))
+        for i in range(self.len_watermark_list):
+            # Extrayendo
+            px = self.pos[i] // colums
+            py = self.pos[i] - (px * colums)
+            extract.append(abs(round((HH[px, py] - LL[px, py])/self.k)))
+
+        # for i in range(self.len_watermark_list + 1):
+        #     # Marcado
+        #     if i > 0:
+        #         px = i // colums
+        #         py = i - (px * colums)
+        #         extract.append(abs(round((HH[px, py] - LL[px, py])/self.k)))
         
         wh = int(math.sqrt(self.len_watermark_list))
         extract_image1 = Image.new("1", (wh, wh), 255)

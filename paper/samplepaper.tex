@@ -54,7 +54,7 @@ When users want to protect the copyright and at the same time detect illegal tam
 
 Numerous double watermarking algorithms have been proposed. In \cite{mohanty1999dual} is presented a dual watermarking technique which attempts to establish the owner’s right to the image and detect the intentional and unintentional tampering of the image. However, this early research is simply a combination of visible and invisible watermarking algorithms. In \cite{wang2017dual} is presents a dual watermarking algorithm that connects the robust watermarking algorithm based on singular value decomposition (SVD) with a fragile watermarking algorithm based on compressive sensing (CS). In \cite{singh2018hybrid} use cryptography and QR Code in combined approach of LSB and DCT Digital image watermarking technique, it combines the LSB and DCT approach because LSB contain spatial domain property and DCT contain frequency domain property.
 
-In \cite{shivani2017dual}. In \cite{liu2018blind} presents a blind dual watermarking mechanism for digital color images. The first watermark is embedded by using the discrete wavelet transform (DWT) in YCbCr color space, and it can be extracted blindly without access to the host image. However, fragile watermarking is based on an improved least significant bits (LSB) replacement approach in RGB components for image authentication. In \cite{singh2019robust} presents lifting wavelet transform (LWT) and discrete cosine transform (DCT) based robust watermarking approach for tele-health applications. They are based on LWT requires less memory, reduced aliasing effects and distortion, fast and it is a good choice for low computational complexity than conventional DWT.
+In \cite{shivani2017dual} provides dual functionalities of ownership assertion and authentication. In \cite{liu2018blind} presents a blind dual watermarking mechanism for digital color images. The first watermark is embedded by using the discrete wavelet transform (DWT) in YCbCr color space, and it can be extracted blindly without access to the host image. However, fragile watermarking is based on an improved least significant bits (LSB) replacement approach in RGB components for image authentication. In \cite{singh2019robust} presents lifting wavelet transform (LWT) and discrete cosine transform (DCT) based robust watermarking approach for tele-health applications. They are based on LWT requires less memory, reduced aliasing effects and distortion, fast and it is a good choice for low computational complexity than conventional DWT.
 
 In \cite{gul2019novel} host image is divided into $32\times 32$ non-overlapped blocks, each $32\times 32$ block is then divided into four $16\times 16$ nonoverlapped sub-blocks. The entire hash value of the first three sub-blocks is generated as a watermark using SHA-256 hash function. The generated 256-bit binary watermark is embedded into the least significant bits (LSBs) of the fourth sub-block and watermarked image is obtained.
 
@@ -163,11 +163,13 @@ The watermarking algorithm is evaluated through imperceptibility, tamper detecti
 
 \subsection{Imperceptibility}
 The imperceptibility of the watermark was evaluated using several databases. We calculated the larger peak signal to noise ratio (PSNR) which compares the similarity between the original image $ I $ and the watermarked image $ I_w $. A PSNR indicates that the watermarked image more closely resembles the original image meaning that the watermark is more imperceptible. (see Fig.~\ref{psnr})
+
+We used two handwriten document image databases: Saint Gall \cite{fischer2011transcription} and Parzival \cite{fischer2009automatic} database. The first one contains manuscripts from the 9th century using Carolingian scripts by a single writer, while the Parzival is compiled from 13th century Gothic scripts \cite{pastor2016complete}.
 \begin{figure}[H]
 	\begin{center}
 		\begin{tabular}{|c|c|}\hline
-			\includegraphics[width=0.45\textwidth]{PSNR_saintgall.eps}
-			&\includegraphics[width=0.45\textwidth]{PSNR_saintgall.eps}\\\hline
+			\includegraphics[width=0.5\textwidth]{PSNR_saintgall.eps}
+			&\includegraphics[width=0.5\textwidth]{PSNR_parzival.eps}\\\hline
 		\end{tabular}
 	\end{center}
 	\caption{PSNR values for Saint Gall database watermarked images.}
