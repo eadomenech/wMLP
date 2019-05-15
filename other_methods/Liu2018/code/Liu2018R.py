@@ -62,7 +62,8 @@ class Liu2018R():
     def generar(self, maximo):
         '''Genera posiciones a utilizar en el marcado'''
         assert self.len_watermark_list <= maximo
-        p = [i+1 for i in range(maximo-1)]
+        p = [i+1 for i in range(self.len_watermark_list)]
+        # p = [i+1 for i in range(10*self.len_watermark_list)]
         random.shuffle(p)        
         self.pos = p[:self.len_watermark_list]
 

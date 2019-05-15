@@ -115,7 +115,7 @@ The network was trained using GPU NVIDIA GTX 780ti for some hours.
 
 In this process we use an open-source machine learning library for Python PyTorch \cite{paszke2017pytorch}. PyTorch extensively uses Python concepts, such as classes, structures, and conditional loops, allowing us to build Deep Learning algorithms in a pure object-oriented fashion. Most of the other popular frameworks bring their own programming style, sometimes making it complex to write new algorithms and it does not support intuitive debugging. What makes PyTorch increasingly popular is its ease of use and simplicity \cite{Subramanian2018}.
 
-Once the model is trained, the following steps are taken to complete the insertion process:
+Once the model is trained, the following steps are taken to complete the embedding process:
 \begin{enumerate}
 	\item The binary watermark image (QR code) is scrambled using Arnold transform \cite{Arnol'd:1987366}.
 	\item The cover image is transformed from RGB to YCbCr color space, and the Y component, corresponding to the luminance information, is divided into small image blocks of $8\times 8$ pixels.
@@ -159,12 +159,12 @@ The detection of a fragile watermark is the inverse process of watermark generat
 
 \section{Experiments and Results}
 The watermarking algorithm is evaluated through imperceptibility, tamper detection and robustness, and the following experiments are introduced.
+
+We used two handwriten document image databases: Saint Gall \cite{fischer2011transcription} and Parzival \cite{fischer2009automatic} database. The first one contains manuscripts from the 9th century using Carolingian scripts by a single writer, while the Parzival is compiled from 13th century Gothic scripts \cite{pastor2016complete}.
  
 
 \subsection{Imperceptibility}
 The imperceptibility of the watermark was evaluated using several databases. We calculated the larger peak signal to noise ratio (PSNR) which compares the similarity between the original image $ I $ and the watermarked image $ I_w $. A PSNR indicates that the watermarked image more closely resembles the original image meaning that the watermark is more imperceptible. (see Fig.~\ref{psnr})
-
-We used two handwriten document image databases: Saint Gall \cite{fischer2011transcription} and Parzival \cite{fischer2009automatic} database. The first one contains manuscripts from the 9th century using Carolingian scripts by a single writer, while the Parzival is compiled from 13th century Gothic scripts \cite{pastor2016complete}.
 \begin{figure}[H]
 	\begin{center}
 		\begin{tabular}{|c|c|}\hline
