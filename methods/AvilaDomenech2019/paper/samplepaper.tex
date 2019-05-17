@@ -50,13 +50,11 @@ The explosive growth of digital multimedia techniques, together with the rapid d
 
 Watermarking technique is effectively applied to content authentication, integrity protection, and image copyright. In accordance with the desired robustness of the embedded watermark, digital watermarking techniques are divided into fragile watermarking and robust watermarking. The first ones is designed to detect slight changes to the watermarked image with high probability and the second ones is typically used for copyright protection, thus it is designed to resist attacks that attempt to remove or destroy the watermark without significantly degrading the visual quality of the watermarked image.
 
-When users want to protect the copyright and at the same time detect illegal tampering, the single watermarking algorithm cannot meet the needs of users. Therefore, the double watermarking algorithm is developed, as it can effectively combine the advantages and functions of the two watermarks \cite{wang2017dual}.
+When users want to detect illegal tampering and at the same time protect the copyright, the single watermarking algorithm cannot meet the needs of users. Therefore, the double watermarking algorithm is developed, as it can effectively combine the advantages and functions of the two watermarks \cite{wang2017dual}.
 
 Numerous double watermarking algorithms have been proposed. In \cite{mohanty1999dual} is presented a dual watermarking technique which attempts to establish the owner’s right to the image and detect the intentional and unintentional tampering of the image. However, this early research is simply a combination of visible and invisible watermarking algorithms. In \cite{wang2017dual} is presents a dual watermarking algorithm that connects the robust watermarking algorithm based on singular value decomposition (SVD) with a fragile watermarking algorithm based on compressive sensing (CS). In \cite{singh2018hybrid} use cryptography and QR Code in combined approach of LSB and DCT Digital image watermarking technique, it combines the LSB and DCT approach because LSB contain spatial domain property and DCT contain frequency domain property.
 
 In \cite{shivani2017dual} provides dual functionalities of ownership assertion and authentication. In \cite{liu2018blind} presents a blind dual watermarking mechanism for digital color images. The first watermark is embedded by using the discrete wavelet transform (DWT) in YCbCr color space, and it can be extracted blindly without access to the host image. However, fragile watermarking is based on an improved least significant bits (LSB) replacement approach in RGB components for image authentication. In \cite{singh2019robust} presents lifting wavelet transform (LWT) and discrete cosine transform (DCT) based robust watermarking approach for tele-health applications. They are based on LWT requires less memory, reduced aliasing effects and distortion, fast and it is a good choice for low computational complexity than conventional DWT.
-
-In \cite{gul2019novel} host image is divided into $32\times 32$ non-overlapped blocks, each $32\times 32$ block is then divided into four $16\times 16$ nonoverlapped sub-blocks. The entire hash value of the first three sub-blocks is generated as a watermark using SHA-256 hash function. The generated 256-bit binary watermark is embedded into the least significant bits (LSBs) of the fourth sub-block and watermarked image is obtained.
 
 On the other hand, deep learning is a new area of machine learning which has gained popularity in recent past. Deep learning refers to the architectures which contain multiple hidden layers (deep networks) to learn different features with multiple levels of abstraction. Deep learning algorithms seek to exploit the unknown structure in the input distribution in order to discover good representations, often at multiple levels, with higher level learned features defined in terms of lower level features. \cite{wani2019advances}
 
@@ -100,15 +98,15 @@ where $PSNR$ is the logarithmic value of ratio between signal and noise, $ \alph
 \end{figure}
 
 The network was trained using GPU NVIDIA GTX 780ti for some hours.
-\begin{figure}
+\begin{figure} [H]
 	\begin{center}
-		\includegraphics[width=\textwidth]{loss_600epoch_2x150hidded.eps}
+		\includegraphics[width=0.7\textwidth]{loss_600epoch_2x150hidded.eps}
 		\caption{Train and Valid loss.} \label{loss}
 	\end{center}
 \end{figure} 
-\begin{figure}
+\begin{figure} [H]
 \begin{center}
-	\includegraphics[width=\textwidth]{accuracy_600epoch_2x150hidded.eps}
+	\includegraphics[width=0.7\textwidth]{accuracy_600epoch_2x150hidded.eps}
 	\caption{Accuracy.} \label{acc}
 \end{center}
 \end{figure}
@@ -194,26 +192,35 @@ Tamper area detection capability is evaluated, by modifying the contents of imag
 
 \subsection{Robustness}
 The bit error rate (BER) is defined as ratio between number of incorrectly decoded bits and total number of bits.
-\begin{figure}[H]	% h-here, t-top, b-bottom
+\begin{figure}[H]
 	\begin{center}
-		\includegraphics[width=\textwidth]{ber75.eps}
+		\begin{tabular}{|c|c|}\hline
+			\includegraphics[width=0.5\textwidth]{BER75SaintGall.eps}
+			&\includegraphics[width=0.5\textwidth]{BER75Parzival.eps}\\\hline
+		\end{tabular}
 	\end{center}
-	\caption{BER values for Saint Gall database watermarked images with JPEG compression (QF=75\%).}
+	\caption{BER values for watermarked images with JPEG compression (QF=75\%).}
 	\label{ber75}
 \end{figure}
-\begin{figure}[H]	% h-here, t-top, b-bottom
+\begin{figure}[H]
 	\begin{center}
-		\includegraphics[width=\textwidth]{ber50.eps}
+		\begin{tabular}{|c|c|}\hline
+			\includegraphics[width=0.5\textwidth]{BER75SaintGall.eps}
+			&\includegraphics[width=0.5\textwidth]{BER75Parzival.eps}\\\hline
+		\end{tabular}
 	\end{center}
-	\caption{BER values for Saint Gall database watermarked images with JPEG compression (QF=50\%).}
+	\caption{BER values for watermarked images with JPEG compression (QF=50\%).}
 	\label{ber50}
 \end{figure}
-\begin{figure}[H]	% h-here, t-top, b-bottom
+\begin{figure}[H]
 	\begin{center}
-		\includegraphics[width=\textwidth]{ber25.eps}
+		\begin{tabular}{|c|c|}\hline
+			\includegraphics[width=0.5\textwidth]{BER75SaintGall.eps}
+			&\includegraphics[width=0.5\textwidth]{BER75Parzival.eps}\\\hline
+		\end{tabular}
 	\end{center}
-	\caption{BER values for Saint Gall database watermarked images with JPEG compression (QF=25\%).}
-	\label{ber20}
+	\caption{BER values for watermarked images with JPEG compression (QF=25\%).}
+	\label{ber25}
 \end{figure}
 
 \section{Conclusions}

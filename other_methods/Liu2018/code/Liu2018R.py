@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from block_tools.blocks_class import BlocksImage
 from image_tools.ImageTools import ImageTools
+from qr_tools.MyQR62 import MyQR62
 from helpers import utils
 
 from PIL import Image
@@ -62,8 +63,7 @@ class Liu2018R():
     def generar(self, maximo):
         '''Genera posiciones a utilizar en el marcado'''
         assert self.len_watermark_list <= maximo
-        p = [i+1 for i in range(self.len_watermark_list)]
-        # p = [i+1 for i in range(10*self.len_watermark_list)]
+        p = [i for i in range(maximo)]
         random.shuffle(p)        
         self.pos = p[:self.len_watermark_list]
 
@@ -96,14 +96,17 @@ class Liu2018R():
             # replaced directly by the resulting Q-LL
             bt_of_HH.set_block(QLL, i)
         
+        QWLL = np.copy(HH)
+        # QWLL = np.full_like(HH)
+        
         print("Modificando LL")
         for i in range(self.len_watermark_list):
             colums = len(LL[0])
             # Marcado
             px = self.pos[i] // colums
             py = self.pos[i] - (px * colums)
-            LL[px, py] += self.watermark_list[i]/255 * self.k
-
+            QWLL[px, py] = HH[px, py] + self.watermark_list[i]/255 * self.k
+        
         # print("Modificando LL")
         # for i in range(self.len_watermark_list + 1):
         #     colums = len(LL[0])
@@ -112,6 +115,13 @@ class Liu2018R():
         #         px = i // colums
         #         py = i - (px * colums)
         #         LL[px, py] += self.watermark_list[i-1]/255 * self.k
+        
+        bt_of_QWLL = BlocksImage(QWLL)        
+        for i in range(bt_of_LL.max_num_blocks()):
+            # Descuantificando
+            UQWLL = utils.unquantification(bt_of_QWLL.get_block(i), self.Q)
+            # replaced directly by the resulting Q-LL
+            bt_of_LL.set_block(UQWLL, i)
         
         # Inverse transform
         print("IDWT")
@@ -163,14 +173,14 @@ class Liu2018R():
         #         extract.append(abs(round((HH[px, py] - LL[px, py])/self.k)))
         
         wh = int(math.sqrt(self.len_watermark_list))
-        extract_image1 = Image.new("1", (wh, wh), 255)
+        extract_image1 = Image.new("L", (wh, wh), 255)
         array_extract_image = misc.fromimage(extract_image1)
 
         for i in range(wh):
             for y in range(wh):
                 if extract[wh*i+y] == 0:
                     array_extract_image[i, y] = 0
-
-        watermark_extracted = misc.toimage(array_extract_image)        
+        
+        watermark_extracted = misc.toimage(array_extract_image) 
         
         return watermark_extracted

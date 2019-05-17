@@ -28,37 +28,19 @@ from torch.autograd import Variable
 from pathlib import Path
 
 
-# Code temporal de pruebas
-def diff(list1, list2):
-    result = {'T': 0, 'F': 0, 'P': 0}
-    for i in range(len(list1)):
-        if list1[i] == list2[i]:
-            result['T'] += 1
-        else:
-            result['F'] += 1
-    result['P'] = result['T']*100/len(list1)
-    return result
-
-
-lista_clasificacion_insert = []
-lista_clasificacion_jpeg20 = []
-lista_clasificacion_jpeg50 = []
-lista_clasificacion_jpeg75 = []
-
-
 class Net(nn.Module):
 
-        def __init__(self):
-            super(Net, self).__init__()
-            self.fc1 = nn.Linear(3 * 8 * 8, 5000)
-            self.fc2 = nn.Linear(5000, 9)
-        
-        def forward(self, x):
-            x = x.view(x.size(0), -1)
-            x = F.relu(self.fc1(x))
-            x = F.dropout(x)
-            x = self.fc2(x)
-            return F.log_softmax(x, dim=1)
+    def __init__(self):
+        super(Net, self).__init__()
+        self.fc1 = nn.Linear(3 * 8 * 8, 5000)
+        self.fc2 = nn.Linear(5000, 9)
+    
+    def forward(self, x):
+        x = x.view(x.size(0), -1)
+        x = F.relu(self.fc1(x))
+        x = F.dropout(x)
+        x = self.fc2(x)
+        return F.log_softmax(x, dim=1)
 
 
 class Clasification():
@@ -91,8 +73,6 @@ class Clasification():
         return np.argmax(output.detach().numpy())
 
 
-
-
 def binary2int(binary):
     # Devuelve el entero correspondiente a una lista de binarios
     n = len(binary)
@@ -121,9 +101,9 @@ def get_indice(m):
     n = int(len(zarray) ** 0.5 + 0.5)
     for x in range(n):
         for y in range(n):
-                if zarray[(x, y)] == m:
-                    indice.append(x)
-                    indice.append(y)
+            if zarray[(x, y)] == m:
+                indice.append(x)
+                indice.append(y)
     return indice
 
 
@@ -226,19 +206,22 @@ def run_main():
             # Simulando pwlcm para AG
             import random
             v = []
-            cantidad = bt_of_cover.max_num_blocks()            
-            x, y = cover_image.size
-            izq_min = x//64
-            der_max = (x//8 - x//64)
-            arr_min = y//64
-            aba_max = (y//8 - y//64)
-            while len(v) < len_of_watermark:
-                val = random.randrange(cantidad)
-                columna = val//(x//8)
-                fila = val - columna*(x//8)
-                if val not in v:
-                    if columna > izq_min and columna < der_max and fila > arr_min and fila < aba_max:
-                        v.append(val)
+            # cantidad = bt_of_cover.max_num_blocks()            
+            # x, y = cover_image.size
+            # izq_min = x//64
+            # der_max = (x//8 - x//64)
+            # arr_min = y//64
+            # aba_max = (y//8 - y//64)
+            # while len(v) < len_of_watermark:
+            #     val = random.randrange(cantidad)
+            #     columna = val//(x//8)
+            #     fila = val - columna*(x//8)
+            #     if val not in v:
+            #         if columna > izq_min and columna < der_max and fila > arr_min and fila < aba_max:
+            #             v.append(val)
+            p = [i for i in range(bt_of_cover.max_num_blocks())]
+            random.shuffle(p)        
+            v = p[:len_of_watermark]
 
             print("Insertando...")
             # Marcar los self.len_of_watermark bloques
@@ -246,7 +229,6 @@ def run_main():
                 block = bt_of_cover.get_block(v[i])
                 # Predict
                 p = clasification.predict(bt_of_rgb_cover.get_block(v[i]))
-                lista_clasificacion_insert.append(p)
                 if p == 1:
                     c[1] = 17
                     delta = 90
@@ -318,7 +300,7 @@ def run_main():
             print("Aplicando ruido JPEG20, JPEG50 JPEG75 y Guetzli")
             watermarked_image_without_noise.save(
                 "static/experimento/watermarked_" + db_img[:10] + "_with_jpeg20.jpg",
-                quality=20, optimice=True)
+                quality=25, optimice=True)
             watermarked_image_without_noise.save(
                 "static/experimento/watermarked_" + db_img[:10] + "_with_jpeg50.jpg",
                 quality=50, optimice=True)
@@ -332,7 +314,7 @@ def run_main():
             print("Extrayendo de JPEG20")
             watermarked_image_with_noise = Image.open(
                 "static/experimento/watermarked_" + db_img[:10] + "_with_jpeg20.jpg")
-            bt_of = BlocksImage(misc.fromimage(watermarked_image_with_noise))
+            bt_of = BlocksImage(misc.fromimage(watermarked_image_with_noise))    
 
             # Convirtiendo a modelo de color YCbCr
             watermarked_ycbcr_image_with_noise = itools.rgb2ycbcr(
@@ -349,7 +331,6 @@ def run_main():
                 block = bt_of_watermarked_image_with_noise.get_block(v[i])
                 # Predict
                 p = clasification.predict(bt_of.get_block(v[i]))
-                lista_clasificacion_jpeg20.append(p)
                 if p == 1:
                     c[1] = 17
                     delta = 90
@@ -398,23 +379,26 @@ def run_main():
             watermark_array_image = misc.toimage(array_extract_image1)
             for i in range(10):
                 watermark_array_image = dat.dat2(watermark_array_image)
-            array = misc.fromimage(watermark_array_image)
-            watermark_extracted = misc.toimage(
-                myqr1.get_resconstructed(array))
+            # array = misc.fromimage(watermark_array_image)
+            # watermark_extracted = misc.toimage(
+            #     myqr1.get_resconstructed(array))
+
+            watermark_extracted = watermark_array_image
 
             watermark_extracted.save(
                 "static/experimento/watermark_" + db_img[:10] + "_with_jpeg20.png")
 
-            # watermark_extracted = Image.open("static/experimento/watermark_" + db_img[:10] + "_with_jpeg20.png")
+            # b = BlocksImage(misc.fromimage(watermark_extracted), 2, 2)
+            # for m in range(b.max_num_blocks()):
+            #     b.set_color(m)
+            # misc.toimage(b.get()).save(
+            #     "static/experimento/watermark_" + db_img[:10] + "_with_jpeg20_resconstructed.png")
 
-            b = BlocksImage(misc.fromimage(watermark_extracted), 2, 2)
-            for m in range(b.max_num_blocks()):
-                b.set_color(m)
-            misc.toimage(b.get()).save(
-                "static/experimento/watermark_" + db_img[:10] + "_with_jpeg20_resconstructed.png")
+            # watermark_extracted_reconstructed = Image.open(
+            #     "static/experimento/watermark_" + db_img[:10] + "_with_jpeg20_resconstructed.png")
 
-            watermark_extracted_reconstructed = Image.open(
-                "static/experimento/watermark_" + db_img[:10] + "_with_jpeg20_resconstructed.png")
+            # Temporal
+            watermark_extracted_reconstructed = watermark_extracted
 
             print("Calculando BER with noise JPEG20")
             # Cargando watermark
@@ -446,7 +430,6 @@ def run_main():
                 block = bt_of_watermarked_image_with_noise.get_block(v[i])
                 # Predict
                 p = clasification.predict(bt_of.get_block(v[i]))
-                lista_clasificacion_jpeg50.append(p)
                 if p == 1:
                     c[1] = 17
                     delta = 90
@@ -495,21 +478,24 @@ def run_main():
             watermark_array_image = misc.toimage(array_extract_image1)
             for i in range(10):
                 watermark_array_image = dat.dat2(watermark_array_image)
-            array = misc.fromimage(watermark_array_image)
-            watermark_extracted = misc.toimage(
-                myqr1.get_resconstructed(array))
+            # array = misc.fromimage(watermark_array_image)
+            # watermark_extracted = misc.toimage(
+            #     myqr1.get_resconstructed(array))
 
             watermark_extracted.save(
                 "static/experimento/watermark_" + db_img[:10] + "_with_jpeg50.png")
 
-            b = BlocksImage(misc.fromimage(watermark_extracted), 2, 2)
-            for m in range(b.max_num_blocks()):
-                b.set_color(m)
-            misc.toimage(b.get()).save(
-                "static/experimento/watermark_" + db_img[:10] + "_with_jpeg50_resconstructed.png")
+            # b = BlocksImage(misc.fromimage(watermark_extracted), 2, 2)
+            # for m in range(b.max_num_blocks()):
+            #     b.set_color(m)
+            # misc.toimage(b.get()).save(
+            #     "static/experimento/watermark_" + db_img[:10] + "_with_jpeg50_resconstructed.png")
 
-            watermark_extracted_reconstructed = Image.open(
-                "static/experimento/watermark_" + db_img[:10] + "_with_jpeg50_resconstructed.png")
+            # watermark_extracted_reconstructed = Image.open(
+            #     "static/experimento/watermark_" + db_img[:10] + "_with_jpeg50_resconstructed.png")
+
+            # Temporal
+            watermark_extracted_reconstructed = watermark_extracted
 
             print("Calculando BER with noise JPEG50")
             # Cargando watermark
@@ -540,7 +526,6 @@ def run_main():
                 block = bt_of_watermarked_image_with_noise.get_block(v[i])
                 # Predict
                 p = clasification.predict(bt_of.get_block(v[i]))
-                lista_clasificacion_jpeg75.append(p)
                 if p == 1:
                     c[1] = 17
                     delta = 90
@@ -589,21 +574,24 @@ def run_main():
             watermark_array_image = misc.toimage(array_extract_image1)
             for i in range(10):
                 watermark_array_image = dat.dat2(watermark_array_image)
-            array = misc.fromimage(watermark_array_image)
-            watermark_extracted = misc.toimage(
-                myqr1.get_resconstructed(array))
+            # array = misc.fromimage(watermark_array_image)
+            # watermark_extracted = misc.toimage(
+            #     myqr1.get_resconstructed(array))
 
             watermark_extracted.save(
                 "static/experimento/watermark_" + db_img[:10] + "_with_jpeg75.png")
 
-            b = BlocksImage(misc.fromimage(watermark_extracted), 2, 2)
-            for m in range(b.max_num_blocks()):
-                b.set_color(m)
-            misc.toimage(b.get()).save(
-                "static/experimento/watermark_" + db_img[:10] + "_with_jpeg75_resconstructed.png")
+            # b = BlocksImage(misc.fromimage(watermark_extracted), 2, 2)
+            # for m in range(b.max_num_blocks()):
+            #     b.set_color(m)
+            # misc.toimage(b.get()).save(
+            #     "static/experimento/watermark_" + db_img[:10] + "_with_jpeg75_resconstructed.png")
 
-            watermark_extracted_reconstructed = Image.open(
-                "static/experimento/watermark_" + db_img[:10] + "_with_jpeg75_resconstructed.png")
+            # watermark_extracted_reconstructed = Image.open(
+            #     "static/experimento/watermark_" + db_img[:10] + "_with_jpeg75_resconstructed.png")
+
+            # Temporal
+            watermark_extracted_reconstructed = watermark_extracted
 
             print("Calculando BER with noise JPEG75")
             # Cargando watermark
@@ -619,11 +607,6 @@ def run_main():
         f_ber50.close()
         f_ber75.close()
         f_berGuetzli.close()
-
-        print("Resultadossssssssssssssssss")
-        print(diff(lista_clasificacion_insert, lista_clasificacion_jpeg20))
-        print(diff(lista_clasificacion_insert, lista_clasificacion_jpeg50))
-        print(diff(lista_clasificacion_insert, lista_clasificacion_jpeg75))
 
 
 if __name__ == "__main__":
