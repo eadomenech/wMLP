@@ -7,7 +7,7 @@ import numpy as np
 from copy import deepcopy
 
 
-class AvilaDomenech2019():
+class AvilaDomenech2019F():
     """
     Método de marca de agua digital frágil para imágenes RGB
     """

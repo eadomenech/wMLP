@@ -7,8 +7,7 @@ from scipy import misc
 
 from evaluations.evaluations import Evaluations
 from block_tools.blocks_class import BlocksImage
-from AvilaDomenech2019R import AvilaDomenech2019R
-from AvilaDomenech2019F import AvilaDomenech2019F
+from AvilaDomenech2018R import AvilaDomenech2018R
 import pwlcm
 import math
 from pathlib import Path
@@ -22,8 +21,7 @@ def image_name(path):
 
 def run_main():
     eva = Evaluations()
-    wmr = AvilaDomenech2019R('password')
-    wmf = AvilaDomenech2019F('password')
+    wm = AvilaDomenech2018R('password')
 
     image_paths = glob.glob('static/dataset/*.jpg')
 
@@ -55,9 +53,7 @@ def run_main():
         cover_image = Image.open(cover_image_url)
 
         # Insert
-        watermarked_image_without_noise = wmr.insert(cover_image)
-        watermarked_image_without_noise = wmf.insert(
-            watermarked_image_without_noise)
+        watermarked_image_without_noise = wm.insert(cover_image)
         
         # Almacenando imagen marcada
         watermarked_image_without_noise.save(
@@ -94,7 +90,7 @@ def run_main():
             "static/experimento/watermarked_" + name + "_without_noise.png")
         
         # Watermark extracting
-        watermark_extracted = wmr.extract(watermarked_image_with_noise)
+        watermark_extracted = wm.extract(watermarked_image_with_noise)
 
         watermark_extracted.save(
             "static/experimento/watermark_" + name + "_without_noise.png")
@@ -114,7 +110,7 @@ def run_main():
             "static/experimento/watermarked_" + name + "_with_jpeg25.jpg")
         
         # Watermark extracting
-        watermark_extracted = wmr.extract(watermarked_image_with_noise)
+        watermark_extracted = wm.extract(watermarked_image_with_noise)
 
         watermark_extracted.save(
             "static/experimento/watermark_" + name + "_with_jpeg25.png")
@@ -134,7 +130,7 @@ def run_main():
             "static/experimento/watermarked_" + name + "_with_jpeg50.jpg")
         
         # Watermark extracting
-        watermark_extracted = wmr.extract(watermarked_image_with_noise)
+        watermark_extracted = wm.extract(watermarked_image_with_noise)
 
         watermark_extracted.save(
             "static/experimento/watermark_" + name + "_with_jpeg50.png")
@@ -154,7 +150,7 @@ def run_main():
             "static/experimento/watermarked_" + name + "_with_jpeg75.jpg")
         
         # Watermark extracting
-        watermark_extracted = wmr.extract(watermarked_image_with_noise)
+        watermark_extracted = wm.extract(watermarked_image_with_noise)
 
         watermark_extracted.save(
             "static/experimento/watermark_" + name + "_with_jpeg75.png")
