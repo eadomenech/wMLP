@@ -7,10 +7,10 @@ import os
 from PIL import Image
 import numpy as np
 
-from helpers.blocks_class import BlocksImage
-from helpers.image_tools import ImageTools
-from helpers.DqKT import DqKT
-from helpers.evaluations import Evaluations
+from block_tools.blocks_class import BlocksImage
+from image_tools.ImageTools import ImageTools
+from transforms.DqKT import DqKT
+from evaluations.evaluations import Evaluations
 
 import random
 
