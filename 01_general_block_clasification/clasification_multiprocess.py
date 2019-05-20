@@ -10,7 +10,7 @@ from PIL import Image
 import numpy as np
 
 from block_tools.blocks_class import BlocksImage
-from image_tools import ImageTools
+from image_tools.ImageTools import ImageTools
 from transforms.DqKT import DqKT
 from evaluations.evaluations import Evaluations
 
