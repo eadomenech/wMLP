@@ -1,15 +1,18 @@
 # -*- coding: utf-8 -*-
-# For the cluster
+
+'''
+Proceso para clasificar cada uno de los bloques de las imágenes que se encuentren en Dataset. Se hace de manera sincrónica utilizando varios procesos.
+''' 
 
 import os
 
 from PIL import Image
 import numpy as np
 
-from helpers.blocks_class import BlocksImage
-from helpers.image_tools import ImageTools
-from helpers.DqKT import DqKT
-from helpers.evaluations import Evaluations
+from block_tools.blocks_class import BlocksImage
+from image_tools import ImageTools
+from transforms.DqKT import DqKT
+from evaluations.evaluations import Evaluations
 
 import random
 
@@ -135,6 +138,9 @@ def procesar(block_path, watermark_bit, coef, delta):
 
 
 def clasificar(block_path):
+    '''
+    Se evalúan los coeficientes del 16 al 50 con delta de 30 a 130.
+    '''
     
     result = {'c': 0, 'delta': 1}
     score = 0.0
