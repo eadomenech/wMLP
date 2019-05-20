@@ -8,16 +8,16 @@ import numpy as np
 import cv2
 
 
-class Liu2019():
+class Liu2018F():
     """
     This scheme is a blind dual watermarking mechanism for digital color images in which invisible robust watermarks are embedded for copyright protection and fragile watermarks are embedded for image authentication.
     """
 
-    def __init__(self):
+    def __init__(self, key):
         self.wsize = 256
         self.n = 2
         # Building the fragile watermark
-        fragil_watermark_2 = utils.bin2dec(utils.md5_to_key_bin("Aslorente"))
+        fragil_watermark_2 = utils.bin2dec(utils.md5_to_key_bin(str(key)))
         self.fw = utils.changeBase(fragil_watermark_2, 3 ** self.n, self.wsize)
 
     def insert(self, cover_image):

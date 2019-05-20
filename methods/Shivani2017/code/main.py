@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from Liu2018F import Liu2018F
+from Shivani2017F import Shivani2017F
 
 from tkinter import filedialog
 from tkinter import *
@@ -12,7 +12,7 @@ from evaluations.evaluations import Evaluations
 
 def main():
     # Liu2018R Instances
-    wm = Liu2018F('password')
+    wm = Shivani2017F('password')
 
     try:
         # Load cover image
