@@ -22,22 +22,20 @@ def main():
         if not frec == clase[:2]:
             frec = clase[:2]
             dic_cantidades[frec] = 0
-        paths = glob.glob('result/' + clase + '/*.png')
+        paths = glob.glob('join/' + clase + '/*.png')
         dic_cantidades[frec] += len(paths)
     
     import matplotlib.pyplot as plt
     import numpy as np
-    x = [
-        dic_cantidades['16'], dic_cantidades['19'], dic_cantidades['28'],
-        dic_cantidades['34']]
+    x = [dic_cantidades['16'], dic_cantidades['19']]
     suma = 0
     for d in dic_cantidades.keys():
-        if not ((d == '16') or (d == '19') or (d == '28') or (d == '34')):
+        if not ((d == '16') or (d == '19')):
             suma += dic_cantidades[d]  
 
     x.append(suma)
     dic_cantidades.values()
-    labels = ['16', '19', '28', '34', 'Others']
+    labels = ['16', '19', 'others']
     plt.pie(x, labels=labels, autopct='%1.1f%%')
     plt.show()    
 

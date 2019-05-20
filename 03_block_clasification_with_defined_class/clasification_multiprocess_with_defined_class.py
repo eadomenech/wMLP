@@ -1,15 +1,18 @@
 # -*- coding: utf-8 -*-
-# For the cluster
+
+'''
+Proceso para clasificar cada uno de los bloques de las imágenes que se encuentren en Dataset. Se hace de manera sincrónica utilizando varios procesos. Se evalúan solo las variantes definidas.
+''' 
 
 import os
 
 from PIL import Image
 import numpy as np
 
-from helpers.blocks_class import BlocksImage
-from helpers.image_tools import ImageTools
-from helpers.DqKT import DqKT
-from helpers.evaluations import Evaluations
+from block_tools.blocks_class import BlocksImage
+from image_tools.ImageTools import ImageTools
+from transforms.DqKT import DqKT
+from evaluations.evaluations import Evaluations
 
 import random
 
@@ -135,44 +138,47 @@ def procesar(block_path, watermark_bit, coef, delta):
 
 
 def clasificar(block_path):
+
+    lista = [
+        [16, 130], [19, 67], [19, 73], [19, 78], [19, 82], [19, 85],
+        [19, 90], [19, 98], [19, 115]]
     
-    result = {'c': 0, 'delta': 1}
+    result = {'c': 0, 'delta': 9999999}
     score = 0.0
-    for c in range(34):
-        coef = c + 16        
-        for d in range(100):
-            delta = d + 30
-            # Marcando el bloque
-            result0 = procesar(block_path, 0, coef, delta)
-            result1 = procesar(block_path, 1, coef, delta)
+    for clase in lista:
+        # Marcando el bloque
+        result0 = procesar(block_path, 0, clase[0], clase[1])
+        result1 = procesar(block_path, 1, clase[0], clase[1])
 
-            # Promedio de datos
-            psnr_img_watermarked_without_noise = (
-                result0['psnr_img_watermarked_without_noise'] + result0['psnr_img_watermarked_without_noise'])/2
-            ber_without_noise = (
-                result0['ber_without_noise']+result1['ber_without_noise'])/2.0
-            ber_with_noise = (
-                result0['ber_with_noise']+result1['ber_with_noise'])/2.0
+        # Promedio de datos
+        psnr_img_watermarked_without_noise = (
+            result0['psnr_img_watermarked_without_noise'] + result0['psnr_img_watermarked_without_noise'])/2
+        ber_without_noise = (
+            result0['ber_without_noise']+result1['ber_without_noise'])/2.0
+        ber_with_noise = (
+            result0['ber_with_noise']+result1['ber_with_noise'])/2.0
 
-            # Score
-            score_aux = (
-                psnr_img_watermarked_without_noise/160 + ber_without_noise + ber_with_noise)/3
-            if score_aux > score:
-                score = score_aux
-                result['c'] = coef
-                result['delta'] = delta
-                result['psnr'] = psnr_img_watermarked_without_noise
-                if ber_without_noise == 1.0:
-                    result['extract_without_noise_true'] = True
-                else:
-                    result['extract_without_noise_true'] = False
-                if ber_with_noise == 1.0:
-                    result['extract_with_noise_true'] = True
-                else:
-                    result['extract_with_noise_true'] = False
-                result['score'] = score
-                if result['extract_without_noise_true'] and  result['extract_with_noise_true']:
-                    break
+        # Score
+        score_aux = (
+            psnr_img_watermarked_without_noise/160 + ber_without_noise + ber_with_noise)/3
+        if score_aux > score:
+            score = score_aux
+            result['c'] = clase[0]
+            result['delta'] = clase[1]
+            result['psnr'] = psnr_img_watermarked_without_noise
+            if ber_without_noise == 1.0:
+                result['extract_without_noise_true'] = True
+            else:
+                result['extract_without_noise_true'] = False
+            if ber_with_noise == 1.0:
+                result['extract_with_noise_true'] = True
+            else:
+                result['extract_with_noise_true'] = False
+            result['score'] = score
+            # watermarked_path = block_path[:-4] + 'w.png'
+            # watermarked_image_without_noise.save(watermarked_path)
+            if result['extract_without_noise_true'] and  result['extract_with_noise_true']:
+                break
     return result
 
 
@@ -198,6 +204,7 @@ def sprint(path):
     random_blocks = [i for i in range(blocks.max_num_blocks())]
     random.shuffle(random_blocks)
     for i in range(blocks.max_num_blocks()):
+        # print("Block #: ", random_blocks[i])
         block_array = blocks.get_block(random_blocks[i])
         # Save block image
         block_image = Image.fromarray(block_array, 'RGB')
@@ -211,12 +218,12 @@ def sprint(path):
             clasificador = clasificar(block_path)
             # print(clasificador)
             class_path = b_path + str(clasificador['c']) + '_' + str(clasificador['delta']) + '/'
-            
+
             try:
                 os.stat(class_path)
             except Exception:
                 os.mkdir(class_path)
-            
+
             Image.open(block_path).save(class_path + str(random_blocks[i]) + '.png')
 
 
@@ -225,7 +232,7 @@ def main():
     # Load cover images
     paths = glob.glob('static/Dataset/*.bmp')   
 
-    pool = Pool(processes=8)
+    pool = Pool(processes=20)
 
     pool.map(sprint, paths)
 

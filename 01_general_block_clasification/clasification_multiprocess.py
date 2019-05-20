@@ -1,18 +1,24 @@
 # -*- coding: utf-8 -*-
-from tkinter import filedialog
-from tkinter import Tk
+
+'''
+Proceso para clasificar cada uno de los bloques de las imágenes que se encuentren en Dataset. Se hace de manera sincrónica utilizando varios procesos.
+''' 
 
 import os
 
 from PIL import Image
 import numpy as np
 
-from helpers.blocks_class import BlocksImage
-from helpers.image_tools import ImageTools
-from helpers.DqKT import DqKT
-from helpers.evaluations import Evaluations
+from block_tools.blocks_class import BlocksImage
+from image_tools.ImageTools import ImageTools
+from transforms.DqKT import DqKT
+from evaluations.evaluations import Evaluations
 
 import random
+
+import glob
+
+from multiprocessing import Pool
 
 
 clases = {}
@@ -132,10 +138,13 @@ def procesar(block_path, watermark_bit, coef, delta):
 
 
 def clasificar(block_path):
+    '''
+    Se evalúan los coeficientes del 16 al 50 con delta de 30 a 130.
+    '''
     
     result = {'c': 0, 'delta': 1}
     score = 0.0
-    for c in range(30):
+    for c in range(34):
         coef = c + 16        
         for d in range(100):
             delta = d + 30
@@ -168,8 +177,6 @@ def clasificar(block_path):
                 else:
                     result['extract_with_noise_true'] = False
                 result['score'] = score
-                # watermarked_path = block_path[:-4] + 'w.png'
-                # watermarked_image_without_noise.save(watermarked_path)
                 if result['extract_without_noise_true'] and  result['extract_with_noise_true']:
                     break
     return result
@@ -182,28 +189,14 @@ def is_in_clases(lista):
     return None
 
 
-def main():
+def sprint(path):
+    cover_image = Image.open(path).convert('RGB')
+    # Creando path para almacenar los bloques de esta imagen
+    b_path = 'static/' + path.split('/')[-1][:-4]+'/'
     try:
-        # Load cover image
-        root = Tk()
-        root.filename = filedialog.askopenfilename(
-            initialdir="static/", title="Select file",
-            filetypes=(
-                ("png files", "*.jpg"), ("jpg files", "*.png"),
-                ("all files", "*.*")))
-        cover_image = Image.open(root.filename).convert('RGB')
-        # Creando path para almacebar los bloques de esta imagen
-        b_path = 'static/'+root.filename.split('/')[-1][:-4]+'/'
-        try:
-            os.stat(b_path)
-        except Exception as e:
-            os.mkdir(b_path)
-        root.destroy()
-
-    except Exception as e:
-        root.destroy()
-        print("Error: ", e)
-        print("The image file was not loaded")
+        os.stat(b_path)
+    except Exception:
+        os.mkdir(b_path)
 
     # Instance a la clase Bloque
     cover_array = np.asarray(cover_image)
@@ -211,30 +204,38 @@ def main():
     random_blocks = [i for i in range(blocks.max_num_blocks())]
     random.shuffle(random_blocks)
     for i in range(blocks.max_num_blocks()):
-        print("Block #: ", random_blocks[i]+1)
-        block_array = blocks.get_block(random_blocks[i]+1)
+        block_array = blocks.get_block(random_blocks[i])
         # Save block image
         block_image = Image.fromarray(block_array, 'RGB')
-        block_path = b_path + str(i) + '.png'
-        block_image.save(block_path)
-        # Clasificacion del block
-        clasificador = clasificar(block_path)
-        print(clasificador)
-        class_path = b_path + str(clasificador['c']) + '_' + str(clasificador['delta']) + '/'
-        if len(clases) == 0:
-            # Add como clase 1            
-            os.mkdir(class_path)
-            clases['1'] = [clasificador['c'], clasificador['delta']]
-            block_image = Image.open(block_path).save(class_path + str(i) + '.png') 
-        elif is_in_clases([clasificador['c'], clasificador['delta']]):
-            # Add a la clase correspondiente
-            block_image = Image.open(block_path).save(class_path + str(i) + '.png')
-        else:
-            # Add clase
-            clases[len(clases)+1] = [clasificador['c'], clasificador['delta']]
-            os.mkdir(class_path)
-            block_image = Image.open(block_path).save(class_path + str(i) + '.png')
-        print("Clases: ", clases)
+        block_path = b_path + str(random_blocks[i]) + '.png'
+        try:
+            os.stat(block_path)
+            print("Ya existe: ", block_path)
+        except Exception:
+            block_image.save(block_path)
+            # Clasificacion del block
+            clasificador = clasificar(block_path)
+            # print(clasificador)
+            class_path = b_path + str(clasificador['c']) + '_' + str(clasificador['delta']) + '/'
+            
+            try:
+                os.stat(class_path)
+            except Exception:
+                os.mkdir(class_path)
+            
+            Image.open(block_path).save(class_path + str(random_blocks[i]) + '.png')
+
+
+def main():
+    
+    # Load cover images
+    paths = glob.glob('static/Dataset/*.bmp')   
+
+    pool = Pool(processes=8)
+
+    pool.map(sprint, paths)
+
+    
 
 
 if __name__ == '__main__':

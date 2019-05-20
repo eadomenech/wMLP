@@ -34,9 +34,9 @@ class Visualizations:
             update='append' if self.loss_win else None,
             name='Training',
             opts=dict(
-                xlabel='Epoch',
+                xlabel='Epochs',
                 ylabel='Loss',
-                legend=['Training', 'Validation']
+                legend=['Training', 'Valid']
             )
         )
 
@@ -47,11 +47,11 @@ class Visualizations:
             [spoch],
             win=self.loss_win,
             update='append' if self.loss_win else None,
-            name='Validation',
+            name='Valid',
             opts=dict(
-                xlabel='Epoch',
+                xlabel='Epochs',
                 ylabel='Loss',
-                legend=['Training', 'Validation']
+                legend=['Training', 'Valid']
             )
         )
     
@@ -60,10 +60,10 @@ class Visualizations:
             [acc], [spoch],
             win=self.acc_win,
             update='append' if self.acc_win else None,
-            name='Validation',
+            name='Valid',
             opts=dict(
-                xlabel='Epoch',
+                xlabel='Epochs',
                 ylabel='Accuracy %',
-                legend=['Validation']
+                legend=['Valid']
             )
         )

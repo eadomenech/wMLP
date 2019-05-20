@@ -1,21 +1,18 @@
 # -*- coding: utf-8 -*-
-# For the cluster
+from tkinter import filedialog
+from tkinter import Tk
 
 import os
 
 from PIL import Image
 import numpy as np
 
-from helpers.blocks_class import BlocksImage
-from helpers.image_tools import ImageTools
-from helpers.DqKT import DqKT
-from helpers.evaluations import Evaluations
+from block_tools.blocks_class import BlocksImage
+from image_tools.ImageTools import ImageTools
+from transforms.DqKT import DqKT
+from evaluations.evaluations import Evaluations
 
 import random
-
-import glob
-
-from multiprocessing import Pool
 
 
 clases = {}
@@ -135,48 +132,46 @@ def procesar(block_path, watermark_bit, coef, delta):
 
 
 def clasificar(block_path):
-
-    lista = [
-        [16, 100], [19, 52], [19, 54], [19, 56], [19, 61], [19, 69],
-        [19, 76], [19, 84], [19, 93], [19, 123], [28, 90], [28, 94],
-        [28, 97], [28, 120], [34, 130] ]
     
-    result = {'c': 0, 'delta': 9999999}
+    result = {'c': 0, 'delta': 1}
     score = 0.0
-    for clase in lista:
-        # Marcando el bloque
-        result0 = procesar(block_path, 0, clase[0], clase[1])
-        result1 = procesar(block_path, 1, clase[0], clase[1])
+    for c in range(30):
+        coef = c + 16        
+        for d in range(100):
+            delta = d + 30
+            # Marcando el bloque
+            result0 = procesar(block_path, 0, coef, delta)
+            result1 = procesar(block_path, 1, coef, delta)
 
-        # Promedio de datos
-        psnr_img_watermarked_without_noise = (
-            result0['psnr_img_watermarked_without_noise'] + result0['psnr_img_watermarked_without_noise'])/2
-        ber_without_noise = (
-            result0['ber_without_noise']+result1['ber_without_noise'])/2.0
-        ber_with_noise = (
-            result0['ber_with_noise']+result1['ber_with_noise'])/2.0
+            # Promedio de datos
+            psnr_img_watermarked_without_noise = (
+                result0['psnr_img_watermarked_without_noise'] + result0['psnr_img_watermarked_without_noise'])/2
+            ber_without_noise = (
+                result0['ber_without_noise']+result1['ber_without_noise'])/2.0
+            ber_with_noise = (
+                result0['ber_with_noise']+result1['ber_with_noise'])/2.0
 
-        # Score
-        score_aux = (
-            psnr_img_watermarked_without_noise/160 + ber_without_noise + ber_with_noise)/3
-        if score_aux > score:
-            score = score_aux
-            result['c'] = clase[0]
-            result['delta'] = clase[1]
-            result['psnr'] = psnr_img_watermarked_without_noise
-            if ber_without_noise == 1.0:
-                result['extract_without_noise_true'] = True
-            else:
-                result['extract_without_noise_true'] = False
-            if ber_with_noise == 1.0:
-                result['extract_with_noise_true'] = True
-            else:
-                result['extract_with_noise_true'] = False
-            result['score'] = score
-            # watermarked_path = block_path[:-4] + 'w.png'
-            # watermarked_image_without_noise.save(watermarked_path)
-            if result['extract_without_noise_true'] and  result['extract_with_noise_true']:
-                break
+            # Score
+            score_aux = (
+                psnr_img_watermarked_without_noise/160 + ber_without_noise + ber_with_noise)/3
+            if score_aux > score:
+                score = score_aux
+                result['c'] = coef
+                result['delta'] = delta
+                result['psnr'] = psnr_img_watermarked_without_noise
+                if ber_without_noise == 1.0:
+                    result['extract_without_noise_true'] = True
+                else:
+                    result['extract_without_noise_true'] = False
+                if ber_with_noise == 1.0:
+                    result['extract_with_noise_true'] = True
+                else:
+                    result['extract_with_noise_true'] = False
+                result['score'] = score
+                # watermarked_path = block_path[:-4] + 'w.png'
+                # watermarked_image_without_noise.save(watermarked_path)
+                if result['extract_without_noise_true'] and  result['extract_with_noise_true']:
+                    break
     return result
 
 
@@ -187,14 +182,28 @@ def is_in_clases(lista):
     return None
 
 
-def sprint(path):
-    cover_image = Image.open(path).convert('RGB')
-    # Creando path para almacenar los bloques de esta imagen
-    b_path = 'static/' + path.split('/')[-1][:-4]+'/'
+def main():
     try:
-        os.stat(b_path)
-    except Exception:
-        os.mkdir(b_path)
+        # Load cover image
+        root = Tk()
+        root.filename = filedialog.askopenfilename(
+            initialdir="static/", title="Select file",
+            filetypes=(
+                ("png files", "*.jpg"), ("jpg files", "*.png"),
+                ("all files", "*.*")))
+        cover_image = Image.open(root.filename).convert('RGB')
+        # Creando path para almacebar los bloques de esta imagen
+        b_path = 'static/'+root.filename.split('/')[-1][:-4]+'/'
+        try:
+            os.stat(b_path)
+        except Exception as e:
+            os.mkdir(b_path)
+        root.destroy()
+
+    except Exception as e:
+        root.destroy()
+        print("Error: ", e)
+        print("The image file was not loaded")
 
     # Instance a la clase Bloque
     cover_array = np.asarray(cover_image)
@@ -202,15 +211,15 @@ def sprint(path):
     random_blocks = [i for i in range(blocks.max_num_blocks())]
     random.shuffle(random_blocks)
     for i in range(blocks.max_num_blocks()):
-        # print("Block #: ", random_blocks[i])
-        block_array = blocks.get_block(random_blocks[i])
+        print("Block #: ", random_blocks[i]+1)
+        block_array = blocks.get_block(random_blocks[i]+1)
         # Save block image
         block_image = Image.fromarray(block_array, 'RGB')
         block_path = b_path + str(i) + '.png'
         block_image.save(block_path)
         # Clasificacion del block
         clasificador = clasificar(block_path)
-        # print(clasificador)
+        print(clasificador)
         class_path = b_path + str(clasificador['c']) + '_' + str(clasificador['delta']) + '/'
         if len(clases) == 0:
             # Add como clase 1            
@@ -225,19 +234,7 @@ def sprint(path):
             clases[len(clases)+1] = [clasificador['c'], clasificador['delta']]
             os.mkdir(class_path)
             block_image = Image.open(block_path).save(class_path + str(i) + '.png')
-        # print("Clases: ", clases)
-
-
-def main():
-    
-    # Load cover images
-    paths = glob.glob('static/Dataset/*.bmp')   
-
-    pool = Pool(processes=20)
-
-    pool.map(sprint, paths)
-
-    
+        print("Clases: ", clases)
 
 
 if __name__ == '__main__':
