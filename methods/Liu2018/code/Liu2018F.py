@@ -1,101 +1,72 @@
 # -*- coding: utf-8 -*-
-from helpers.image_class import Block_RGBImage
-from helpers.blocks_class import BlocksImage
-from helpers import utils
+# from helpers.image_class import Block_RGBImage
+from block_tools.blocks_class import BlocksImage
+from helpers.utils import md5Binary, base2decimal, decimal2base
 from math import floor
 from PIL import Image
+from scipy import misc
 import numpy as np
 import cv2
 
 
-class Liu2019():
+class Liu2018F():
     """
     This scheme is a blind dual watermarking mechanism for digital color images in which invisible robust watermarks are embedded for copyright protection and fragile watermarks are embedded for image authentication.
     """
 
-    def __init__(self):
-        self.wsize = 256
-        self.n = 2
+    def __init__(self, key, n=2):
+
+        # Variables
+        self.n = n
+        self.wsize = 256        
+        
         # Building the fragile watermark
-        fragil_watermark_2 = utils.bin2dec(utils.md5_to_key_bin("Aslorente"))
-        self.fw = utils.changeBase(fragil_watermark_2, 3 ** self.n, self.wsize)
+        # self.fw_binary = md5Binary(str(key))
+        self.fw_binary = [1, 1, 1, 1, 1, 1] 
+        self.fw_decimal = base2decimal(self.fw_binary, 2)
+        self.fw_3n = decimal2base(self.fw_decimal, 3 ** self.n)
+        # self.fw = self.changeBase(
+        #     fragil_watermark_2, 3 ** self.n, self.wsize)
+        # print(self.fw)
+    
+    def calculate_E(self, U, s):
+        for i in range(len(U)):
+            suma = (3 ** i) * U[i]
+        return suma % (3 ** self.n)
+
+    def calculate_t(self, s, E):
+        return (s - E + (3 ** self.n - 1)/2) % (3 ** self.n)
+    
+    def insertarEnComponente(self, component_image):
+        '''Insertar en una componente'''
+        # Datos como array
+        array = misc.fromimage(component_image)
+        # Datos como lista
+        lista = array.reshape((1, array.size))[0]
+        # Recorriendo los U
+        # for i in range(len(lista)//self.n):
+        for i in range(1000):
+            print("{} de {}".format(i, len(lista)//self.n))
+            s = self.fw_3n[i % len(self.fw_3n)]
+            E = self.calculate_E(lista[i*self.n:self.n*(i+1)], s)
+            t = self.calculate_t(s, E)
+            t_3 = decimal2base(t, 3)
+            t_3 = [(t_3[k] - 1) for k in range(len(t_3))]
+            while(len(t_3) < self.n):
+                t_3.insert(0, 0)
+            for l in range(self.n):
+                    lista[i*self.n + l] += t_3[(l*-1)-1]
 
     def insert(self, cover_image):
-        # Initial Values
-        i, n, block_num, block_size = 0, 2, -1, 4
-        # Write permission
-        cover_array = np.asarray(cover_image)
-        cover_array.setflags(write=1)
-        # instance
-        block_instace = Block_RGBImage(cover_array, block_size, block_size)
-        print("\n")
-        while i < self.wsize:
-            block_num += 1
-            p = BlocksImage(block_instace.get_block_image(block_num), 1, 1)
-            m = p.max_num_blocks() // self.n
-            for j in range(m):
-                pos = list(range(j * self.n, (j + 1) * self.n))
-                E = sum(
-                    [p.get_block(pos[k])[0][0] * 3 ** k for k in range(self.n)]
-                )  % 3 ** self.n
-                aux = floor((3 ** self.n - 1) / 2)
-                if i < self.wsize:
-                    t_value = (self.fw[i] - E + aux) % 3 ** self.n
-                    i += 1
-                b = utils.changeBase(t_value, 3, self.n)
-                d = [k - 1 for k in b]
-                for k in range(n):
-                    r = n - k - 1
-                    p.get_block(pos[r])[0][0] += d[k]
+        # Dividiendo en componentes RGB
+        r, g, b = cover_image.split()
+        
+        # Marcando cada componente
+        self.insertarEnComponente(r)
+        self.insertarEnComponente(g)
+        self.insertarEnComponente(b)
 
-        watermarked_image = Image.fromarray(cover_array)
-
-        return watermarked_image
+        return Image.merge("RGB", (r, g, b))
 
     def extract(self, watermarked_image):
-        # Initial Values
-        modified_blocks = []
-        extracted_fragile_w = []
-        i, n, block_num, block_size = 0, 2, -1, 4
-        # Write permission
-        watermarked_array = np.asarray(watermarked_image)
-        watermarked_array.setflags(write=1)
-        # instance
-        block_instace = Block_RGBImage(
-            watermarked_array, block_size, block_size
-        )
-        print("\n")
-        while i < self.wsize:
-            block_num += 1
-            p = BlocksImage(block_instace.get_block_image(block_num), 1, 1)
-            m = p.max_num_blocks() // self.n
-            for j in range(m):
-                pos = list(range(j * self.n, (j + 1) * self.n))
-                E = sum(
-                    [p.get_block(pos[k])[0][0] * 3 ** k for k in range(self.n)]
-                )  % 3 ** self.n
-                extracted_fragile_w.append(E)
-                i += 1
-
-        N = self.wsize // m
-        for i in range(N):
-            j = i * m
-            k = (i + 1) * m
-            if extracted_fragile_w[j:k] != self.fw[j:k]:
-                modified_blocks.append(i)
-
-        if modified_blocks != []:
-            for item in modified_blocks:
-                coord = block_instace.get_coord_block_image(item)
-                cv2.rectangle(watermarked_array, (coord[2], coord[0]),
-                (coord[3], coord[1]), (0, 255, 0), 1)
-
-            Image.fromarray(watermarked_array).save("static/tampered.bmp")
-
-        print("\n Modified blocks:",modified_blocks)
-        print(" ")
-        print(self.fw[:self.wsize])
-        print(" ")
-        print(extracted_fragile_w[:self.wsize])
-        print(" ")
-        return self.fw[:self.wsize] == extracted_fragile_w[:self.wsize]
+        return watermarked_image

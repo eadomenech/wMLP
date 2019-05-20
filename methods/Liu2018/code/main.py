@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from Liu2018R import Liu2018R
+from Liu2018F import Liu2018F
 
 from tkinter import filedialog
 from tkinter import *
@@ -12,7 +12,7 @@ from evaluations.evaluations import Evaluations
 
 def main():
     # Liu2018R Instances
-    wm = Liu2018R('password')
+    wm = Liu2018F('password')
 
     try:
         # Load cover image
@@ -36,8 +36,8 @@ def main():
         # Watermark extracting
         watermark_extracted = wm.extract(watermarked_image)
         # Save watermark image
-        dir_water_im = "watermark_" + root.filename.split("/")[-1][:-4]  + ".bmp"
-        watermark_extracted.save("static/" + dir_water_im)
+        # dir_water_im = "watermark_" + root.filename.split("/")[-1][:-4]  + ".bmp"
+        # watermark_extracted.save("static/" + dir_water_im)
     except Exception as e:
         root.destroy()
         print("Error: ", e)

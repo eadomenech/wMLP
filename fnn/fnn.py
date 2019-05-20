@@ -24,8 +24,8 @@ class Net(nn.Module):
 
     def __init__(self):
         super(Net, self).__init__()
-        self.fc1 = nn.Linear(3 * 8 * 8, 385)
-        self.fc2 = nn.Linear(385, 9)
+        self.fc1 = nn.Linear(3 * 8 * 8, 300)
+        self.fc2 = nn.Linear(300, 10)
     
     def forward(self, x):
         x = F.relu(self.fc1(x))
@@ -108,27 +108,33 @@ def randomJpegCompression(image):
 def main():
     # Training settings
     parser = argparse.ArgumentParser(description='FNN')
-    parser.add_argument('--batch-size', type=int, default=1000, metavar='N',
-                        help='input batch size for training (default: 64)')
     parser.add_argument(
-        '--test-batch-size', type=int, default=64, metavar='N',
+        '--batch-size', type=int, default=1000, metavar='N',
+        help='input batch size for training (default: 64)')
+    parser.add_argument(
+        '--test-batch-size', type=int, default=100, metavar='N',
         help='input batch size for testing (default: 1000)')
-    parser.add_argument('--epochs', type=int, default=600, metavar='N',
-                        help='number of epochs to train (default: 10)')
-    parser.add_argument('--lr', type=float, default=0.01, metavar='LR',
-                        help='learning rate (default: 0.01)')
-    parser.add_argument('--momentum', type=float, default=0.5, metavar='M',
-                        help='SGD momentum (default: 0.5)')
-    parser.add_argument('--no-cuda', action='store_true', default=False,
-                        help='disables CUDA training')
-    parser.add_argument('--seed', type=int, default=1, metavar='S',
-                        help='random seed (default: 1)')
     parser.add_argument(
-        '--log-interval', type=int, default=10, metavar='N',
+        '--epochs', type=int, default=600, metavar='N',
+        help='number of epochs to train (default: 10)')
+    parser.add_argument(
+        '--lr', type=float, default=0.01, metavar='LR',
+        help='learning rate (default: 0.01)')
+    parser.add_argument(
+        '--momentum', type=float, default=0.9, metavar='M',
+        help='SGD momentum (default: 0.9)')
+    parser.add_argument(
+        '--no-cuda', action='store_true', default=False,
+        help='disables CUDA training')
+    parser.add_argument(
+        '--seed', type=int, default=1, metavar='S',
+        help='random seed (default: 1)')
+    parser.add_argument(
+        '--log-interval', type=int, default=100, metavar='N',
         help='how many batches to wait before logging training status')
-
-    parser.add_argument('--save-model', action='store_true', default=True,
-                        help='For Saving the current Model')
+    parser.add_argument(
+        '--save-model', action='store_true', default=True,
+        help='For Saving the current Model')
     args = parser.parse_args()
     use_cuda = not args.no_cuda and torch.cuda.is_available()
 
@@ -157,8 +163,7 @@ def main():
         num_workers=2)
 
     test_loader = torch.utils.data.DataLoader(
-        dataset=valid_dataset, batch_size=args.test_batch_size, shuffle=False,
-        num_workers=2)
+        dataset=valid_dataset, batch_size=args.test_batch_size, shuffle=False, num_workers=2)
 
     model = Net().to(device)
     print(model)
@@ -176,7 +181,7 @@ def main():
         vis.plot_acc(dic['acc'], epoch)
 
     if (args.save_model):
-        torch.save(model.state_dict(), "fnn_600epoch_1xlayers385.pt")
+        torch.save(model.state_dict(), "fnnNew_600epoch_1xlayers385.pt")
 
 if __name__ == '__main__':
     main()
