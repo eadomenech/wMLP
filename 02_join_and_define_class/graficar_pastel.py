@@ -22,7 +22,7 @@ def main():
         if not frec == clase[:2]:
             frec = clase[:2]
             dic_cantidades[frec] = 0
-        paths = glob.glob('result/' + clase + '/*.png')
+        paths = glob.glob('join/' + clase + '/*.png')
         dic_cantidades[frec] += len(paths)
     
     import matplotlib.pyplot as plt

@@ -9,9 +9,8 @@ import glob
 import util
 
 '''
-Encargada de graficar el mapa de color teniendo en cuenta la frecuencia
-el valor delta y la cantidad de imagenes donde el optimo se obtiene con estos
-valores
+Encargada de graficar el mapa de color teniendo en cuenta la frecuencia,
+el valor delta y la cantidad de imagenes donde el optimo se obtiene con estos valores
 '''
 def main():
     # Creando lista de direcciones posibles
@@ -19,7 +18,7 @@ def main():
     # Totalizando    
     dic_cantidades = {}
     for clase in lista:
-        paths = glob.glob('result/' + clase + '/*.png')
+        paths = glob.glob('join/' + clase + '/*.png')
         dic_cantidades[clase] = len(paths)
     
     import matplotlib.pyplot as plt

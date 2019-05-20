@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
-import glob
 
 
+'''
+Genera una lista con los nombres de las clases posibles
+'''
 def crear_lista():
     lista = []
 
