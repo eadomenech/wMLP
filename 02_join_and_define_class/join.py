@@ -9,7 +9,8 @@ import glob
 import util
 
 '''
-Une todos los bloques de una misma clases sin importar la imagen de la que provenga. Necesita la clasificacion general realizada anteriormente.
+Une todos los bloques de una misma clases sin importar la imagen de la que provenga.
+Necesita la clasificacion general realizada anteriormente.
 '''
 def main():
     # Creando lista de direcciones posibles

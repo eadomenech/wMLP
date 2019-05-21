@@ -6,7 +6,6 @@ from PIL import Image
 import os
 import random
 import glob
-import util
 
 '''
 Une todos los bloques de una misma clases sin importar la imagen de la que provenga. Necesita la clasificacion por clases definidas realizada anteriormente.
@@ -14,8 +13,8 @@ Une todos los bloques de una misma clases sin importar la imagen de la que prove
 def main():
     # Lista de clases definidas
     lista = [
-        [16, 130], [19, 67], [19, 73], [19, 78], [19, 82], [19, 85],
-        [19, 90], [19, 98], [19, 115]]
+        '16_130', '19_67', '19_73', '19_78', '19_82', '19_85',
+        '19_90', '19_98', '19_115']
     # Creando carpeta result si no existe
     try:
         os.stat('join/')

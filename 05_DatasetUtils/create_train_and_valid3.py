@@ -14,9 +14,8 @@ import glob
 
 def main():
     lista = [
-        '16_100', '19_67', '19_73', '19_78', '19_82', '19_85',
-        '19_90', '19_98', '19_115', '19_128'
-        ]
+        '16_130', '19_67', '19_73', '19_78', '19_82', '19_85',
+        '19_90', '19_98', '19_115']
     
     # Create folders
     list_dir = ['static/train/', 'static/valid/', 'static/organized/']
@@ -36,6 +35,7 @@ def main():
         '11', '12', '13', '14', '15', '16', '17', '18', '19', '20']
     
     for folder in original_folders:
+        break
         print("Organized: Procesando caperta " + folder)
         for clase in lista:
             path = 'static/original/' + folder + '/' + clase
@@ -77,8 +77,8 @@ def main():
         random.shuffle(paths)
         cant_mult_1000 = len(paths) // 1000
         cant = cant_mult_1000 * 1000
-        if cant > 6000:
-            cant = 6000
+        if cant > 3000:
+            cant = 3000
         d = cant / 10
         for num in range(cant):
             if num >= d:

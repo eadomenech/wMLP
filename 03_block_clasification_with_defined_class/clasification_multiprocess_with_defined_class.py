@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
 '''
-Proceso para clasificar cada uno de los bloques de las imágenes que se encuentren en Dataset. Se hace de manera sincrónica utilizando varios procesos. Se evalúan solo las variantes definidas.
+Proceso para clasificar cada uno de los bloques de las imágenes que se encuentren
+en Dataset. Se hace de manera sincrónica utilizando varios procesos.
+Se evalúan solo las variantes definidas.
 ''' 
 
 import os

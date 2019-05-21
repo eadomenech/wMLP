@@ -92,23 +92,20 @@ FO = (PSNR/160 + \alpha + \beta)/3,
 where $PSNR$ is the logarithmic value of ratio between signal and noise, $ \alpha $ is the success in extracting the watermark from the watermarked image without noise and $ \beta $ is the success in extracting the watermark from the watermarked image after applying a JPEG compression with QF= 25{\%}.
 \begin{figure} [H]
 	\begin{center}
-		\includegraphics[width=\textwidth]{colormap.eps}
+		\includegraphics[width=0.8\textwidth]{colormap.eps}
 		\caption{Coefficient and embedding strength values.} \label{colormap}
 	\end{center}
 \end{figure}
 
-The network was trained using GPU NVIDIA GTX 780ti for some hours.
-\begin{figure} [H]
+\begin{figure}[H]
 	\begin{center}
-		\includegraphics[width=0.7\textwidth]{loss_600epoch_2x150hidded.eps}
-		\caption{Train and Valid loss.} \label{loss}
+		\begin{tabular}{|c|c|}\hline
+			\includegraphics[width=0.5\textwidth]{loss_600epoch_2x150hidded.eps}
+			&\includegraphics[width=0.5\textwidth]{accuracy_600epoch_2x150hidded.eps}\\\hline
+		\end{tabular}
 	\end{center}
-\end{figure} 
-\begin{figure} [H]
-\begin{center}
-	\includegraphics[width=0.7\textwidth]{accuracy_600epoch_2x150hidded.eps}
-	\caption{Accuracy.} \label{acc}
-\end{center}
+	\caption{Train loss, Valid loss and Accuracy.}
+	\label{loss_and_accuracy}
 \end{figure}
 
 In this process we use an open-source machine learning library for Python PyTorch \cite{paszke2017pytorch}. PyTorch extensively uses Python concepts, such as classes, structures, and conditional loops, allowing us to build Deep Learning algorithms in a pure object-oriented fashion. Most of the other popular frameworks bring their own programming style, sometimes making it complex to write new algorithms and it does not support intuitive debugging. What makes PyTorch increasingly popular is its ease of use and simplicity \cite{Subramanian2018}.
@@ -176,7 +173,6 @@ The imperceptibility of the watermark was evaluated using several databases. We 
 
 \subsection{Tamper detection}
 Tamper area detection capability is evaluated, by modifying the contents of images, adding objects or deleting objects.
-
 \begin{figure}[H]
 	\begin{center}
 		\begin{tabular}{|c|c|c|c|}\hline
@@ -189,7 +185,6 @@ Tamper area detection capability is evaluated, by modifying the contents of imag
 	\caption{Original image, watermarked image, modified watermarked image and tamper area detection.}
 	\label{img_of_AHM}
 \end{figure}
-
 \subsection{Robustness}
 The bit error rate (BER) is defined as ratio between number of incorrectly decoded bits and total number of bits.
 \begin{figure}[H]
